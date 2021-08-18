@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"lib": ["esnext"],
+		"module": "es2020",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"strict": true,
+		"target": "es2019"
+	},
+	"extends": "@sindresorhus/tsconfig",
+	"include": ["src/**/*.ts"]
+}
