@@ -1,5 +1,19 @@
 {
+	"overrides": [
+		{
+			"files": ["**/*.ts"],
+			"rules": {"@typescript-eslint/indent": "off"}
+		}
+	],
 	"rules": {
-		"prefer-template": "error"
+		"prefer-template": "error",
+		"unicorn/prefer-node-protocol": "off",
+		"new-cap": [
+			"error",
+			{
+				"capIsNewExceptionPattern": "^GM"
+			}
+		],
+		"indent": "off"
 	}
 }
