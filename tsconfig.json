@@ -1,11 +1,14 @@
 {
 	"compilerOptions": {
-		"lib": ["esnext"],
-		"module": "es2020",
+		// ava doesn't work with esm
+		"module": "commonjs",
 		"moduleResolution": "node",
-		"outDir": "dist",
+		"esModuleInterop": true,
+		"target": "esnext",
+
 		"strict": true,
-		"target": "es2019"
+
+		"outDir": "dist"
 	},
 	"extends": "@sindresorhus/tsconfig",
 	"include": ["src/**/*.ts"]
