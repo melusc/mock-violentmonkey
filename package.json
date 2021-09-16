@@ -53,5 +53,8 @@
 		"lint": "prettier . -w && xo --fix",
 		"test": "xo && npm run ava"
 	},
-	"version": "0.0.1"
+	"version": "0.0.1",
+	"dependencies": {
+		"type-fest": "^2.3.2"
+	}
 }
