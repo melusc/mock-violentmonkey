@@ -29,7 +29,7 @@ let idSeq = 0;
  * @param cb The callback with the same parameters like a regular ava callback
  * @returns Returns the callback, mainly useful if the function is async
  */
-export const violentMonkeyContext
-	= <Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
+export const violentMonkeyContext =
+	<Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
 	(...args: Args) =>
 		asyncLocalStorage.run(++idSeq, cb, ...args);
