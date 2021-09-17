@@ -93,29 +93,29 @@ const cachedInfos = new Map<number, ScriptInfo>();
  * @defaultValue
  * ```
  * {
- *   uuid: {randomly generated},
- *   scriptMetaStr: '',
- *   scriptWillUpdate: true,
- *   scriptHandler: 'Violentmonkey',
- *   version: '2.13.0',
- *   platform: {
- *     arch: 'x86-64',
- *     browserName: 'firefox',
- *     browserVersion: '93',
- *     os: 'linux',
- *   },
- *   script: {
- *     description: '',
- *     excludes: [],
- *     includes: [],
- *     matches: [],
- *     name: '',
- *     namespace: '',
- *     resources: [],
- *     runAt: 'document-start',
- *     version: '1.0',
- *   },
- *   injectInto: 'page',
+ * 	uuid: {randomly generated},
+ * 	scriptMetaStr: '',
+ * 	scriptWillUpdate: true,
+ * 	scriptHandler: 'Violentmonkey',
+ * 	version: '2.13.0',
+ * 	platform: {
+ * 		arch: 'x86-64',
+ * 		browserName: 'firefox',
+ * 		browserVersion: '93',
+ * 		os: 'linux',
+ * 	},
+ * 	script: {
+ * 		description: '',
+ * 		excludes: [],
+ * 		includes: [],
+ * 		matches: [],
+ * 		name: '',
+ * 		namespace: '',
+ * 		resources: [],
+ * 		runAt: 'document-start',
+ * 		version: '1.0',
+ * 	},
+ * 	injectInto: 'page',
  * }
  * ```
  */
