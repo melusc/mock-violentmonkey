@@ -1,5 +1,6 @@
 import {jsonStringify} from '../json-stringify';
 import {getStore} from '../violentmonkey-context';
+import {BetterMap} from '../utils';
 
 /* See:
  *	https://violentmonkey.github.io/api/gm/
@@ -7,19 +8,9 @@ import {getStore} from '../violentmonkey-context';
  */
 
 /* For getValue, setValue and all related functions */
-const storages = new Map<number, Map<string, string>>();
+const storages = new BetterMap<number, BetterMap<string, string>>();
 
-const getStorage = () => {
-	const id = getStore();
-	let map = storages.get(id);
-
-	if (!map) {
-		map = new Map();
-		storages.set(id, map);
-	}
-
-	return map;
-};
+const getStorage = () => storages.get(getStore(), () => new BetterMap());
 
 type SetValue = (key: string, value: any) => void;
 const setValue: SetValue = (key, value) => {
@@ -33,12 +24,13 @@ const getValue: GetValue = <TValue>(
 	key: string,
 	defaultValue?: TValue,
 ): TValue => {
-	const unparsed = getStorage().get(key);
-	if (unparsed === undefined) {
+	const storage = getStorage();
+
+	if (!storage.has(key)) {
 		return defaultValue!;
 	}
 
-	return JSON.parse(unparsed) as TValue;
+	return JSON.parse(storage.get(key)!) as TValue;
 };
 
 type DeleteValue = (key: string) => void;

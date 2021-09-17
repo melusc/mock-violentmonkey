@@ -2,6 +2,7 @@ import crypto from 'crypto';
 
 import {PartialDeep, Entries} from 'type-fest';
 
+import {BetterMap} from '../utils';
 import {getStore} from '../violentmonkey-context';
 
 type ScriptInfo = {
@@ -51,37 +52,33 @@ type ScriptInfo = {
 	injectInto: 'page' | 'content';
 };
 
-const generateInfo = () => {
-	const info: ScriptInfo = {
-		uuid: crypto.randomUUID(),
-		scriptMetaStr: '',
-		scriptWillUpdate: true,
-		scriptHandler: 'Violentmonkey',
-		version: '2.13.0',
-		platform: {
-			arch: 'x86-64',
-			browserName: 'firefox',
-			browserVersion: '93',
-			os: 'linux',
-		},
-		script: {
-			description: '',
-			excludes: [],
-			includes: [],
-			matches: [],
-			name: '',
-			namespace: '',
-			resources: [],
-			runAt: 'document-start',
-			version: '1.0',
-		},
-		injectInto: 'page',
-	};
+const generateInfo = (): ScriptInfo => ({
+	uuid: crypto.randomUUID(),
+	scriptMetaStr: '',
+	scriptWillUpdate: true,
+	scriptHandler: 'Violentmonkey',
+	version: '2.13.0',
+	platform: {
+		arch: 'x86-64',
+		browserName: 'firefox',
+		browserVersion: '93',
+		os: 'linux',
+	},
+	script: {
+		description: '',
+		excludes: [],
+		includes: [],
+		matches: [],
+		name: '',
+		namespace: '',
+		resources: [],
+		runAt: 'document-start',
+		version: '1.0',
+	},
+	injectInto: 'page',
+});
 
-	return info;
-};
-
-const cachedInfos = new Map<number, ScriptInfo>();
+const cachedInfos = new BetterMap<number, ScriptInfo>();
 
 /**
  * Returns with information about the userscript
@@ -119,17 +116,7 @@ const cachedInfos = new Map<number, ScriptInfo>();
  * }
  * ```
  */
-const getInfo = () => {
-	const id = getStore();
-
-	let info = cachedInfos.get(id);
-	if (!info) {
-		info = generateInfo();
-		cachedInfos.set(id, info);
-	}
-
-	return info;
-};
+const getInfo = () => cachedInfos.get(getStore(), () => generateInfo());
 
 /* #resources may be undefined
 	But not #url or #name in resources
