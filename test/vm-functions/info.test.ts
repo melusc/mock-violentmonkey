@@ -60,10 +60,12 @@ test(
 		// Make sure it doesn't overwrite these values
 		update_GM_info({
 			script: {
-				resources: [{
-					url: 'url1',
-					name: 'name1',
-				}],
+				resources: [
+					{
+						url: 'url1',
+						name: 'name1',
+					},
+				],
 				excludes: ['excludes1'],
 				includes: ['includes1'],
 				matches: ['matches1'],
