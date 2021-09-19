@@ -1,5 +1,5 @@
 // https://nodejs.org/api/async_context.html
-import {AsyncLocalStorage} from 'async_hooks';
+import {AsyncLocalStorage} from 'node:async_hooks';
 
 const asyncLocalStorage = new AsyncLocalStorage<number>();
 

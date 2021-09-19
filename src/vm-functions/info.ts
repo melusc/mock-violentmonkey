@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 import {PartialDeep, Entries} from 'type-fest';
 

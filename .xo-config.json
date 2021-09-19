@@ -7,7 +7,6 @@
 	],
 	"rules": {
 		"prefer-template": "error",
-		"unicorn/prefer-node-protocol": "off",
 		"new-cap": [
 			"error",
 			{
