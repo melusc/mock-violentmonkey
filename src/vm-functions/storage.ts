@@ -1,6 +1,9 @@
+import crypto from 'node:crypto';
+
 import {jsonStringify} from '../json-stringify';
 import {getUserscriptId} from '../violentmonkey-context';
 import {BetterMap} from '../utils';
+import {getTabId} from '../tab';
 
 /* See:
  *	https://violentmonkey.github.io/api/gm/
@@ -13,33 +16,142 @@ const storages = new BetterMap<number, BetterMap<string, string>>();
 const getStorage = () => storages.get(getUserscriptId(), () => new BetterMap());
 
 type SetValue = (key: string, value: any) => void;
+/** Sets a key / value pair for current context to storage. */
 const setValue: SetValue = (key, value) => {
+	const oldValue = getRawValue(key);
+
 	const stringified = jsonStringify(value);
 
 	getStorage().set(key, stringified);
+
+	dispatchChange(key, oldValue, stringified);
+};
+
+const getRawValue = (key: string) => {
+	const storage = getStorage();
+
+	return storage.get(key);
 };
 
 type GetValue = <TValue>(key: string, defaultValue?: TValue) => TValue;
+/** Retrieves a value for current context from storage. */
 const getValue: GetValue = <TValue>(
 	key: string,
 	defaultValue?: TValue,
 ): TValue => {
-	const storage = getStorage();
+	const rawValue = getRawValue(key);
 
-	if (!storage.has(key)) {
+	if (rawValue === undefined) {
 		return defaultValue!;
 	}
 
-	return JSON.parse(storage.get(key)!) as TValue;
+	return JSON.parse(rawValue) as TValue;
 };
 
 type DeleteValue = (key: string) => void;
+/** Deletes an existing key / value pair for current context from storage. */
 const deleteValue: DeleteValue = key => {
+	const oldValue = getRawValue(key);
+
 	getStorage().delete(key);
+
+	dispatchChange(key, oldValue);
 };
 
 type ListValues = () => string[];
+/** Returns an array of keys of all available values within this context. */
 const listValues: ListValues = () => [...getStorage().keys()];
+
+type AddValueChangeListenerCallback = (
+	key: string,
+	oldValue: any,
+	newValue: any,
+	remote: boolean,
+) => void;
+
+/**
+ * ```
+ * BetterMap<number, // id of the async context
+ * 	BetterMap<string, // name of the value to listen for
+ * 		BetterMap<string, // uuid of the callback
+ * 		[tabId: number, callback: AddValueChangeListenerCallback]>
+ * 	>
+ * >
+ * ```
+ */
+const valueChangeCallbacksStore = new BetterMap<
+	number,
+	BetterMap<
+		string,
+		BetterMap<string, [tabId: number, callback: AddValueChangeListenerCallback]>
+	>
+>();
+
+type AddValueChangeListener = (
+	name: string,
+	callback: AddValueChangeListenerCallback,
+) => string;
+/** Adds a change listener to the storage and returns the listener ID. */
+const addValueChangeListener: AddValueChangeListener = (key, callback) => {
+	const id = getUserscriptId();
+
+	const currentContextCallbacks = valueChangeCallbacksStore.get(
+		id,
+		() => new BetterMap(),
+	);
+
+	const namedStorageCallbacks = currentContextCallbacks.get(
+		key,
+		() => new BetterMap(),
+	);
+
+	const listenerId = crypto.randomUUID();
+	namedStorageCallbacks.set(listenerId, [getTabId(), callback]);
+
+	return listenerId;
+};
+
+type RemoveValueChangeListener = (listenerId: string) => void;
+/** Removes a change listener by its ID. */
+const removeValueChangeListener: RemoveValueChangeListener = listenerId => {
+	const currentContextCallbacks = valueChangeCallbacksStore.get(
+		getUserscriptId(),
+	);
+
+	if (!currentContextCallbacks) {
+		return;
+	}
+
+	for (const namedStorageCallbacks of currentContextCallbacks.values()) {
+		namedStorageCallbacks.delete(listenerId);
+	}
+};
+
+const parseValue = (value: string | undefined): any =>
+	value === undefined ? value : JSON.parse(value);
+const dispatchChange = (key: string, oldValue?: string, newValue?: string) => {
+	if (oldValue === newValue) {
+		return;
+	}
+
+	const id = getUserscriptId();
+	const currentContextCallbacks = valueChangeCallbacksStore.get(id);
+	const namedStorageCallbacks = currentContextCallbacks?.get(key);
+
+	if (!namedStorageCallbacks) {
+		return;
+	}
+
+	const currentTabId = getTabId();
+	for (const [callbackTabId, callback] of namedStorageCallbacks.values()) {
+		callback(
+			key,
+			parseValue(oldValue),
+			parseValue(newValue),
+			currentTabId !== callbackTabId,
+		);
+	}
+};
 
 /**
  * Use these in ava test files
@@ -49,10 +161,16 @@ export {
 	getValue as GM_getValue,
 	deleteValue as GM_deleteValue,
 	listValues as GM_listValues,
+	addValueChangeListener as GM_addValueChangeListener,
+	removeValueChangeListener as GM_removeValueChangeListener,
+	/*****/
 	SetValue,
 	GetValue,
 	DeleteValue,
 	ListValues,
+	AddValueChangeListener,
+	AddValueChangeListenerCallback,
+	RemoveValueChangeListener,
 };
 
 /**
@@ -70,5 +188,11 @@ Object.defineProperties(global, {
 	},
 	GM_listValues: {
 		value: listValues,
+	},
+	GM_addValueChangeListener: {
+		value: addValueChangeListener,
+	},
+	GM_removeValueChangeListener: {
+		value: removeValueChangeListener,
 	},
 });

@@ -2,10 +2,15 @@ import test from 'ava';
 
 import {
 	violentMonkeyContext,
+	/*****/
 	GM_deleteValue,
 	GM_getValue,
 	GM_listValues,
 	GM_setValue,
+	GM_addValueChangeListener,
+	GM_removeValueChangeListener,
+	/*****/
+	tabContext,
 } from '../../src';
 
 test(
@@ -76,6 +81,86 @@ test(
 	}),
 );
 
+test(
+	'GM_addValueChangeListener without remote',
+	violentMonkeyContext(async t => {
+		GM_setValue('key', 20);
+
+		const promise = new Promise<void>(resolve => {
+			GM_addValueChangeListener(
+				'key',
+				(key, oldValue: number, newValue: number, remote) => {
+					t.is(key, 'key');
+					t.is(oldValue, 20);
+					t.is(newValue, 30);
+					t.false(remote);
+
+					resolve();
+				},
+			);
+		});
+
+		GM_setValue('key', 30);
+
+		return promise;
+	}),
+);
+
+test(
+	'GM_addValueChangeListener with tabContext',
+	violentMonkeyContext(async t => {
+		GM_setValue('key', 10);
+
+		const remotePromise = new Promise<void>(resolve => {
+			GM_addValueChangeListener('key', (_, _1, _2, remote) => {
+				t.true(remote);
+
+				resolve();
+			});
+		});
+
+		await tabContext(async () => {
+			const nonRemotePromise = new Promise<void>(resolve => {
+				GM_addValueChangeListener('key', (_, _1, _2, remote) => {
+					t.false(remote);
+
+					resolve();
+				});
+			});
+
+			GM_setValue('key', 11);
+
+			return nonRemotePromise;
+		});
+
+		return remotePromise;
+	}),
+);
+
+test(
+	'GM_removeValueChangeListener',
+	violentMonkeyContext(t => {
+		let amountCalledCb1 = 0;
+		const valueListenerId = GM_addValueChangeListener('key', () => {
+			++amountCalledCb1;
+		});
+		let amountCalledCb2 = 0;
+		GM_addValueChangeListener('key', () => {
+			++amountCalledCb2;
+		});
+
+		GM_setValue('key', 0);
+		GM_setValue('key', 2);
+
+		GM_removeValueChangeListener(valueListenerId);
+
+		GM_setValue('key', 3);
+
+		t.is(amountCalledCb1, 2);
+		t.is(amountCalledCb2, 3);
+	}),
+);
+
 test('GM_* without violentMonkeyContext should throw.', t => {
 	t.throws(() => {
 		GM_getValue('hello', 'world');
@@ -91,5 +176,15 @@ test('GM_* without violentMonkeyContext should throw.', t => {
 
 	t.throws(() => {
 		GM_listValues();
+	});
+
+	t.throws(() => {
+		GM_addValueChangeListener('', () => {
+			// Nothing
+		});
+	});
+
+	t.throws(() => {
+		GM_removeValueChangeListener('c0ffeec0-coffee-c0ff-eec0-ffeec0ffeec0');
 	});
 });

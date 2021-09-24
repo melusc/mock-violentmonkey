@@ -1,3 +1,4 @@
-export {violentMonkeyContext} from './violentmonkey-context';
+export * from './violentmonkey-context';
+export * from './tab';
 
 export * from './vm-functions';
