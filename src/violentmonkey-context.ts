@@ -7,9 +7,10 @@ const asyncLocalStorage = new AsyncLocalStorage<number>();
 
 /**
  * Get the id of the current context
+ * @internal
  * @returns The id
  */
-export const getStore = () => {
+export const getUserscriptId = () => {
 	const store = asyncLocalStorage.getStore();
 
 	if (store === undefined) {
@@ -29,7 +30,7 @@ let idSeq = 0;
  * @param cb The callback with the same parameters like a regular ava callback
  * @returns Returns the callback, mainly useful if the function is async
  */
-export const violentMonkeyContext =
-	<Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
+export const violentMonkeyContext
+	= <Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
 	(...args: Args) =>
 		asyncLocalStorage.run(++idSeq, cb, ...args);

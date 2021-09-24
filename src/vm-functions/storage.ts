@@ -1,5 +1,5 @@
 import {jsonStringify} from '../json-stringify';
-import {getStore} from '../violentmonkey-context';
+import {getUserscriptId} from '../violentmonkey-context';
 import {BetterMap} from '../utils';
 
 /* See:
@@ -10,7 +10,7 @@ import {BetterMap} from '../utils';
 /* For getValue, setValue and all related functions */
 const storages = new BetterMap<number, BetterMap<string, string>>();
 
-const getStorage = () => storages.get(getStore(), () => new BetterMap());
+const getStorage = () => storages.get(getUserscriptId(), () => new BetterMap());
 
 type SetValue = (key: string, value: any) => void;
 const setValue: SetValue = (key, value) => {

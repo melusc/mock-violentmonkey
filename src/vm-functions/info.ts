@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import {PartialDeep, Entries} from 'type-fest';
 
 import {BetterMap} from '../utils';
-import {getStore} from '../violentmonkey-context';
+import {getUserscriptId} from '../violentmonkey-context';
 
 type ScriptInfo = {
 	/** A unique ID of the script. */
@@ -116,7 +116,7 @@ const cachedInfos = new BetterMap<number, ScriptInfo>();
  * }
  * ```
  */
-const getInfo = () => cachedInfos.get(getStore(), () => generateInfo());
+const getInfo = () => cachedInfos.get(getUserscriptId(), () => generateInfo());
 
 /* #resources may be undefined
 	But not #url or #name in resources
