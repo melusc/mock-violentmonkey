@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import {PartialDeep, Entries} from 'type-fest';
+import {PartialDeep} from 'type-fest';
 
 import {BetterMap} from '../utils';
 import {getUserscriptId} from '../violentmonkey-context';
@@ -136,9 +136,7 @@ type PartialScriptInfo_Script = NonOptional<PartialScriptInfo['script']>;
 const updateInfoScript = (newScript: PartialScriptInfo_Script) => {
 	const {script} = getInfo();
 
-	for (const [key, value] of Object.entries(
-		newScript,
-	) as Entries<PartialScriptInfo_Script>) {
+	for (const [key, value] of Object.entries(newScript)) {
 		switch (key) {
 			case 'excludes':
 			case 'includes':
@@ -164,7 +162,7 @@ const updateInfoScript = (newScript: PartialScriptInfo_Script) => {
 const updateInfo = (newInfo: PartialScriptInfo) => {
 	const info = getInfo();
 
-	for (const [key, value] of Object.entries(newInfo) as Entries<ScriptInfo>) {
+	for (const [key, value] of Object.entries(newInfo)) {
 		switch (key) {
 			case 'script': {
 				updateInfoScript(value as PartialScriptInfo_Script);
