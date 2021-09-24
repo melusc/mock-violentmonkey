@@ -51,6 +51,6 @@
 	},
 	"version": "0.0.1",
 	"dependencies": {
-		"type-fest": "^2.3.3"
+		"type-fest": "^2.3.4"
 	}
 }
