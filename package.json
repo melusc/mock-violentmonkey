@@ -29,7 +29,10 @@
 	"engines": {
 		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	},
-	"exports": "./dist/index.js",
+	"main": "./dist/index.js",
+	"files": [
+		"dist"
+	],
 	"homepage": "https://github.com/melusc/mock-violentmonkey#readme",
 	"keywords": [
 		"violentmonkey",
@@ -52,7 +55,7 @@
 		"lint": "prettier . -w && xo --fix",
 		"test": "xo && npm run ava"
 	},
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"dependencies": {
 		"type-fest": "^2.3.4"
 	}
