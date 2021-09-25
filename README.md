@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/mock-violentmonkey.svg?style=flat)](https://npmjs.org/package/mock-violentmonkey)
 [![License](https://img.shields.io/npm/l/mock-violentmonkey.svg?style=flat)](https://github.com/melusc/mock-violentmonkey)
-[![Dependencies](https://img.shields.io/david/mock-violentmonkey)](https://github.com/melusc/mock-violentmonkey)
+[![Dependencies](https://img.shields.io/david/melusc/mock-violentmonkey)](https://github.com/melusc/mock-violentmonkey)
 
 mock-violentmonkey allows you to mock Violentmonkey's api for testing Violentmonkey userscripts.
 mock-violentmonkey allows you to have seperated contexts for testing different scenarious without them interfering with each other.
