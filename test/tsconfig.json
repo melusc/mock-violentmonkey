@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"outDir": "../test-dist",
+
+		"types": ["@types/tampermonkey", "@types/node"]
+	},
+	"extends": "../tsconfig.json",
+	"include": ["./**/*.ts"]
+}

@@ -51,7 +51,7 @@
 		"ava": "ava",
 		"prebuild": "npm run lint && npm run ava",
 		"build": "del-cli dist/* && tsc",
-		"preava": "del-cli test-dist/* && tsc --project test.tsconfig.json",
+		"preava": "del-cli test-dist/* && tsc --project test/tsconfig.json",
 		"lint": "prettier . -w && xo --fix",
 		"test": "xo && npm run ava",
 		"prepublish": "npm run build"
