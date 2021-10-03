@@ -7,6 +7,7 @@ import {
 	GM_getValue,
 	GM_info,
 	GM_setValue,
+	GM_addStyle,
 	violentMonkeyContext,
 } from '../../src';
 
@@ -64,6 +65,14 @@ test(
 		GM_setValue('key2', 2);
 
 		t.deepEqual((await keys).sort(), ['key1', 'key2'].sort());
+	}),
+);
+
+test(
+	'GM.addStyle behave equally to GM_addStyle',
+	violentMonkeyContext(t => {
+		t.is(GM.addStyle, GM_addStyle);
+		t.is(typeof GM.addStyle('').id, 'string');
 	}),
 );
 

@@ -7,7 +7,7 @@
 
 		"strict": true,
 
-		"lib": ["ESNext", "DOM.Iterable"],
+		"lib": ["ESNext", "DOM.Iterable", "DOM"],
 
 		"outDir": "dist",
 

@@ -11,6 +11,7 @@ import {
 	SetValue,
 } from './storage';
 import {GM_info, ScriptInfo} from './info';
+import {GM_addStyle, AddStyle} from './add-style';
 
 const makeFunctionAsync
 	= <Args extends any[], ReturnV>(fn: (...args: Args) => ReturnV) =>
@@ -37,6 +38,9 @@ const GM_ = Object.defineProperties(
 		deleteValue: {
 			value: makeFunctionAsync(GM_deleteValue),
 		},
+		addStyle: {
+			value: GM_addStyle,
+		},
 		info: {
 			get: GM_info,
 		},
@@ -47,18 +51,15 @@ Object.defineProperty(global, 'GM', {
 	value: GM_,
 });
 
-type DeepAsyncFunctions<T extends Record<string, any>> = {
-	[key in keyof T]: T[key] extends (...args: any[]) => void
-		? (...args: Parameters<T[key]>) => Promise<ReturnType<T[key]>>
-		: T[key];
-};
+type MakeFunctionAsync<T extends (...args: any[]) => void> = (
+	...args: Parameters<T>
+) => Promise<ReturnType<T>>;
 
-export const GM = GM_ as Readonly<
-	DeepAsyncFunctions<{
-		setValue: SetValue;
-		getValue: GetValue;
-		listValues: ListValues;
-		deleteValue: DeleteValue;
-		info: ScriptInfo;
-	}>
->;
+export const GM = GM_ as Readonly<{
+	setValue: MakeFunctionAsync<SetValue>;
+	getValue: MakeFunctionAsync<GetValue>;
+	listValues: MakeFunctionAsync<ListValues>;
+	deleteValue: MakeFunctionAsync<DeleteValue>;
+	addStyle: AddStyle;
+	info: ScriptInfo;
+}>;
