@@ -13,6 +13,9 @@ import {
 import {GM_info, ScriptInfo} from './info';
 import {GM_addStyle, AddStyle} from './add-style';
 
+// GM.getResourceText doesn't exist
+import {GM_getResourceURL, GetResourceURL} from './resource';
+
 const makeFunctionAsync
 	= <Args extends any[], ReturnV>(fn: (...args: Args) => ReturnV) =>
 	async (...args: Args): Promise<ReturnV> => {
@@ -41,6 +44,9 @@ const GM_ = Object.defineProperties(
 		addStyle: {
 			value: GM_addStyle,
 		},
+		getResourceURL: {
+			value: GM_getResourceURL,
+		},
 		info: {
 			get: GM_info,
 		},
@@ -61,5 +67,6 @@ export const GM = GM_ as Readonly<{
 	listValues: MakeFunctionAsync<ListValues>;
 	deleteValue: MakeFunctionAsync<DeleteValue>;
 	addStyle: AddStyle;
+	getResourceURL: MakeFunctionAsync<GetResourceURL>;
 	info: ScriptInfo;
 }>;
