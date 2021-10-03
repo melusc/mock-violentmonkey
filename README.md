@@ -58,6 +58,8 @@ Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValue
 All functions are globals so that the userscript has access to them.
 For Typescript it is best if you import them, though, because Typescript doesn't know they're globals or you can tell Typescript like [this](https://github.com/melusc/mock-violentmonkey/blob/c553036881a42fb8d2b621eb054062086b5a334e/test/vm-functions/globals.test.ts#L19-L25).
 
+`GM_getResourceURL` and `GM.getResourceURL` return an object url which cannot be fetched with standard http libraries (it isn't http after all), only with [`buffer.resolveObjectURL`](https://nodejs.org/dist/latest-v16.x/docs/api/buffer.html#buffer_buffer_resolveobjecturl_id). That is why testing any code that relies on fetching the resource using the object url is currently not possible.
+
 If you import `GM_info` it is not a getter, you have to call it.
 
 ```js
