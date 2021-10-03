@@ -53,10 +53,10 @@ test(
 
 ## GM-api
 
-Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValues`, `GM_info`, `GM.setValue`, `GM.getValue`, `GM.deleteValue`, `GM.listValues`, and `GM.info`. More info on the [official Violentmonkey api](https://violentmonkey.github.io/api/gm/). See [here](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/src/vm-functions/info.ts#L55-L79) for the default GM_info values.
+Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValues`, `GM_info`, `GM_addStyle`, `GM.setValue`, `GM.getValue`, `GM.deleteValue`, `GM.listValues`, `GM.addStyle`, and `GM.info`. More info on the [official Violentmonkey api](https://violentmonkey.github.io/api/gm/). See [here](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/src/vm-functions/info.ts#L55-L79) for the default GM_info values.
 
 All functions are globals so that the userscript has access to them.
-For Typescript it is best if you import them, though, because Typescript doesn't know they're globals or you can tell Typescript like [this](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/test/vm-functions/globals.test.ts#L17-L22).
+For Typescript it is best if you import them, though, because Typescript doesn't know they're globals or you can tell Typescript like [this](https://github.com/melusc/mock-violentmonkey/blob/c553036881a42fb8d2b621eb054062086b5a334e/test/vm-functions/globals.test.ts#L19-L25).
 
 If you import `GM_info` it is not a getter, you have to call it.
 
