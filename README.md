@@ -51,14 +51,37 @@ test(
 );
 ```
 
-## GM-api
+## GM api
 
-Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValues`, `GM_info`, `GM_addStyle`, `GM_getResourceText`, `GM_getResourceURL`, `GM_registerMenuCommand`, `GM_unregisterMenuCommand`, `GM.setValue`, `GM.getValue`, `GM.deleteValue`, `GM.listValues`, `GM.addStyle`, `GM.getResourceURL`, and `GM.info`. More info in the [official Violentmonkey api](https://violentmonkey.github.io/api/gm/). See [here](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/src/vm-functions/info.ts#L55-L79) for the default GM_info values.
+✔️ = supported,
+❌ = not supported,
+⚠️ = supported, see footnotes
 
-All functions are globals so that the userscript has access to them.
-For Typescript it is best if you import them, though, because Typescript doesn't know they're globals or you can tell Typescript like [this](https://github.com/melusc/mock-violentmonkey/blob/c553036881a42fb8d2b621eb054062086b5a334e/test/vm-functions/globals.test.ts#L19-L25).
+| Function                                                                                                                        | Support |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| [`GM_info` / `GM.info`](https://violentmonkey.github.io/api/gm/#gm_info) [^gm-info-defaults]                                    | ✔️      |
+| [`GM_getValue` / `GM.getValue`](https://violentmonkey.github.io/api/gm/#gm_getvalue)                                            | ✔️      |
+| [`GM_setValue` / `GM.setValue`](https://violentmonkey.github.io/api/gm/#gm_setvalue)                                            | ✔️      |
+| [`GM_deleteValue` / `GM.deleteValue`](https://violentmonkey.github.io/api/gm/#gm_deletevalue)                                   | ✔️      |
+| [`GM_listValues` / `GM.listValues`](https://violentmonkey.github.io/api/gm/#gm_listvalues)                                      | ✔️      |
+| [`GM_addValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_addvaluechangelistener)                                | ✔️      |
+| [`GM_removeValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_removevaluechangelistener)                          | ✔️      |
+| [`GM_getResourceText`](https://violentmonkey.github.io/api/gm/#gm_getresourcetext)                                              | ✔️      |
+| [`GM_getResourceURL` / `GM.getResourceURL`](https://violentmonkey.github.io/api/gm/#gm_getresourceurl) [^get-resource-url-note] | ⚠️      |
+| [`GM_addStyle` / `GM.addStyle`](https://violentmonkey.github.io/api/gm/#gm_addstyle)                                            | ✔️      |
+| [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                                         | ❌      |
+| [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)                                      | ✔️      |
+| [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)                                  | ✔️      |
+| [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)                                | ❌      |
+| [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)                                | ❌      |
+| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest)                          | ❌      |
+| [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                                            | ❌      |
 
-`GM_getResourceURL` and `GM.getResourceURL` return an object url which cannot be fetched with standard http libraries (it isn't http after all), only with [`buffer.resolveObjectURL`](https://nodejs.org/dist/latest-v16.x/docs/api/buffer.html#buffer_buffer_resolveobjecturl_id). That is why testing any code that relies on fetching the resource using the object url is currently not possible.
+[^gm-info-defaults]: [`GM_info` / `GM.info` default value](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/src/vm-functions/info.ts#L55-L79)
+[^get-resource-url-note]: Because `GM_getResourceURL` and `GM.getResourceURL` return an object url and object urls can't be called with regular http libraries (in node), only with [`buffer.resolveObjectURL`](https://nodejs.org/dist/latest-v16.x/docs/api/buffer.html#buffer_buffer_resolveobjecturl_id), I don't recommend using this currently.
+
+The GM\_\* and GM.\* api is added to the global scope so that userscripts have access to them.
+With Typescript you can either [import them](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/storage.test.ts#L6-L11) or [tell Typescript that they're globals](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/globals.test.ts#L19-L25).
 
 If you import `GM_info` it is not a getter, you have to call it.
 
@@ -85,13 +108,13 @@ test(
 );
 ```
 
-## Additional GM-api
+## Additional GM api
 
-Additionally, mock-violentmonkey has some helper functions for setting up tests more easily.
+Additionally, mock-violentmonkey has some helper functions for setting up tests.
 
 ### update_GM_info
 
-This provides an easy way of updating `GM_info`. `GM_info` is mutable and `update_GM_info` provides an easy way of updating it in one go.
+This provides an easy way of updating `GM_info` / `GM.info`. The object is mutable but `update_GM_info` provides an easy way of updating it in one go.
 
 ```js
 test(
@@ -108,6 +131,12 @@ test(
 				matches: ['https://github.com/*'], // Merges old array and new array
 			},
 		});
+
+		// Same as
+		GM_info.version = '2.0.0';
+		GM_info.platform.arch = 'arm';
+		GM_info.script.version = '1.5.2';
+		GM_info.script.matches.push('https://github.com/*');
 	}),
 );
 ```
