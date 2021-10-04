@@ -53,7 +53,7 @@ test(
 
 ## GM-api
 
-Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValues`, `GM_info`, `GM_addStyle`, `GM_getResourceText`, `GM_getResourceURL`, `GM.setValue`, `GM.getValue`, `GM.deleteValue`, `GM.listValues`, `GM.addStyle`, `GM.getResourceURL`, and `GM.info`. More info on the [official Violentmonkey api](https://violentmonkey.github.io/api/gm/). See [here](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/src/vm-functions/info.ts#L55-L79) for the default GM_info values.
+Currently supports `GM_setValue`, `GM_getValue`, `GM_deleteValue`, `GM_listValues`, `GM_info`, `GM_addStyle`, `GM_getResourceText`, `GM_getResourceURL`, `GM_registerMenuCommand`, `GM_unregisterMenuCommand`, `GM.setValue`, `GM.getValue`, `GM.deleteValue`, `GM.listValues`, `GM.addStyle`, `GM.getResourceURL`, and `GM.info`. More info in the [official Violentmonkey api](https://violentmonkey.github.io/api/gm/). See [here](https://github.com/melusc/mock-violentmonkey/blob/87f7a7a01b5079e433cbd7dc11ed36f738878aa7/src/vm-functions/info.ts#L55-L79) for the default GM_info values.
 
 All functions are globals so that the userscript has access to them.
 For Typescript it is best if you import them, though, because Typescript doesn't know they're globals or you can tell Typescript like [this](https://github.com/melusc/mock-violentmonkey/blob/c553036881a42fb8d2b621eb054062086b5a334e/test/vm-functions/globals.test.ts#L19-L25).
@@ -126,6 +126,15 @@ type SetResource = (name: string, url: string) => Promise<string>;
 
 // When testing
 await setResource('example.org', 'https://example.org/');
+```
+
+### triggerMenuCommand
+
+Because there's no UI a different method of triggering menu commands is necessary. To simulate clicking a menu command you can use this command instead.
+
+```js
+GM_registerMenuCommand('Open settings', openSettings);
+triggerMenuCommand('Open settings'); // Calls `openSettings`
 ```
 
 ## License
