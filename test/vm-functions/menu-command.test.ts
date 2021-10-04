@@ -29,10 +29,6 @@ test(
 		triggerMenuCommand(caption);
 		t.is(amountCalled, 2);
 
-		GM_registerMenuCommand('', function () {
-			// @ts-expect-error Idk what `this` is and I wanna know
-			console.log(this);
-		});
 		triggerMenuCommand('');
 	}),
 );

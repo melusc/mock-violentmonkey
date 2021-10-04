@@ -73,13 +73,10 @@ test(
 	}),
 );
 
-test(
-	'GM_addStyle should exist as a global function',
-	violentMonkeyContext(t => {
-		t.is(GM_addStyle, GM_addStyle_imported);
-		t.is(typeof GM_addStyle, 'function');
-	}),
-);
+test('GM_addStyle should exist as a global function', t => {
+	t.is(GM_addStyle, GM_addStyle_imported);
+	t.is(typeof GM_addStyle, 'function');
+});
 
 test(
 	'GM_info should exist as a global getter',
