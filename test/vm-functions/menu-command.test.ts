@@ -28,8 +28,6 @@ test(
 		GM_unregisterMenuCommand(caption);
 		triggerMenuCommand(caption);
 		t.is(amountCalled, 2);
-
-		triggerMenuCommand('');
 	}),
 );
 
