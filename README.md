@@ -54,33 +54,29 @@ test(
 ## GM api
 
 ✔️ = supported,
-❌ = not supported,
-⚠️ = supported, see footnotes
+❌ = not supported
 
-| Function                                                                                                                        | Support |
-| ------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`GM_info` / `GM.info`](https://violentmonkey.github.io/api/gm/#gm_info) [^gm-info-defaults]                                    | ✔️      |
-| [`GM_getValue` / `GM.getValue`](https://violentmonkey.github.io/api/gm/#gm_getvalue)                                            | ✔️      |
-| [`GM_setValue` / `GM.setValue`](https://violentmonkey.github.io/api/gm/#gm_setvalue)                                            | ✔️      |
-| [`GM_deleteValue` / `GM.deleteValue`](https://violentmonkey.github.io/api/gm/#gm_deletevalue)                                   | ✔️      |
-| [`GM_listValues` / `GM.listValues`](https://violentmonkey.github.io/api/gm/#gm_listvalues)                                      | ✔️      |
-| [`GM_addValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_addvaluechangelistener)                                | ✔️      |
-| [`GM_removeValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_removevaluechangelistener)                          | ✔️      |
-| [`GM_getResourceText`](https://violentmonkey.github.io/api/gm/#gm_getresourcetext)                                              | ✔️      |
-| [`GM_getResourceURL` / `GM.getResourceURL`](https://violentmonkey.github.io/api/gm/#gm_getresourceurl) [^get-resource-url-note] | ⚠️      |
-| [`GM_addStyle` / `GM.addStyle`](https://violentmonkey.github.io/api/gm/#gm_addstyle)                                            | ✔️      |
-| [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                                         | ❌      |
-| [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)                                      | ✔️      |
-| [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)                                  | ✔️      |
-| [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)                                | ❌      |
-| [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)                                | ❌      |
-| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest)                          | ❌      |
-| [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                                            | ❌      |
+| Function                                                                                               | Support | Notes                                                                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`GM_info` / `GM.info`](https://violentmonkey.github.io/api/gm/#gm_info)                               | ✔️      | [Default value](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/src/vm-functions/info.ts#L55-L79)                                                                       |
+| [`GM_getValue` / `GM.getValue`](https://violentmonkey.github.io/api/gm/#gm_getvalue)                   | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_setValue` / `GM.setValue`](https://violentmonkey.github.io/api/gm/#gm_setvalue)                   | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_deleteValue` / `GM.deleteValue`](https://violentmonkey.github.io/api/gm/#gm_deletevalue)          | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_listValues` / `GM.listValues`](https://violentmonkey.github.io/api/gm/#gm_listvalues)             | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_addValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_addvaluechangelistener)       | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_removeValueChangeListener`](https://violentmonkey.github.io/api/gm/#gm_removevaluechangelistener) | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_getResourceText`](https://violentmonkey.github.io/api/gm/#gm_getresourcetext)                     | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_getResourceURL` / `GM.getResourceURL`](https://violentmonkey.github.io/api/gm/#gm_getresourceurl) | ✔️      | This returns an object url, which cannot be fetched with regular http libs in node, use `GM_getResourceText` instead.                                                                                              |
+| [`GM_addStyle` / `GM.addStyle`](https://violentmonkey.github.io/api/gm/#gm_addstyle)                   | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                | ❌      |                                                                                                                                                                                                                    |
+| [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)             | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
+| [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
+| [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ❌      |                                                                                                                                                                                                                    |
+| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ❌      |                                                                                                                                                                                                                    |
+| [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ❌      |                                                                                                                                                                                                                    |
 
-[^gm-info-defaults]: [`GM_info` / `GM.info` default value](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/src/vm-functions/info.ts#L55-L79)
-[^get-resource-url-note]: Because `GM_getResourceURL` and `GM.getResourceURL` return an object url and object urls can't be called with regular http libraries (in node), only with [`buffer.resolveObjectURL`](https://nodejs.org/dist/latest-v16.x/docs/api/buffer.html#buffer_buffer_resolveobjecturl_id), I don't recommend using this currently.
-
-The GM\_\* and GM.\* api is added to the global scope so that userscripts have access to them.
+The `GM_*` and `GM.*` api is added to the global scope so that userscripts have access to them.
 With Typescript you can either [import them](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/storage.test.ts#L6-L11) or [tell Typescript that they're globals](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/globals.test.ts#L19-L25).
 
 If you import `GM_info` it is not a getter, you have to call it.
@@ -164,6 +160,41 @@ Because there's no UI a different method of triggering menu commands is necessar
 ```js
 GM_registerMenuCommand('Open settings', openSettings);
 triggerMenuCommand('Open settings'); // Calls `openSettings`
+```
+
+### setNotificationTimeout
+
+This sets the time after which the notification will timeout and be removed (like closing a notification). Defaults to 50ms. The notification takes the value at the time of creating the notification.
+
+```ts
+type SetNotificationTimeout = (timeout: number) => void;
+```
+
+### findNotifications
+
+This provides a way of finding all the notifications by their text, image, or title and removing, clicking, or closing all in one go.
+
+Setting any of the selectors to undefined allows any value. That's why `findNotifications({})` returns all notifications.
+
+```ts
+type FindNotifications = (selectors: {
+	text?: string;
+	image?: string;
+	title?: string;
+}) => {
+	remove: () => void; // Remove notifications that match the selectors
+	click: () => void; // Click notifications that match the selectors
+	close: () => void; // Close notifications that match the selectors
+	count: () => number; // Get count of notifications that match the selectors
+};
+```
+
+### setNotificationCompat
+
+This allows you to have `GM_notification` / `GM.notification` behave like with Firefox / Chromium. See more about the differences [here](https://github.com/melusc/mock-violentmonkey/blob/main/src/vm-functions/notifications-notes.md)
+
+```ts
+type SetNotificationCompat = (platform: 'Firefox' | 'Chromium') => void;
 ```
 
 ## License

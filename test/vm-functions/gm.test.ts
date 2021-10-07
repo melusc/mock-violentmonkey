@@ -9,6 +9,7 @@ import {
 	GM_setValue,
 	GM_addStyle,
 	violentMonkeyContext,
+	GM_notification,
 } from '../../src';
 
 const pNextTick = async () =>
@@ -75,6 +76,11 @@ test(
 		t.is(typeof GM.addStyle('').id, 'string');
 	}),
 );
+
+test('GM.notification behave like GM_notification', t => {
+	t.is(GM.notification, GM_notification);
+	t.is(typeof GM.notification, 'function');
+});
 
 test(
 	'GM.info should equal GM_info',
