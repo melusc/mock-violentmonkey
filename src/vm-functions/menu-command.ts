@@ -1,24 +1,24 @@
 import {BetterMap} from '../utils';
-import {getUserscriptId} from '../violentmonkey-context';
+import {VMStorage} from '../violentmonkey-context';
 
-const menuCommands = new BetterMap<number, BetterMap<string, () => void>>();
+const menuCommands = new VMStorage<BetterMap<string, () => void>>(
+	() => new BetterMap(),
+);
 
 type RegisterMenuCommand = (caption: string, onclick: () => void) => string;
 const registerMenuCommand: RegisterMenuCommand = (caption, onclick) => {
-	menuCommands
-		.get(getUserscriptId(), () => new BetterMap())
-		.set(caption, onclick);
+	menuCommands.get(true).set(caption, onclick);
 
 	return caption;
 };
 
 type UnregisterMenuCommand = (caption: string) => void;
 const unregisterMenuCommand: UnregisterMenuCommand = caption => {
-	menuCommands.get(getUserscriptId())?.delete(caption);
+	menuCommands.get(false)?.delete(caption);
 };
 
 const triggerMenuCommand = (caption: string) => {
-	menuCommands.get(getUserscriptId())?.get(caption)?.();
+	menuCommands.get(false)?.get(caption)?.();
 };
 
 export {

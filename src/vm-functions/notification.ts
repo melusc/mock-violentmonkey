@@ -1,5 +1,4 @@
-import {BetterMap} from '../utils';
-import {getUserscriptId} from '../violentmonkey-context';
+import {VMStorage} from '../violentmonkey-context';
 
 /*
 	Because Firefox and Chromium don't behave the same,
@@ -8,13 +7,13 @@ import {getUserscriptId} from '../violentmonkey-context';
 	because this way bugs might be caught early due to inconsistent behaviour
 	Otherwise I'd have to pick one behaviour anyway
 */
-const behaveLike = new BetterMap<number, 'Firefox' | 'Chromium'>();
+const behaveLike = new VMStorage<'Firefox' | 'Chromium'>(() => 'Firefox');
 const setNotificationCompat = (platform: 'Firefox' | 'Chromium') => {
-	behaveLike.set(getUserscriptId(), platform);
+	behaveLike.set(platform);
 };
 
 const shouldBehaveLikeFirefox = () => {
-	const platform = behaveLike.get(getUserscriptId());
+	const platform = behaveLike.get(true);
 	return platform === undefined || platform === 'Firefox';
 };
 
@@ -33,7 +32,7 @@ const enum NotificationStates {
 	removed,
 }
 
-const notifications = new BetterMap<number, Set<NotificationHandler>>();
+const notifications = new VMStorage<Set<NotificationHandler>>(() => new Set());
 
 class NotificationHandler {
 	text: string;
@@ -58,7 +57,7 @@ class NotificationHandler {
 			options.onclick?.call(undefined);
 		};
 
-		notifications.get(getUserscriptId(), () => new Set()).add(this);
+		notifications.get(true).add(this);
 
 		// Treat (Infinity,NaN,-Infinity) as never timing out
 		if (Number.isFinite(timeoutDuration)) {
@@ -123,7 +122,7 @@ class NotificationHandler {
 		});
 
 	private readonly cleanUp = () => {
-		notifications.get(getUserscriptId())?.delete(this);
+		notifications.get(false)?.delete(this);
 		this.state = NotificationStates.removed;
 
 		const {timeoutId} = this;
@@ -189,7 +188,7 @@ const selectorKeys = ['text', 'image', 'title'] as const;
 const findNotificationsBySelectors = (
 	selectors: Partial<Selectors>,
 ): NotificationHandler[] => {
-	const allNotifications = notifications.get(getUserscriptId());
+	const allNotifications = notifications.get(false);
 	if (!allNotifications) {
 		return [];
 	}

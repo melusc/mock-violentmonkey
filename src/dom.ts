@@ -1,14 +1,12 @@
 import got from 'got';
 
 import {JSDOM, DOMWindow} from 'jsdom';
-import {BetterMap} from './utils';
-import {getUserscriptId} from './violentmonkey-context';
+import {VMStorage} from './violentmonkey-context';
 
-const storedJSDOMs = new BetterMap<number, JSDOM>();
+const storedJSDOMs = new VMStorage<JSDOM>(() => new JSDOM('<!doctype html>'));
 
 /** @internal */
-export const getJSDOM = () =>
-	storedJSDOMs.get(getUserscriptId(), () => new JSDOM('<!doctype html>'));
+export const getJSDOM = () => storedJSDOMs.get(true);
 export const getWindow = () => getJSDOM().window;
 
 /**

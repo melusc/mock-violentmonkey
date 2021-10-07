@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 import {jsonStringify} from '../json-stringify';
-import {getUserscriptId} from '../violentmonkey-context';
+import {VMStorage} from '../violentmonkey-context';
 import {BetterMap} from '../utils';
 import {getTabId} from '../tab';
 
@@ -11,9 +11,9 @@ import {getTabId} from '../tab';
  */
 
 /* For getValue, setValue and all related functions */
-const storages = new BetterMap<number, BetterMap<string, string>>();
-
-const getStorage = () => storages.get(getUserscriptId(), () => new BetterMap());
+const storages = new VMStorage<BetterMap<string, string>>(
+	() => new BetterMap(),
+);
 
 type SetValue = (key: string, value: any) => void;
 /** Sets a key / value pair for current context to storage. */
@@ -22,16 +22,12 @@ const setValue: SetValue = (key, value) => {
 
 	const stringified = jsonStringify(value);
 
-	getStorage().set(key, stringified);
+	storages.get(true).set(key, stringified);
 
 	dispatchChange(key, oldValue, stringified);
 };
 
-const getRawValue = (key: string) => {
-	const storage = getStorage();
-
-	return storage.get(key);
-};
+const getRawValue = (key: string) => storages.get(false)?.get(key);
 
 type GetValue = <TValue>(key: string, defaultValue?: TValue) => TValue;
 /** Retrieves a value for current context from storage. */
@@ -53,14 +49,14 @@ type DeleteValue = (key: string) => void;
 const deleteValue: DeleteValue = key => {
 	const oldValue = getRawValue(key);
 
-	getStorage().delete(key);
+	storages.get(false)?.delete(key);
 
 	dispatchChange(key, oldValue);
 };
 
 type ListValues = () => string[];
 /** Returns an array of keys of all available values within this context. */
-const listValues: ListValues = () => [...getStorage().keys()];
+const listValues: ListValues = () => [...(storages.get(false)?.keys() ?? [])];
 
 type AddValueChangeListenerCallback = (
 	key: string,
@@ -79,13 +75,12 @@ type AddValueChangeListenerCallback = (
  * >
  * ```
  */
-const valueChangeCallbacksStore = new BetterMap<
-	number,
+const valueChangeCallbacksStore = new VMStorage<
 	BetterMap<
 		string,
 		BetterMap<string, [tabId: number, callback: AddValueChangeListenerCallback]>
 	>
->();
+>(() => new BetterMap());
 
 type AddValueChangeListener = (
 	name: string,
@@ -93,12 +88,7 @@ type AddValueChangeListener = (
 ) => string;
 /** Adds a change listener to the storage and returns the listener ID. */
 const addValueChangeListener: AddValueChangeListener = (key, callback) => {
-	const id = getUserscriptId();
-
-	const currentContextCallbacks = valueChangeCallbacksStore.get(
-		id,
-		() => new BetterMap(),
-	);
+	const currentContextCallbacks = valueChangeCallbacksStore.get(true);
 
 	const namedStorageCallbacks = currentContextCallbacks.get(
 		key,
@@ -114,9 +104,7 @@ const addValueChangeListener: AddValueChangeListener = (key, callback) => {
 type RemoveValueChangeListener = (listenerId: string) => void;
 /** Removes a change listener by its ID. */
 const removeValueChangeListener: RemoveValueChangeListener = listenerId => {
-	const currentContextCallbacks = valueChangeCallbacksStore.get(
-		getUserscriptId(),
-	);
+	const currentContextCallbacks = valueChangeCallbacksStore.get(false);
 
 	if (!currentContextCallbacks) {
 		return;
@@ -134,8 +122,7 @@ const dispatchChange = (key: string, oldValue?: string, newValue?: string) => {
 		return;
 	}
 
-	const id = getUserscriptId();
-	const currentContextCallbacks = valueChangeCallbacksStore.get(id);
+	const currentContextCallbacks = valueChangeCallbacksStore.get(false);
 	const namedStorageCallbacks = currentContextCallbacks?.get(key);
 
 	if (!namedStorageCallbacks) {

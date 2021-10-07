@@ -1,15 +1,14 @@
 import {Blob} from 'node:buffer';
 import got from 'got';
 import {BetterMap} from '../utils';
-import {getUserscriptId} from '../violentmonkey-context';
+import {VMStorage} from '../violentmonkey-context';
 
-const contextResources = new BetterMap<
-	number,
+const contextResources = new VMStorage<
 	BetterMap<string, {url: string; text: string}>
->();
+>(() => new BetterMap());
 
 const getResourceObject = (name: string) =>
-	contextResources.get(getUserscriptId(), () => new BetterMap()).get(name);
+	contextResources.get(true).get(name);
 
 const setResource = async (name: string, url: string) => {
 	// Throw early if it's an obviously invalid url
@@ -18,12 +17,10 @@ const setResource = async (name: string, url: string) => {
 	const blob = new Blob([response.body], {type: contentType});
 	const blobURL = URL.createObjectURL(blob);
 
-	contextResources
-		.get(getUserscriptId(), () => new BetterMap())
-		.set(name, {
-			url: blobURL,
-			text: response.body,
-		});
+	contextResources.get(true).set(name, {
+		url: blobURL,
+		text: response.body,
+	});
 };
 
 type GetResourceText = (name: string) => string | undefined;
