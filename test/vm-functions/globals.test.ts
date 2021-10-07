@@ -10,6 +10,7 @@ import {
 	AddStyle,
 	Notification,
 	SetClipboard,
+	OpenInTab,
 	GM as GM_,
 	GM_setValue as GM_setValue_imported,
 	GM_getValue as GM_getValue_imported,
@@ -19,6 +20,7 @@ import {
 	GM_addStyle as GM_addStyle_imported,
 	GM_notification as GM_notification_imported,
 	GM_setClipboard as GM_setClipboard_imported,
+	GM_openInTab as GM_openInTab_imported,
 } from '../../src';
 
 declare const GM_setValue: SetValue;
@@ -28,6 +30,7 @@ declare const GM_listValues: ListValues;
 declare const GM_addStyle: AddStyle;
 declare const GM_notification: Notification;
 declare const GM_setClipboard: SetClipboard;
+declare const GM_openInTab: OpenInTab;
 declare const GM: typeof GM_;
 
 declare const GM_info: ScriptInfo;
@@ -94,6 +97,11 @@ test('GM_notification should exist as a global function', t => {
 test('GM_setClipboard should exist as a global function', t => {
 	t.is(GM_setClipboard, GM_setClipboard_imported);
 	t.is(typeof GM_setClipboard, 'function');
+});
+
+test('GM_openInTab should exist as a global function', t => {
+	t.is(GM_openInTab, GM_openInTab_imported);
+	t.is(typeof GM_openInTab, 'function');
 });
 
 test('GM should exist as a global', t => {

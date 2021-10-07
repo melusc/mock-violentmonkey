@@ -14,6 +14,7 @@ import {GM_info, ScriptInfo} from './info';
 import {GM_addStyle, AddStyle} from './add-style';
 import {GM_notification, Notification} from './notification';
 import {GM_setClipboard, SetClipboard} from './clipboard';
+import {GM_openInTab, OpenInTab} from './open-in-tab';
 
 // GM.getResourceText doesn't exist
 import {GM_getResourceURL, GetResourceURL} from './resource';
@@ -31,6 +32,7 @@ type GM_type = Readonly<{
 	getResourceURL: MakeFunctionAsync<GetResourceURL>;
 	notification: Notification;
 	setClipboard: SetClipboard;
+	openInTab: OpenInTab;
 	info: ScriptInfo;
 }>;
 
@@ -68,6 +70,9 @@ const GM = Object.defineProperties<GM_type>({} as any, {
 	},
 	setClipboard: {
 		value: GM_setClipboard,
+	},
+	openInTab: {
+		value: GM_openInTab,
 	},
 	info: {
 		get: GM_info,

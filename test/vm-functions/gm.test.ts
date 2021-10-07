@@ -11,6 +11,7 @@ import {
 	violentMonkeyContext,
 	GM_notification,
 	GM_setClipboard,
+	GM_openInTab,
 } from '../../src';
 
 const pNextTick = async () =>
@@ -86,6 +87,11 @@ test('GM.notification should behave like GM_notification', t => {
 test('GM.setClipboard should behave like GM_setClipboard', t => {
 	t.is(GM.setClipboard, GM_setClipboard);
 	t.is(typeof GM.setClipboard, 'function');
+});
+
+test('GM.openInTab should behave like GM_openInTab', t => {
+	t.is(GM.openInTab, GM_openInTab);
+	t.is(typeof GM.openInTab, 'function');
 });
 
 test(
