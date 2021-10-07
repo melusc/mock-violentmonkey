@@ -32,7 +32,7 @@ test(
 );
 
 test(
-	'Shouldn\'t throw when never registering a command',
+	"Shouldn't throw when never registering a command",
 	violentMonkeyContext(t => {
 		t.notThrows(() => {
 			triggerMenuCommand('caption');

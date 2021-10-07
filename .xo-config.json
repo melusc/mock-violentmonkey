@@ -2,7 +2,16 @@
 	"overrides": [
 		{
 			"files": ["**/*.ts"],
-			"rules": {"@typescript-eslint/indent": "off"}
+			"rules": {
+				"@typescript-eslint/indent": "off",
+				"@typescript-eslint/quotes": [
+					"error",
+					"single",
+					{
+						"avoidEscape": true
+					}
+				]
+			}
 		}
 	],
 	"rules": {
