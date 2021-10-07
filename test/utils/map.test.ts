@@ -24,7 +24,10 @@ test('BetterMap should return and set the default value', t => {
 	t.false(map.has('f'));
 
 	t.is(map.get('f'), undefined);
-	t.is(map.get('f', () => 1), 1);
+	t.is(
+		map.get('f', () => 1),
+		1,
+	);
 	t.is(map.get('f'), 1);
 
 	t.true(map.has('f'));
