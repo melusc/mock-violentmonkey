@@ -8,8 +8,8 @@ class BetterMap<K, V> extends Map<K, V> {
 	 * If that value does not exist it sets the result of `getDefaultValue()` and returns that.
 	 */
 	override get: {
+		(key: K): V | undefined;
 		(key: K, getDefaultValue: () => V): V;
-		(key: K, getDefaultValue?: undefined): V | undefined;
 	} = (key, getDefaultValue?: () => V) => {
 		if (!this.has(key) && getDefaultValue !== undefined) {
 			const value = getDefaultValue();
