@@ -10,6 +10,7 @@ import {
 	GM_addStyle,
 	violentMonkeyContext,
 	GM_notification,
+	GM_setClipboard,
 } from '../../src';
 
 const pNextTick = async () =>
@@ -70,16 +71,21 @@ test(
 );
 
 test(
-	'GM.addStyle behave equally to GM_addStyle',
+	'GM.addStyle should behave like GM_addStyle',
 	violentMonkeyContext(t => {
 		t.is(GM.addStyle, GM_addStyle);
 		t.is(typeof GM.addStyle('').id, 'string');
 	}),
 );
 
-test('GM.notification behave like GM_notification', t => {
+test('GM.notification should behave like GM_notification', t => {
 	t.is(GM.notification, GM_notification);
 	t.is(typeof GM.notification, 'function');
+});
+
+test('GM.setClipboard should behave like GM_setClipboard', t => {
+	t.is(GM.setClipboard, GM_setClipboard);
+	t.is(typeof GM.setClipboard, 'function');
 });
 
 test(

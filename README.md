@@ -72,7 +72,7 @@ test(
 | [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)             | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
-| [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ❌      |                                                                                                                                                                                                                    |
+| [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ✔️      | This doesn't actually set the clipboard.                                                                                                                                                                           |
 | [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ❌      |                                                                                                                                                                                                                    |
 | [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ❌      |                                                                                                                                                                                                                    |
 
@@ -195,6 +195,14 @@ This allows you to have `GM_notification` / `GM.notification` behave like with F
 
 ```ts
 type SetNotificationCompat = (platform: 'Firefox' | 'Chromium') => void;
+```
+
+### getClipboard
+
+This allows you to get the current clipboard value for the current context.
+
+```ts
+type GetClipbard = () => {data: string; type: string} | undefined;
 ```
 
 ## License

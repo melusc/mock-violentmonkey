@@ -13,6 +13,7 @@ import {
 import {GM_info, ScriptInfo} from './info';
 import {GM_addStyle, AddStyle} from './add-style';
 import {GM_notification, Notification} from './notification';
+import {GM_setClipboard, SetClipboard} from './clipboard';
 
 // GM.getResourceText doesn't exist
 import {GM_getResourceURL, GetResourceURL} from './resource';
@@ -51,6 +52,9 @@ const GM_ = Object.defineProperties(
 		notification: {
 			value: GM_notification,
 		},
+		setClipboard: {
+			value: GM_setClipboard,
+		},
 		info: {
 			get: GM_info,
 		},
@@ -73,5 +77,6 @@ export const GM = GM_ as Readonly<{
 	addStyle: AddStyle;
 	getResourceURL: MakeFunctionAsync<GetResourceURL>;
 	notification: Notification;
+	setClipboard: SetClipboard;
 	info: ScriptInfo;
 }>;
