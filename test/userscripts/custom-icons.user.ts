@@ -1,6 +1,6 @@
 // Taken and adapted from https://github.com/melusc/moodle_userscripts/blob/705d87f64fff2b3218b01b3febd5bacaa0367d88/src/Custom%20Icons/shared.ts#L211-L223
 
-export const updateDeprecatedSplitDataURI = (uuid: string): string => {
+const updateDeprecatedSplitDataURI = (uuid: string): string => {
 	const values = GM_getValue<
 		Record<string, {mediaType: string; rawByteString: string}> | undefined
 	>('values');
@@ -22,3 +22,5 @@ export const updateDeprecatedSplitDataURI = (uuid: string): string => {
 
 	return dataURI;
 };
+
+export {updateDeprecatedSplitDataURI};

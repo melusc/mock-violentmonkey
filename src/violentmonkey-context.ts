@@ -38,7 +38,7 @@ const violentMonkeyContext
 		asyncLocalStorage.run(++idSeq, cb, ...args);
 
 /** @internal */
-export class VMStorage<V> {
+class VMStorage<V> {
 	private readonly storages = new BetterMap<number, V>();
 
 	constructor(private readonly getDefaultValue: () => V) {}
@@ -55,4 +55,4 @@ export class VMStorage<V> {
 	set = (value: V) => this.storages.set(getUserscriptId(), value);
 }
 
-export {violentMonkeyContext, getUserscriptId};
+export {violentMonkeyContext, getUserscriptId, VMStorage};

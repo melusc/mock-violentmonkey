@@ -6,13 +6,13 @@ import {VMStorage} from './violentmonkey-context';
 const storedJSDOMs = new VMStorage<JSDOM>(() => new JSDOM('<!doctype html>'));
 
 /** @internal */
-export const getJSDOM = () => storedJSDOMs.get(true);
-export const getWindow = () => getJSDOM().window;
+const getJSDOM = () => storedJSDOMs.get(true);
+const getWindow = () => getJSDOM().window;
 
 /**
  * Load the page at the given url to the dom
  */
-export const loadURLToDom = async (url: string) => {
+const loadURLToDom = async (url: string) => {
 	// Convert to a URL instance to throw early on obviously invalid urls
 	const body = await got(new URL(url));
 
@@ -22,7 +22,7 @@ export const loadURLToDom = async (url: string) => {
 /**
  * Set document.documentElement.outerHTML to passed string
  */
-export const loadStringToDom = (outerHTML: string) => {
+const loadStringToDom = (outerHTML: string) => {
 	getWindow().document.documentElement.innerHTML = outerHTML;
 };
 
@@ -47,3 +47,5 @@ for (const key of JSDomGlobalsKeys) {
 		get: (): any => getWindow()[key],
 	});
 }
+
+export {getWindow, getJSDOM, loadURLToDom, loadStringToDom};

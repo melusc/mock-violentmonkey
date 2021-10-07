@@ -5,7 +5,7 @@ const tabIds = new AsyncLocalStorage<number>();
 /**
  * @internal
  */
-export const getTabId = () => tabIds.getStore() ?? 0;
+const getTabId = () => tabIds.getStore() ?? 0;
 
 // 0 is for no tab
 let idSeq = 1;
@@ -14,5 +14,6 @@ let idSeq = 1;
  *
  * @returns Returns what the callback returns
  */
-export const tabContext = <ReturnV>(cb: () => ReturnV) =>
-	tabIds.run(++idSeq, cb);
+const tabContext = <ReturnV>(cb: () => ReturnV) => tabIds.run(++idSeq, cb);
+
+export {getTabId, tabContext};

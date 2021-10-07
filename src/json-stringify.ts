@@ -19,7 +19,7 @@ const escRE = /[\\"\u0000-\u001F\u2028\u2029]/g;
 const escFunc = (m: string) =>
 	escMap[m] ?? `\\u${m.charCodeAt(0).toString(16).padStart(4, '0')}`;
 
-export const jsonStringify = (value: unknown): string => {
+const jsonStringify = (value: unknown): string => {
 	/* We're not testing for cyclic object values
 	 * since violentmonkey doesn't either
 	 * That's why we just let it throw from too much recursion
@@ -57,3 +57,5 @@ export const jsonStringify = (value: unknown): string => {
 	const escapedString = String.prototype.replace.call(value, escRE, escFunc);
 	return `"${escapedString}"`;
 };
+
+export {jsonStringify};
