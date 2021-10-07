@@ -10,6 +10,7 @@ import {
 	AddStyle,
 	Notification,
 	SetClipboard,
+	GM as GM_,
 	GM_setValue as GM_setValue_imported,
 	GM_getValue as GM_getValue_imported,
 	GM_deleteValue as GM_deleteValue_imported,
@@ -27,6 +28,7 @@ declare const GM_listValues: ListValues;
 declare const GM_addStyle: AddStyle;
 declare const GM_notification: Notification;
 declare const GM_setClipboard: SetClipboard;
+declare const GM: typeof GM_;
 
 declare const GM_info: ScriptInfo;
 
@@ -92,6 +94,11 @@ test('GM_notification should exist as a global function', t => {
 test('GM_setClipboard should exist as a global function', t => {
 	t.is(GM_setClipboard, GM_setClipboard_imported);
 	t.is(typeof GM_setClipboard, 'function');
+});
+
+test('GM should exist as a global', t => {
+	t.is(GM, GM_);
+	t.is(typeof GM, 'object');
 });
 
 test(
