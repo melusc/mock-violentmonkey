@@ -1,16 +1,10 @@
 import {VMStorage} from '../violentmonkey-context';
 
-class Tab {
-	constructor(
-		readonly url: string,
-		readonly options: Readonly<Required<OpenInTabOptions>>,
-		private readonly onClose: () => void,
-	) {}
-
-	close = () => {
-		this.onClose();
-	};
-}
+type Tab = Readonly<{
+	url: string;
+	options: Required<OpenInTabOptions>;
+	close: () => void;
+}>;
 
 const allTabs = new VMStorage<Set<Tab>>(() => new Set());
 
@@ -18,7 +12,7 @@ type OpenInTabOptions = {
 	active?: boolean | undefined;
 	container?: number | undefined;
 	insert?: boolean | undefined;
-	pinned?: boolean;
+	pinned?: boolean | undefined;
 };
 type OpenInTab = (
 	url: string,
@@ -29,34 +23,38 @@ type OpenInTab = (
 	close: () => void;
 };
 
-const openInTab: OpenInTab = (url, options = {}) => {
-	options
-		= typeof options === 'boolean'
-			? {
-					active: !options,
-			  }
-			: options;
+const toFullOptions = (
+	options: OpenInTabOptions | boolean | undefined,
+): Required<OpenInTabOptions> => {
+	options ??= {};
+	options = typeof options === 'boolean' ? {active: !options} : options;
 
-	const fullOptions: Required<OpenInTabOptions> = {
+	return {
 		active: options.active ?? true,
 		container: options.container ?? 0,
 		insert: options.insert ?? true,
 		pinned: options.pinned ?? false,
 	};
+};
 
-	const onClose = () => {
+const openInTab: OpenInTab = (url, options) => {
+	const close = () => {
 		allTabs.get(true).delete(tab);
 		returnValue.closed = true;
 		returnValue.onclose?.();
 	};
 
-	const tab = new Tab(url, fullOptions, onClose);
+	const tab: Tab = {
+		url,
+		options: toFullOptions(options),
+		close,
+	};
 	allTabs.get(true).add(tab);
 
 	const returnValue: ReturnType<OpenInTab> = {
 		onclose: null,
 		closed: false,
-		close: tab.close,
+		close,
 	};
 
 	return returnValue;

@@ -68,7 +68,7 @@ test(
 | [`GM_getResourceText`](https://violentmonkey.github.io/api/gm/#gm_getresourcetext)                     | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_getResourceURL` / `GM.getResourceURL`](https://violentmonkey.github.io/api/gm/#gm_getresourceurl) | ✔️      | This returns an object url, which cannot be fetched with regular http libs in node, use `GM_getResourceText` instead.                                                                                              |
 | [`GM_addStyle` / `GM.addStyle`](https://violentmonkey.github.io/api/gm/#gm_addstyle)                   | ✔️      |                                                                                                                                                                                                                    |
-| [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                | ❌      |                                                                                                                                                                                                                    |
+| [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)             | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
@@ -203,6 +203,27 @@ This allows you to get the current clipboard value for the current context.
 
 ```ts
 type GetClipbard = () => {data: string; type: string} | undefined;
+```
+
+### getTabs
+
+This allows you to see all open tabs and close them or see the resolved options.
+
+If url is undefined, it returns all tabs.
+
+```ts
+type GetTabs = (url?: string | RegExp) => Tab[];
+
+type Tab = {
+	close: () => void;
+	url: string;
+	options: {
+		active: boolean;
+		container: number;
+		insert: boolean;
+		pinned: boolean;
+	};
+};
 ```
 
 ## License
