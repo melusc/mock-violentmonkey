@@ -10,7 +10,8 @@
 					{
 						"avoidEscape": true
 					}
-				]
+				],
+				"@typescript-eslint/naming-convention": "off"
 			}
 		}
 	],
