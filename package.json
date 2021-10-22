@@ -64,6 +64,6 @@
 		"follow-redirects": "^1.14.4",
 		"got": "^11.8.2",
 		"jsdom": "^18.0.0",
-		"type-fest": "^2.5.0"
+		"type-fest": "^2.5.1"
 	}
 }
