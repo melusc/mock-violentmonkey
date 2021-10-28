@@ -80,5 +80,7 @@ test(
 		storage.set('not default');
 		t.is(storage.get(false), 'not default');
 		t.is(storage.get(true), 'not default');
+
+		t.is(storage.set('aaa'), storage);
 	}),
 );

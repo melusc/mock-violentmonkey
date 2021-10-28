@@ -52,7 +52,10 @@ class VMStorage<V> {
 			(setDefault ? this.getDefaultValue : undefined)!,
 		);
 
-	set = (value: V) => this.storages.set(getUserscriptId(), value);
+	set = (value: V) => {
+		this.storages.set(getUserscriptId(), value);
+		return this;
+	};
 }
 
 export {violentMonkeyContext, getUserscriptId, VMStorage};
