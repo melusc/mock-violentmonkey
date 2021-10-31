@@ -12,6 +12,7 @@ import {
 	GM_notification,
 	GM_setClipboard,
 	GM_openInTab,
+	GM_xmlhttpRequest,
 } from '../../src';
 
 const pNextTick = async () =>
@@ -92,6 +93,11 @@ test('GM.setClipboard should behave like GM_setClipboard', t => {
 test('GM.openInTab should behave like GM_openInTab', t => {
 	t.is(GM.openInTab, GM_openInTab);
 	t.is(typeof GM.openInTab, 'function');
+});
+
+test('GM.xmlHttpRequest should behave like GM_xmlhttpRequest', t => {
+	t.is(GM.xmlHttpRequest, GM_xmlhttpRequest);
+	t.is(typeof GM.xmlHttpRequest, 'function');
 });
 
 test(

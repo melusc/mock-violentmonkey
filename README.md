@@ -73,7 +73,7 @@ test(
 | [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
 | [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ✔️      | This doesn't actually set the clipboard.                                                                                                                                                                           |
-| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ❌      |                                                                                                                                                                                                                    |
+| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ✔️      | Should be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                       |
 | [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ❌      |                                                                                                                                                                                                                    |
 
 The `GM_*` and `GM.*` api is added to the global scope so that userscripts have access to them.
@@ -237,6 +237,39 @@ This is, however, not aware of violentmonkey-contexts, so calling it once at the
 console.log(typeof FormData); // undefined
 enableDomGlobal('FormData');
 console.log(typeof FormData); // function
+```
+
+### setBaseUrl
+
+If your code should behave differently depending on the location, you can set the location with `setBaseUrl`.
+If not called, it defaults to `http://localhost:5000/`;
+
+This should run before calling `GM_xmlhttpRequest`,
+`getWindow` or other functions reliant on jsdom,
+ideally at the beginning of the vm context.
+
+```js
+test(
+	'setBaseUrl before',
+	violentMonkeyContext(t => {
+		setBaseUrl('https://google.com/');
+
+		console.log(getWindow().location.href); // https://google.com/
+	}),
+);
+
+test(
+	'setBaseUrl after',
+	violentMonkeyContext(t => {
+		// Initialise the window.
+		getWindow();
+
+		// The window is already initialised, changing the baseUrl doesn't do anything
+		setBaseUrl('https://google.com/');
+
+		console.log(getWindow().location.href); // http:localhost:5000/
+	}),
+);
 ```
 
 ## License

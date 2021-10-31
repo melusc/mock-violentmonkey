@@ -7,3 +7,4 @@ export * from './menu-command';
 export * from './notification';
 export * from './clipboard';
 export * from './open-in-tab';
+export * from './xmlhttprequest';

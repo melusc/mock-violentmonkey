@@ -11,6 +11,7 @@ import {
 	Notification,
 	SetClipboard,
 	OpenInTab,
+	XmlHttpRequest,
 	GM as GM_,
 	GM_setValue as GM_setValue_imported,
 	GM_getValue as GM_getValue_imported,
@@ -21,6 +22,7 @@ import {
 	GM_notification as GM_notification_imported,
 	GM_setClipboard as GM_setClipboard_imported,
 	GM_openInTab as GM_openInTab_imported,
+	GM_xmlhttpRequest as GM_xmlhttpRequest_imported,
 } from '../../src';
 
 declare const GM_setValue: SetValue;
@@ -31,6 +33,7 @@ declare const GM_addStyle: AddStyle;
 declare const GM_notification: Notification;
 declare const GM_setClipboard: SetClipboard;
 declare const GM_openInTab: OpenInTab;
+declare const GM_xmlhttpRequest: XmlHttpRequest;
 declare const GM: typeof GM_;
 
 declare const GM_info: ScriptInfo;
@@ -102,6 +105,11 @@ test('GM_setClipboard should exist as a global function', t => {
 test('GM_openInTab should exist as a global function', t => {
 	t.is(GM_openInTab, GM_openInTab_imported);
 	t.is(typeof GM_openInTab, 'function');
+});
+
+test('GM_xmlHttpRequest should exist as a global function', t => {
+	t.is(GM_xmlhttpRequest, GM_xmlhttpRequest_imported);
+	t.is(typeof GM_xmlhttpRequest, 'function');
 });
 
 test('GM should exist as a global', t => {

@@ -305,13 +305,17 @@ class XMLHttpRequest {
 	 * @return string A string with all response headers separated by CR+LF
 	 */
 	getAllResponseHeaders = () => {
-		if (this.readyState < this.HEADERS_RECEIVED || this.#errorFlag) {
+		if (
+			this.readyState < this.HEADERS_RECEIVED
+			|| this.#errorFlag
+			|| this.#response?.headers === undefined
+		) {
 			return '';
 		}
 
 		const result = [];
 
-		for (const [key, value] of Object.entries(this.#response!.headers)) {
+		for (const [key, value] of Object.entries(this.#response.headers)) {
 			result.push(`${key}: ${value!.toString()}`);
 		}
 
@@ -419,7 +423,6 @@ class XMLHttpRequest {
 			this.responseURL = '';
 			this.#handleError();
 		} else if (method === 'GET') {
-			// eslint-disable-next-line promise/prefer-await-to-then
 			void blob.arrayBuffer().then(ab => {
 				this.#simulateEventsWith(Buffer.from(ab), blob.type, url, {
 					extraProgressEvent: false,

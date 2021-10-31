@@ -2,8 +2,14 @@ import got from 'got';
 
 import {JSDOM, DOMWindow} from 'jsdom';
 import {VMStorage} from './vm-storage';
+import {getBaseUrl} from './base-url';
 
-const storedJSDOMs = new VMStorage<JSDOM>(() => new JSDOM('<!doctype html>'));
+const storedJSDOMs = new VMStorage<JSDOM>(
+	() =>
+		new JSDOM('<!doctype html>', {
+			url: getBaseUrl().href,
+		}),
+);
 
 /** @internal */
 const getJSDOM = () => storedJSDOMs.get(true);

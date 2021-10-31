@@ -8,6 +8,7 @@ import {
 	violentMonkeyContext,
 	enableDomGlobal,
 } from '../src';
+import {setBaseUrl} from '../src/base-url';
 
 // Globals
 declare const window: DOMWindow;
@@ -101,7 +102,12 @@ test(
 test(
 	'Simple dom operations',
 	violentMonkeyContext(t => {
-		const {document, DocumentType} = getWindow();
+		setBaseUrl('http://domain.localhost:4321');
+
+		const {document, DocumentType, location} = getWindow();
+
+		t.is(document.URL, 'http://domain.localhost:4321/');
+		t.is(location.href, 'http://domain.localhost:4321/');
 
 		document.body.append(document.createElement('a'));
 
