@@ -1,7 +1,7 @@
 import {Blob} from 'node:buffer';
-import got from 'got';
 import {BetterMap} from '../utils';
 import {VMStorage} from '../vm-storage';
+import {XMLHttpRequest} from '../xmlhttprequest';
 
 const contextResources = new VMStorage<
 	BetterMap<string, {url: string; text: string}>
@@ -14,18 +14,33 @@ const setResource = async (name: string, url: string) => {
 	url = url.trim();
 
 	if (!url.startsWith('http://') && !url.startsWith('https://')) {
-		throw new Error(`Expected an http(s) url, got ${url} instead`);
+		throw new Error(`Expected an absolute http url, got ${url} instead`);
 	}
 
 	// Throw early if it's an obviously invalid url
-	const response = await got(new URL(url));
-	const contentType = response.headers['content-type'] ?? 'text/plain';
-	const blob = new Blob([response.body], {type: contentType});
-	const blobURL = URL.createObjectURL(blob);
+	url = new URL(url).href;
 
-	contextResources.get(true).set(name, {
-		url: blobURL,
-		text: response.body,
+	await new Promise<void>((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr.addEventListener('load', () => {
+			const contentType
+				= (xhr.getResponseHeader('content-type') as string | undefined)
+				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+				|| 'text/plain';
+			const blob = new Blob([xhr.responseBuffer], {type: contentType});
+			const blobURL = URL.createObjectURL(blob);
+
+			contextResources.get(true).set(name, {
+				url: blobURL,
+				text: xhr.responseBuffer.toString(),
+			});
+
+			resolve();
+		});
+
+		xhr.addEventListener('error', reject);
+		xhr.open('get', url);
+		xhr.send();
 	});
 };
 

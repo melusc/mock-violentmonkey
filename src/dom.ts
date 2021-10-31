@@ -1,8 +1,7 @@
-import got from 'got';
-
 import {JSDOM, DOMWindow} from 'jsdom';
 import {VMStorage} from './vm-storage';
 import {getBaseUrl} from './base-url';
+import {XMLHttpRequest} from './xmlhttprequest';
 
 const storedJSDOMs = new VMStorage<JSDOM>(
 	() =>
@@ -20,9 +19,22 @@ const getWindow = () => getJSDOM().window;
  */
 const loadURLToDom = async (url: string) => {
 	// Convert to a URL instance to throw early on obviously invalid urls
-	const body = await got(new URL(url));
+	url = new URL(url).href;
 
-	loadStringToDom(body.body);
+	const xhr = new XMLHttpRequest({
+		base: getBaseUrl(),
+	});
+
+	await new Promise<void>((resolve, reject) => {
+		xhr.addEventListener('load', () => {
+			loadStringToDom(xhr.responseBuffer.toString());
+			resolve();
+		});
+		xhr.addEventListener('error', reject);
+
+		xhr.open('get', new URL(url).href);
+		xhr.send();
+	});
 };
 
 /**
