@@ -1,4 +1,4 @@
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 /*
 	Because Firefox and Chromium don't behave the same,

@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 import {jsonStringify} from '../json-stringify';
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 import {BetterMap} from '../utils';
 import {getTabId} from '../tab';
 

@@ -1,5 +1,5 @@
 import {BetterMap} from '../utils';
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 const menuCommands = new VMStorage<BetterMap<string, () => void>>(
 	() => new BetterMap(),

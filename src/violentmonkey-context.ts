@@ -1,8 +1,6 @@
 // https://nodejs.org/api/async_context.html
 import {AsyncLocalStorage} from 'node:async_hooks';
 
-import {BetterMap} from './utils';
-
 const asyncLocalStorage = new AsyncLocalStorage<number>();
 
 /* Abstract away AsyncLocalStorage#getStore to allow for error handling directly */
@@ -37,25 +35,4 @@ const violentMonkeyContext
 	(...args: Args) =>
 		asyncLocalStorage.run(++idSeq, cb, ...args);
 
-/** @internal */
-class VMStorage<V> {
-	private readonly storages = new BetterMap<number, V>();
-
-	constructor(private readonly getDefaultValue: () => V) {}
-
-	get: {
-		(setDefault: true): V;
-		(setDefault: false): V | undefined;
-	} = setDefault =>
-		this.storages.get(
-			getUserscriptId(),
-			(setDefault ? this.getDefaultValue : undefined)!,
-		);
-
-	set = (value: V) => {
-		this.storages.set(getUserscriptId(), value);
-		return this;
-	};
-}
-
-export {violentMonkeyContext, getUserscriptId, VMStorage};
+export {violentMonkeyContext, getUserscriptId};

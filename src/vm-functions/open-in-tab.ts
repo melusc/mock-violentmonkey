@@ -1,4 +1,4 @@
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 type Tab = Readonly<{
 	url: string;

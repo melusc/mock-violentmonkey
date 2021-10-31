@@ -1,7 +1,7 @@
 import {Blob} from 'node:buffer';
 import got from 'got';
 import {BetterMap} from '../utils';
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 const contextResources = new VMStorage<
 	BetterMap<string, {url: string; text: string}>

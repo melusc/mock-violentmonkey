@@ -1,7 +1,7 @@
 import got from 'got';
 
 import {JSDOM, DOMWindow} from 'jsdom';
-import {VMStorage} from './violentmonkey-context';
+import {VMStorage} from './vm-storage';
 
 const storedJSDOMs = new VMStorage<JSDOM>(() => new JSDOM('<!doctype html>'));
 

@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 import {PartialDeep} from 'type-fest';
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 type ScriptInfo = {
 	/** A unique ID of the script. */

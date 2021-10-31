@@ -1,4 +1,4 @@
-import {VMStorage} from '../violentmonkey-context';
+import {VMStorage} from '../vm-storage';
 
 const clipboardDataStorage = new VMStorage<{data: string; type: string}>(
 	() => ({data: '', type: 'text/plain'}),
