@@ -7,7 +7,7 @@ import {XMLHttpRequest} from '../../src/xmlhttprequest';
 import {createServer} from '../_helpers';
 
 test('request and response headers', async t => {
-	t.plan(14);
+	t.plan(13);
 
 	const {port, server} = await createServer((request, response) => {
 		// Test setRequestHeader
@@ -78,9 +78,6 @@ test('request and response headers', async t => {
 
 		// Test getRequestHeader
 		t.is(xhr.getRequestHeader('X-Test'), 'Foobar');
-
-		// Invalid header
-		t.false(xhr.setRequestHeader('Content-Length', 0));
 
 		// Test invalid header
 		t.is(xhr.getRequestHeader('Content-Length'), '');

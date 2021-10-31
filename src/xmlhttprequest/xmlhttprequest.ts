@@ -62,25 +62,11 @@ const defaultHeaders = {
 	Accept: '*/*',
 };
 
-// These headers are not user setable.
-// The following are allowed but banned in the spec:
-// * user-agent
+// Only these headers should be forbidden
+// (not xhr spec compliant, but GM_xmlhttpRequest allows them)
 const forbiddenRequestHeaders = new Set([
-	'accept-charset',
 	'accept-encoding',
-	'access-control-request-headers',
-	'access-control-request-method',
-	'connection',
-	'content-length',
 	'content-transfer-encoding',
-	'date',
-	'expect',
-	'keep-alive',
-	'te',
-	'trailer',
-	'transfer-encoding',
-	'upgrade',
-	'via',
 ]);
 
 // These request methods are not allowed

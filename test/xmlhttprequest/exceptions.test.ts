@@ -61,7 +61,7 @@ test('GET should not throw ', t => {
 });
 
 test('Setting forbidden headers should return false', t => {
-	t.plan(17);
+	t.plan(4);
 
 	const xhr = new XMLHttpRequest();
 
@@ -77,30 +77,15 @@ test('Setting forbidden headers should return false', t => {
 	xhr.open('GET', 'https://localhost:8000');
 
 	// Test forbidden headers
-	const forbiddenRequestHeaders = [
-		'accept-charset',
-		'accept-encoding',
-		'access-control-request-headers',
-		'access-control-request-method',
-		'connection',
-		'content-length',
-		'content-transfer-encoding',
-		'date',
-		'expect',
-		'keep-alive',
-		'te',
-		'trailer',
-		'transfer-encoding',
-		'upgrade',
-		'via',
-	];
+	t.false(
+		xhr.setRequestHeader('content-transfer-encoding', 'Test'),
+		'Error: content-transfer-encoding should have returned false',
+	);
+	t.false(
+		xhr.setRequestHeader('accept-encoding', 'Test'),
+		'Error: accept-encoding should have returned false',
+	);
 
-	for (const forbiddenHeader of forbiddenRequestHeaders) {
-		t.false(
-			xhr.setRequestHeader(forbiddenHeader, 'Test'),
-			`ERROR: ${forbiddenHeader} should have returned false`,
-		);
-	}
-
+	// Allowed header
 	t.true(xhr.setRequestHeader('x-foobar', 'test'));
 });
