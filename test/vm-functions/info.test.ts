@@ -134,6 +134,6 @@ test(
 		t.true(current.includes.includes('includes1'));
 		t.true(current.excludes.includes('excludes1'));
 		t.true(current.matches.includes('matches1'));
-		t.truthy(current.resources.find(resouce => resouce.name === 'name1'));
+		t.truthy(current.resources.find(resource => resource.name === 'name1'));
 	}),
 );
