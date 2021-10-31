@@ -11,6 +11,12 @@ const getResourceObject = (name: string) =>
 	contextResources.get(true).get(name);
 
 const setResource = async (name: string, url: string) => {
+	url = url.trim();
+
+	if (!url.startsWith('http://') && !url.startsWith('https://')) {
+		throw new Error(`Expected an http(s) url, got ${url} instead`);
+	}
+
 	// Throw early if it's an obviously invalid url
 	const response = await got(new URL(url));
 	const contentType = response.headers['content-type'] ?? 'text/plain';
