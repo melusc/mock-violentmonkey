@@ -226,6 +226,19 @@ type Tab = {
 };
 ```
 
+### enableDomGlobal
+
+Instead of polluting the global namespace, this allows you to only enable whatever is required.
+Only `document` and `window` are added to the global namespace by default.
+
+This is, however, not aware of violentmonkey-contexts, so calling it once at the start of the file is enough.
+
+```js
+console.log(typeof FormData); // undefined
+enableDomGlobal('FormData');
+console.log(typeof FormData); // function
+```
+
 ## License
 
 MIT

@@ -6,24 +6,34 @@ import {
 	loadStringToDom,
 	loadURLToDom,
 	violentMonkeyContext,
+	enableDomGlobal,
 } from '../src';
 
 // Globals
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-declare class Blob {}
 declare const window: DOMWindow;
 declare const document: Document;
 
 test(
 	'globals',
 	violentMonkeyContext(t => {
-		t.is(Blob, getWindow().Blob);
-		t.is(typeof new Blob(), 'object');
 		t.is(window, getWindow());
 		t.is(typeof window, 'object');
 		t.is(typeof document, 'object');
 		t.is(document, getWindow().document);
 		t.is(typeof document.createElement, 'function');
+	}),
+);
+
+test(
+	'enableDomGlobal',
+	violentMonkeyContext(t => {
+		t.is(typeof File, 'undefined');
+		enableDomGlobal('File');
+		t.is(typeof new File(['content'], 'a.txt'), 'object');
+
+		t.is(typeof FormData, 'undefined');
+		enableDomGlobal('FormData');
+		t.is(typeof new FormData(), 'object');
 	}),
 );
 

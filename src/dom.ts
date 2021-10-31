@@ -26,26 +26,22 @@ const loadStringToDom = (outerHTML: string) => {
 	getWindow().document.documentElement.innerHTML = outerHTML;
 };
 
-Object.defineProperties(global, {
-	window: {
-		get: getWindow,
-	},
-});
-
 // https://github.com/microsoft/TypeScript/issues/41966#issuecomment-758187996
 type MapKnownKeys<T> = {
 	[K in keyof T as string extends K ? never : K]: string;
 };
 
-const JSDomGlobalsKeys: ReadonlyArray<keyof MapKnownKeys<DOMWindow>> = [
-	'Blob',
-	'document',
-] as const;
-
-for (const key of JSDomGlobalsKeys) {
+/**
+ * Enable a global dom value.
+ * This allows you to enable only what you need.
+ */
+const enableDomGlobal = (key: keyof MapKnownKeys<DOMWindow>) => {
 	Object.defineProperty(global, key, {
 		get: (): any => getWindow()[key],
 	});
-}
+};
 
-export {getWindow, getJSDOM, loadURLToDom, loadStringToDom};
+enableDomGlobal('window');
+enableDomGlobal('document');
+
+export {getWindow, getJSDOM, loadURLToDom, loadStringToDom, enableDomGlobal};
