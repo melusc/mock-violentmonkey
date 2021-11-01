@@ -56,6 +56,8 @@ export type Events =
 	| 'readystatechange'
 	| 'timeout';
 
+export type Headers = Record<string, string | null | undefined>;
+
 // Set some default headers
 const defaultHeaders = {
 	'User-Agent': 'node-XMLHttpRequest',
@@ -185,7 +187,7 @@ class XMLHttpRequest {
 	 * @param string value Header value
 	 * @return boolean Header added
 	 */
-	setRequestHeader = (header: string, value: string | number) => {
+	setRequestHeader = (header: string, value: Headers[string]) => {
 		const headers = this.#headers;
 		header = header.toLowerCase();
 
@@ -204,7 +206,8 @@ class XMLHttpRequest {
 			throw new Error('INVALID_STATE_ERR: send flag is true');
 		}
 
-		headers[header] = `${value}`;
+		headers[header] = String(value);
+
 		return true;
 	};
 
@@ -230,7 +233,7 @@ class XMLHttpRequest {
 
 		this.#settings = {
 			method,
-			url: url.toString(),
+			url: String(url),
 			user: user ?? undefined,
 			password: password ?? undefined,
 		};

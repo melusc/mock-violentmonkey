@@ -1,10 +1,12 @@
 import {Blob as Blob_, Buffer} from 'node:buffer';
 
 import test from 'ava';
+import {JsonObject} from 'type-fest';
 
 import {
 	enableDomGlobal,
 	GM_xmlhttpRequest,
+	Headers,
 	violentMonkeyContext,
 } from '../../src';
 import {setBaseUrl} from '../../src/base-url';
@@ -294,6 +296,30 @@ test(
 						response['headers']!['Content-Type']!,
 						/^multipart\/form-data; boundary=-+[\da-f]+$/,
 					);
+				},
+				onloadend: resolve,
+			});
+		});
+	}),
+);
+
+test(
+	'GM_xmlhttpRequest with headers',
+	violentMonkeyContext(async t => {
+		t.plan(1);
+
+		const headers: Headers = {
+			'X-Abc': 'xyz',
+			'User-Agent': 'node-xmlhttprequest',
+		};
+
+		await new Promise(resolve => {
+			GM_xmlhttpRequest({
+				url: 'https://httpbin.org/headers',
+				responseType: 'json',
+				headers,
+				onload: ({response}) => {
+					t.like((response as JsonObject)['headers'], headers);
 				},
 				onloadend: resolve,
 			});

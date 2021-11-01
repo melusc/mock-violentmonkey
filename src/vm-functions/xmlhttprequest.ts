@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 import {JSDOM} from 'jsdom';
 
 import {JsonValue} from 'type-fest';
-import {XMLHttpRequest, Method, Events} from '../xmlhttprequest';
+import {XMLHttpRequest, Method, Events, Headers} from '../xmlhttprequest';
 import {getWindow} from '../dom';
 import {getBaseUrl} from '../base-url';
 
