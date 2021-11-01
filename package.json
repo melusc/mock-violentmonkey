@@ -69,7 +69,7 @@
 	"dependencies": {
 		"@types/follow-redirects": "^1.13.1",
 		"@types/jsdom": "^16.2.13",
-		"follow-redirects": "^1.14.4",
+		"follow-redirects": "^1.14.5",
 		"jsdom": "^18.0.0",
 		"type-fest": "^2.5.2"
 	}
