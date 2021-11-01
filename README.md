@@ -12,7 +12,7 @@ It was written with ava in mind but should work with other test runners.
 
 ### violentMonkeyContext
 
-This the magic sauce. violentMonkeyContext seperates the various testing contexts from each other. This allows you to use `GM_setValue` and the like and not worry about it affecting other tests.
+This the whole magic. violentMonkeyContext seperates the various testing contexts from each other. This allows you to use `GM_setValue` and the like and not worry about it affecting other tests.
 
 ```js
 test(
@@ -26,6 +26,24 @@ test(
 	'title2',
 	violentMonkeyContext(t => {
 		// from here
+	}),
+);
+```
+
+### violentMonkeyContextMacro
+
+This is similar to violentMonkeyContext, but this makes use of [ava macros](https://github.com/avajs/ava/blob/v3.0.0/docs/01-writing-tests.md#reusing-test-logic-through-macros) and, as a result, can only be used with ava.
+
+```js
+test('title', violentMonkeyContextMacro(), t => {
+	t.is(GM_getValue('a'), 'b');
+});
+
+// same as
+test(
+	'title',
+	violentMonkeyContext(t => {
+		t.is(GM_getValue('a'), 'b');
 	}),
 );
 ```

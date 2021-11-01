@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import {
-	violentMonkeyContext,
+	violentMonkeyContextMacro,
 	/*****/
 	GM_deleteValue,
 	GM_getValue,
@@ -15,26 +15,29 @@ import {
 
 test(
 	'GM_getValue should be connected to GM_setValue',
-	violentMonkeyContext(t => {
+	violentMonkeyContextMacro(),
+	t => {
 		const secretMessage = `hello there! ${Math.random()}`;
 
 		GM_setValue('secretMsg', secretMessage);
 		t.is(GM_getValue('secretMsg'), secretMessage);
-	}),
+	},
 );
 
 test(
 	'GM_getValue should return the second param if value does not exist',
-	violentMonkeyContext(t => {
+	violentMonkeyContextMacro(),
+	t => {
 		const symbol = Symbol('');
 
 		t.is(GM_getValue('THIS_DOESNT_EXIST', symbol), symbol);
-	}),
+	},
 );
 
 test(
 	'GM_setValue should not save the actual object in memory',
-	violentMonkeyContext(t => {
+	violentMonkeyContextMacro(),
+	t => {
 		const object = {
 			deeply: {
 				nested: {
@@ -49,12 +52,13 @@ test(
 
 		t.not(result, object);
 		t.deepEqual(result, object);
-	}),
+	},
 );
 
 test(
 	'GM_deleteValue should properly delete a value',
-	violentMonkeyContext(t => {
+	violentMonkeyContextMacro(),
+	t => {
 		GM_setValue('a', 'a');
 		GM_setValue('b', 'b');
 
@@ -65,25 +69,23 @@ test(
 
 		t.is(GM_getValue('a'), undefined);
 		t.is(GM_getValue('b'), 'b');
-	}),
+	},
 );
 
-test(
-	'GM_listValues should list all keys',
-	violentMonkeyContext(t => {
-		t.deepEqual(GM_listValues(), []);
+test('GM_listValues should list all keys', violentMonkeyContextMacro(), t => {
+	t.deepEqual(GM_listValues(), []);
 
-		GM_setValue('a', 1);
-		GM_setValue('b', 2);
-		GM_setValue('d', 4);
+	GM_setValue('a', 1);
+	GM_setValue('b', 2);
+	GM_setValue('d', 4);
 
-		t.deepEqual(GM_listValues().sort(), ['a', 'b', 'd'].sort());
-	}),
-);
+	t.deepEqual(GM_listValues().sort(), ['a', 'b', 'd'].sort());
+});
 
 test(
 	'GM_addValueChangeListener without remote',
-	violentMonkeyContext(async t => {
+	violentMonkeyContextMacro(),
+	async t => {
 		GM_setValue('key', 20);
 
 		const promise = new Promise<void>(resolve => {
@@ -103,12 +105,13 @@ test(
 		GM_setValue('key', 30);
 
 		return promise;
-	}),
+	},
 );
 
 test(
 	'GM_addValueChangeListener with tabContext',
-	violentMonkeyContext(async t => {
+	violentMonkeyContextMacro(),
+	async t => {
 		GM_setValue('key', 10);
 
 		const remotePromise = new Promise<void>(resolve => {
@@ -134,32 +137,29 @@ test(
 		});
 
 		return remotePromise;
-	}),
+	},
 );
 
-test(
-	'GM_removeValueChangeListener',
-	violentMonkeyContext(t => {
-		let amountCalledCb1 = 0;
-		const valueListenerId = GM_addValueChangeListener('key', () => {
-			++amountCalledCb1;
-		});
-		let amountCalledCb2 = 0;
-		GM_addValueChangeListener('key', () => {
-			++amountCalledCb2;
-		});
+test('GM_removeValueChangeListener', violentMonkeyContextMacro(), t => {
+	let amountCalledCb1 = 0;
+	const valueListenerId = GM_addValueChangeListener('key', () => {
+		++amountCalledCb1;
+	});
+	let amountCalledCb2 = 0;
+	GM_addValueChangeListener('key', () => {
+		++amountCalledCb2;
+	});
 
-		GM_setValue('key', 0);
-		GM_setValue('key', 2);
+	GM_setValue('key', 0);
+	GM_setValue('key', 2);
 
-		GM_removeValueChangeListener(valueListenerId);
+	GM_removeValueChangeListener(valueListenerId);
 
-		GM_setValue('key', 3);
+	GM_setValue('key', 3);
 
-		t.is(amountCalledCb1, 2);
-		t.is(amountCalledCb2, 3);
-	}),
-);
+	t.is(amountCalledCb1, 2);
+	t.is(amountCalledCb2, 3);
+});
 
 test('GM_* without violentMonkeyContext should throw.', t => {
 	t.throws(() => {
