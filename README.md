@@ -91,8 +91,8 @@ test(
 | [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
 | [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ✔️      | This doesn't actually set the clipboard.                                                                                                                                                                           |
-| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ✔️      | Should be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                       |
-| [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ❌      |                                                                                                                                                                                                                    |
+| [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ✔️      | Can be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                          |
+| [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ✔️      | Can be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                          |
 
 The `GM_*` and `GM.*` api is added to the global scope so that userscripts have access to them.
 With Typescript you can either [import them](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/storage.test.ts#L6-L11) or [tell Typescript that they're globals](https://github.com/melusc/mock-violentmonkey/blob/e00f5460dba990decd1a37edd9329b53751a9b8e/test/vm-functions/globals.test.ts#L19-L25).
@@ -260,7 +260,7 @@ console.log(typeof FormData); // function
 ### setBaseUrl
 
 If your code should behave differently depending on the location, you can set the location with `setBaseUrl`.
-If not called, it defaults to `http://localhost:5000/`;
+If not called, it defaults to `http://localhost:5000/`. This is also used for relative urls.
 
 This should run before calling `GM_xmlhttpRequest`,
 `getWindow` or other functions reliant on jsdom,
@@ -288,6 +288,54 @@ test(
 		console.log(getWindow().location.href); // http:localhost:5000/
 	}),
 );
+```
+
+### getDownloads
+
+Instead of actually saving files to the disk, [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download) saves them to memory as a buffer and `getDownloads` provides a way of gaining access to them.
+
+```ts
+type GetDownloads = () => Record<string, Buffer>;
+```
+
+```js
+test('title', violentMonkeyContextMacro(), t => {
+	console.log(getDownloads()); // {}
+
+	GM_download({
+		url: 'https://example.com/',
+		name: 'example-com.html',
+		onload: () => {
+			console.log(getDownloads());
+			/* {
+				"example-com.html": <Buffer 3c 21 ...>
+			} */
+		},
+	});
+});
+```
+
+### getDownload
+
+This is similar to [`getDownloads`](#getdownloads) but it only returns the corresponding buffer of the passed filename.
+
+```ts
+type GetDownload = (name: string) => Buffer | undefined;
+```
+
+```js
+test('title', violentMonkeyContextMacro(), t => {
+	console.log(getDownload('example-com.html')); // undefined
+
+	GM_download({
+		url: 'https://example.com/',
+		name: 'example-com.html',
+		onload: () => {
+			console.log(getDownload('example-com.html'));
+			// <Buffer 3c 21 ...>
+		},
+	});
+});
 ```
 
 ## License
