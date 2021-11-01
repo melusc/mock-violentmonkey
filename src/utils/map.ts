@@ -24,4 +24,27 @@ class BetterMap<K, V> extends Map<K, V> {
 	};
 }
 
-export {BetterMap};
+// eslint-disable-next-line @typescript-eslint/ban-types
+class BetterWeakMap<K extends object, V> extends WeakMap<K, V> {
+	/**
+	 * @param getDefaultValue Return the value associated with the key.
+	 * If that value does not exist it sets the result of `getDefaultValue()` and returns that.
+	 */
+	override get: {
+		(key: K): V | undefined;
+		(key: K, getDefaultValue: () => V): V;
+	} = (key, getDefaultValue?: () => V) => {
+		if (!this.has(key) && getDefaultValue !== undefined) {
+			const value = getDefaultValue();
+
+			this.set(key, value);
+			return value;
+		}
+
+		// The value is only undefined if getDefaultValue is undefined as well
+		// If that is the case, the return-value is `V | undefined` anyway
+		return super.get(key)!;
+	};
+}
+
+export {BetterMap, BetterWeakMap};

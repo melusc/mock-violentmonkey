@@ -7,8 +7,9 @@ const tabIds = new AsyncLocalStorage<number>();
  */
 const getTabId = () => tabIds.getStore() ?? 0;
 
-// 0 is for no tab
-let idSeq = 1;
+// Pre-increment means 0 will never be a tab-id
+// 0 is the tab-id of "no tab"
+let idSeq = 0;
 /**
  * Create a new tab instance
  *

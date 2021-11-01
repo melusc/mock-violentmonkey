@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 import test from 'ava';
 
-import {BetterMap} from '../../src/utils';
+import {BetterMap, BetterWeakMap} from '../../src/utils';
 
 test('BetterMap should work like a regular map', t => {
 	const map = new Map<string, number>();
@@ -31,4 +33,38 @@ test('BetterMap should return and set the default value', t => {
 	t.is(map.get('f'), 1);
 
 	t.true(map.has('f'));
+});
+
+test('BetterWeakMap should work like a regular map', t => {
+	const map = new WeakMap<[], number>();
+	const bMap = new BetterWeakMap<[], number>();
+
+	const key: [] = [];
+	t.false(map.has(key));
+	t.false(bMap.has(key));
+
+	map.set(key, 0);
+	bMap.set(key, 0);
+
+	t.is(map.get(key), 0);
+	t.is(bMap.get(key), 0);
+	t.true(map.has(key));
+	t.true(bMap.has(key));
+});
+
+test('BetterWeakMap should return and set the default value', t => {
+	const map = new BetterWeakMap<[], number>();
+
+	const key: [] = [];
+
+	t.false(map.has(key));
+
+	t.is(map.get(key), undefined);
+	t.is(
+		map.get(key, () => 1),
+		1,
+	);
+	t.is(map.get(key), 1);
+
+	t.true(map.has(key));
 });

@@ -1,9 +1,10 @@
-import {BetterMap} from './utils/map';
+import {BetterWeakMap} from './utils/map';
 import {getUserscriptId} from './violentmonkey-context';
 
 /** @internal */
 class VMStorage<V> {
-	private readonly storages = new BetterMap<number, V>();
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	private readonly storages = new BetterWeakMap<[], V>();
 
 	constructor(private readonly getDefaultValue: () => V) {}
 
