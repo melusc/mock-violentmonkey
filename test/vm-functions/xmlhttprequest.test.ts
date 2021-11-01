@@ -304,6 +304,23 @@ test(
 );
 
 test(
+	'GM_xmlhttpRequest with incorrect url',
+	violentMonkeyContext(async t => {
+		t.plan(1);
+
+		await new Promise(resolve => {
+			GM_xmlhttpRequest({
+				url: 'htt://google.com/',
+				onerror: () => {
+					t.pass();
+				},
+				onloadend: resolve,
+			});
+		});
+	}),
+);
+
+test(
 	'GM_xmlhttpRequest with headers',
 	violentMonkeyContext(async t => {
 		t.plan(1);

@@ -247,25 +247,6 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 			xhr.timeout = details.timeout;
 		}
 
-		xhr.open(
-			details.method ?? 'get',
-			details.url,
-			details.user,
-			details.password,
-		);
-
-		if (details.headers) {
-			for (const [key, value] of Object.entries(details.headers)) {
-				xhr.setRequestHeader(key, value);
-			}
-		}
-
-		if (contentType !== undefined) {
-			xhr.setRequestHeader('content-type', contentType);
-		}
-
-		xhr.send(body);
-
 		const events: readonly Events[] = [
 			'abort',
 			'error',
@@ -285,6 +266,25 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 				}
 			});
 		}
+
+		xhr.open(
+			details.method ?? 'get',
+			details.url,
+			details.user,
+			details.password,
+		);
+
+		if (details.headers) {
+			for (const [key, value] of Object.entries(details.headers)) {
+				xhr.setRequestHeader(key, value);
+			}
+		}
+
+		if (contentType !== undefined) {
+			xhr.setRequestHeader('content-type', contentType);
+		}
+
+		xhr.send(body);
 
 		// Doing it like this makes sure that
 		// it behaves just like asynchronous abort
@@ -310,6 +310,7 @@ export {
 	XHREventHandler,
 	XHRResponseObject,
 	XmlHttpRequest,
+	Headers,
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
 
