@@ -7,6 +7,7 @@ import {
 	GM_getResourceText,
 	GM_getResourceURL,
 	violentMonkeyContext,
+	GM_info,
 } from '../../src';
 
 test(
@@ -72,5 +73,50 @@ test(
 			await setResource('name3', 'https://');
 		});
 		t.true(error3 instanceof TypeError);
+	}),
+);
+
+test(
+	'GM_resource should update GM_info.script.resources',
+	violentMonkeyContext(async t => {
+		t.deepEqual(GM_info().script.resources, []);
+
+		await setResource(
+			'resource1',
+			'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
+		);
+
+		t.deepEqual(GM_info().script.resources, [
+			{
+				name: 'resource1',
+				url: 'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
+			},
+		]);
+
+		await setResource('resource2', 'https://httpbin.org/bytes/3');
+
+		t.deepEqual(GM_info().script.resources, [
+			{
+				name: 'resource1',
+				url: 'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
+			},
+			{
+				name: 'resource2',
+				url: 'https://httpbin.org/bytes/3',
+			},
+		]);
+
+		await setResource('resource1', 'https://httpbin.org/uuid');
+
+		t.deepEqual(GM_info().script.resources, [
+			{
+				name: 'resource1',
+				url: 'https://httpbin.org/uuid',
+			},
+			{
+				name: 'resource2',
+				url: 'https://httpbin.org/bytes/3',
+			},
+		]);
 	}),
 );

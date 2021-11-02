@@ -2,6 +2,7 @@ import {Blob} from 'node:buffer';
 import {BetterMap} from '../utils';
 import {VMStorage} from '../vm-storage';
 import {XMLHttpRequest} from '../xmlhttprequest';
+import {GM_info} from './info';
 
 const contextResources = new VMStorage<
 	BetterMap<string, {url: string; text: string}>
@@ -33,6 +34,21 @@ const setResource = async (name: string, url: string) => {
 			contextResources.get(true).set(name, {
 				url: blobURL,
 				text: xhr.responseBuffer.toString(),
+			});
+
+			const {resources} = GM_info().script;
+
+			for (const resource of resources) {
+				if (resource.name === name) {
+					resource.url = url;
+					resolve();
+					return;
+				}
+			}
+
+			resources.push({
+				name,
+				url,
 			});
 
 			resolve();
