@@ -1,4 +1,5 @@
 import {Blob} from 'node:buffer';
+import {URL} from 'node:url';
 import {BetterMap} from '../utils';
 import {VMStorage} from '../vm-storage';
 import {XMLHttpRequest} from '../xmlhttprequest';
