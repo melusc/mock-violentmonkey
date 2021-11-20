@@ -9,7 +9,7 @@
 
 		"lib": ["ESNext", "DOM.Iterable", "DOM"],
 
-		"outDir": "dist",
+		"outDir": "dist/lib",
 
 		"stripInternal": true
 	},

@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"outDir": "../test-dist",
+		"outDir": "../dist/test",
 
 		"types": ["@types/tampermonkey", "@types/node"]
 	},
