@@ -13,6 +13,6 @@
 
 		"stripInternal": true
 	},
-	"extends": "@sindresorhus/tsconfig",
+	"extends": "@lusc/tsconfig",
 	"include": ["src/**/*.ts"]
 }
