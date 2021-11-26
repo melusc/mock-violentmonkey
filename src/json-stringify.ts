@@ -17,7 +17,7 @@ const escMap: Record<string, string> = {
 /* eslint-disable-next-line no-control-regex */
 const escRE = /[\\"\u0000-\u001F\u2028\u2029]/g;
 const escFunc = (m: string) =>
-	escMap[m] ?? `\\u${m.charCodeAt(0).toString(16).padStart(4, '0')}`;
+	escMap[m] ?? `\\u${m.codePointAt(0)!.toString(16).padStart(4, '0')}`;
 
 const jsonStringify = (value: unknown): string => {
 	/* We're not testing for cyclic object values
