@@ -5,7 +5,7 @@ import {
 	GM_unregisterMenuCommand,
 	triggerMenuCommand,
 	violentMonkeyContext,
-} from '../../src';
+} from '../../src/index.js';
 
 test(
 	'Normal behaviour',

@@ -5,7 +5,7 @@ import {
 	update_GM_info,
 	PartialScriptInfo,
 	ScriptInfo,
-} from '../../src';
+} from '../../src/index.js';
 
 test(
 	'GM_info should return a valid object',

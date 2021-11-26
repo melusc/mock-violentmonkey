@@ -1,6 +1,10 @@
 import anyTest, {TestInterface} from 'ava';
 
-import {violentMonkeyContextMacro, GM_getValue, GM_setValue} from '../src';
+import {
+	violentMonkeyContextMacro,
+	GM_getValue,
+	GM_setValue,
+} from '../src/index.js';
 
 const test = anyTest as TestInterface<{foo: string}>;
 

@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {GM_addStyle, getWindow, violentMonkeyContext} from '../../src';
+import {GM_addStyle, getWindow, violentMonkeyContext} from '../../src/index.js';
 
 test(
 	'GM_addStyle should add a style to the current dom',

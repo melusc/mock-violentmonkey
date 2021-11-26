@@ -6,7 +6,7 @@ import test from 'ava';
 import {
 	getUserscriptId,
 	violentMonkeyContext,
-} from '../src/violentmonkey-context';
+} from '../src/violentmonkey-context.js';
 
 test(
 	'violentMonkeyContext should create a context with an id',

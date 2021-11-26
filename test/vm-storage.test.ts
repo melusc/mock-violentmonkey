@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import {VMStorage} from '../src/vm-storage';
-import {violentMonkeyContext} from '../src';
+import {VMStorage} from '../src/vm-storage.js';
+import {violentMonkeyContext} from '../src/index.js';
 
 test(
 	'VMStorage',

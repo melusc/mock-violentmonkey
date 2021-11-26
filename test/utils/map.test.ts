@@ -2,7 +2,7 @@
 
 import test from 'ava';
 
-import {BetterMap, BetterWeakMap} from '../../src/utils';
+import {BetterMap, BetterWeakMap} from '../../src/utils/index.js';
 
 test('BetterMap should work like a regular map', t => {
 	const map = new Map<string, number>();

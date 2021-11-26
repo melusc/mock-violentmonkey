@@ -1,5 +1,5 @@
-import {BetterWeakMap} from './utils/map';
-import {getUserscriptId} from './violentmonkey-context';
+import {BetterWeakMap} from './utils/index.js';
+import {getUserscriptId} from './violentmonkey-context.js';
 
 /** @internal */
 class VMStorage<V> {

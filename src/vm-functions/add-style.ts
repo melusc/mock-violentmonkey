@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import {getWindow} from '../dom';
+import {getWindow} from '../dom.js';
 
 type AddStyle = (css: string) => HTMLStyleElement;
 

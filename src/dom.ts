@@ -1,7 +1,7 @@
 import {JSDOM, DOMWindow} from 'jsdom';
-import {VMStorage} from './vm-storage';
-import {getBaseUrl} from './base-url';
-import {XMLHttpRequest} from './xmlhttprequest';
+import {VMStorage} from './vm-storage.js';
+import {getBaseUrl} from './base-url.js';
+import {XMLHttpRequest} from './xmlhttprequest/index.js';
 
 const storedJSDOMs = new VMStorage<JSDOM>(
 	() =>

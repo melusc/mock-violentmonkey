@@ -1,7 +1,11 @@
 import test from 'ava';
 
-import {GM_setValue, GM_getValue, violentMonkeyContext} from '../../src';
-import {updateDeprecatedSplitDataURI} from './custom-icons.user';
+import {
+	GM_setValue,
+	GM_getValue,
+	violentMonkeyContext,
+} from '../../src/index.js';
+import {updateDeprecatedSplitDataURI} from './custom-icons.user.js';
 
 test(
 	'updateDeprecatedSplitDataURI should return correct dataURIs',

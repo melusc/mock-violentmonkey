@@ -2,7 +2,7 @@
 
 import test from 'ava';
 
-import {jsonStringify} from '../src/json-stringify';
+import {jsonStringify} from '../src/json-stringify.js';
 
 test('jsonStringify should handle null', t => {
 	t.is(jsonStringify(null), 'null');

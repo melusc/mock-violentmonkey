@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 test('options.base', async t => {
 	t.plan(1);

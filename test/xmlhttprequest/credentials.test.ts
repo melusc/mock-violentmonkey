@@ -1,9 +1,9 @@
 import {Buffer} from 'node:buffer';
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
-import {createServer} from '../_helpers';
+import {createServer} from '../_helpers/index.js';
 
 test('credentials', async t => {
 	const {port, server} = await createServer((request, response) => {

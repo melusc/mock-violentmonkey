@@ -1,9 +1,9 @@
 import {Blob} from 'node:buffer';
 import {URL} from 'node:url';
-import {BetterMap} from '../utils';
-import {VMStorage} from '../vm-storage';
-import {XMLHttpRequest} from '../xmlhttprequest';
-import {GM_info} from './info';
+import {BetterMap} from '../utils/index.js';
+import {VMStorage} from '../vm-storage.js';
+import {XMLHttpRequest} from '../xmlhttprequest/index.js';
+import {GM_info} from './info.js';
 
 const contextResources = new VMStorage<
 	BetterMap<string, {url: string; text: string}>

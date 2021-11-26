@@ -1,4 +1,4 @@
-import {VMStorage} from './vm-storage';
+import {VMStorage} from './vm-storage.js';
 
 const baseUrls = new VMStorage<URL>(() => new URL('http://localhost:5000/'));
 

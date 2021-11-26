@@ -1,4 +1,4 @@
-import {VMStorage} from '../vm-storage';
+import {VMStorage} from '../vm-storage.js';
 
 /*
 	Because Firefox and Chromium don't behave the same,

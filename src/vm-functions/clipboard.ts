@@ -1,4 +1,4 @@
-import {VMStorage} from '../vm-storage';
+import {VMStorage} from '../vm-storage.js';
 
 const clipboardDataStorage = new VMStorage<{data: string; type: string}>(
 	() => ({data: '', type: 'text/plain'}),

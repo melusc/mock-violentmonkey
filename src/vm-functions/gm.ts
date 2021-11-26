@@ -9,16 +9,14 @@ import {
 	GM_setValue,
 	ListValues,
 	SetValue,
-} from './storage';
-import {GM_info, ScriptInfo} from './info';
-import {GM_addStyle, AddStyle} from './add-style';
-import {GM_notification, Notification} from './notification';
-import {GM_setClipboard, SetClipboard} from './clipboard';
-import {GM_openInTab, OpenInTab} from './open-in-tab';
-import {GM_xmlhttpRequest, XmlHttpRequest} from './xmlhttprequest';
-
-// GM.getResourceText doesn't exist
-import {GM_getResourceURL, GetResourceURL} from './resource';
+} from './storage.js';
+import {GM_info, ScriptInfo} from './info.js';
+import {GM_addStyle, AddStyle} from './add-style.js';
+import {GM_notification, Notification} from './notification.js';
+import {GM_setClipboard, SetClipboard} from './clipboard.js';
+import {GM_openInTab, OpenInTab} from './open-in-tab.js';
+import {GM_xmlhttpRequest, XmlHttpRequest} from './xmlhttprequest.js';
+import {GM_getResourceURL, GetResourceURL} from './resource.js';
 
 type MakeFunctionAsync<T extends (...args: any[]) => void> = (
 	...args: Parameters<T>

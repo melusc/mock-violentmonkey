@@ -1,5 +1,5 @@
-import {BetterMap} from '../utils';
-import {VMStorage} from '../vm-storage';
+import {BetterMap} from '../utils/index.js';
+import {VMStorage} from '../vm-storage.js';
 
 const menuCommands = new VMStorage<BetterMap<string, () => void>>(
 	() => new BetterMap(),

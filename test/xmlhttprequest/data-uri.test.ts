@@ -2,9 +2,9 @@ import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
-import {assertEventOrder, assertReadyStateValues} from '../_helpers';
+import {assertEventOrder, assertReadyStateValues} from '../_helpers/index.js';
 
 test('xhr valid base64 datauri', async t => {
 	t.plan(13);

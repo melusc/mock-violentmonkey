@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 test('status-code 404', async t => {
 	t.plan(3);

@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
-import {assertEventOrder, createServer} from '../_helpers';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
+import {assertEventOrder, createServer} from '../_helpers/index.js';
 
 test('timeout after 1s', async t => {
 	t.plan(10);

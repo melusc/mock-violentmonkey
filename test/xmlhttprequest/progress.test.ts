@@ -2,7 +2,7 @@ import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 test('It should fire 10 progress events', async t => {
 	t.plan(11);

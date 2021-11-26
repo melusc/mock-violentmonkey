@@ -1,4 +1,4 @@
-import {VMStorage} from '../vm-storage';
+import {VMStorage} from '../vm-storage.js';
 
 type Tab = Readonly<{
 	url: string;

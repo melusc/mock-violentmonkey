@@ -1,8 +1,8 @@
 import {Buffer} from 'node:buffer';
 
-import {VMStorage} from '../vm-storage';
-import {Headers} from '../xmlhttprequest';
-import {XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest';
+import {VMStorage} from '../vm-storage.js';
+import {Headers} from '../xmlhttprequest/index.js';
+import {XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
 
 const downloads = new VMStorage<Map<string, Buffer>>(() => new Map());
 

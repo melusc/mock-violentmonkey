@@ -1,1 +1,1 @@
-export * from './xmlhttprequest';
+export * from './xmlhttprequest.js';

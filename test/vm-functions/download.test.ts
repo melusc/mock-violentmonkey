@@ -6,8 +6,8 @@ import {
 	getDownloads,
 	violentMonkeyContextMacro,
 	getDownload,
-} from '../../src';
-import {setBaseUrl} from '../../src/base-url';
+} from '../../src/index.js';
+import {setBaseUrl} from '../../src/base-url.js';
 
 test(
 	'GM_download with an existant url',

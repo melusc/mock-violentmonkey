@@ -2,7 +2,7 @@ import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 
-import {dataUriToBuffer} from '../../src/xmlhttprequest/data-uri-to-buffer';
+import {dataUriToBuffer} from '../../src/xmlhttprequest/data-uri-to-buffer.js';
 
 test('valid base64 datauri to buffer', t => {
 	t.plan(4);

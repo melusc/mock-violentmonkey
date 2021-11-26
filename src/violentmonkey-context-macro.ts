@@ -1,6 +1,6 @@
 // eslint-disable-next-line ava/use-test
 import {ExecutionContext, Macro} from 'ava';
-import {violentMonkeyContext} from './violentmonkey-context';
+import {violentMonkeyContext} from './violentmonkey-context.js';
 
 type MacroCb<Context = unknown> = (
 	t: ExecutionContext<Context>,

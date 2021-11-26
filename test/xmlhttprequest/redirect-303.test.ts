@@ -3,7 +3,7 @@ import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/xmlhttprequest.js';
 
-import {createServer} from '../_helpers';
+import {createServer} from '../_helpers/index.js';
 
 test('redirect 303', async t => {
 	t.plan(3);

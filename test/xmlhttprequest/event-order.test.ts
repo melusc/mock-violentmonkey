@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 test('it should fire .on-listeners, then addEventListeners the order added', async t => {
 	let counter = 0;

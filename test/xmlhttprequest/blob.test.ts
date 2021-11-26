@@ -3,9 +3,9 @@ import {URL} from 'node:url';
 
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
-import {assertEventOrder, assertReadyStateValues} from '../_helpers';
+import {assertEventOrder, assertReadyStateValues} from '../_helpers/index.js';
 
 test('valid object url', async t => {
 	t.plan(12);

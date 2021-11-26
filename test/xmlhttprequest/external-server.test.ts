@@ -1,8 +1,8 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
-import {assertEventOrder} from '../_helpers';
+import {assertEventOrder} from '../_helpers/index.js';
 
 test('Should work just as well with external servers', async t => {
 	const xhr = new XMLHttpRequest();

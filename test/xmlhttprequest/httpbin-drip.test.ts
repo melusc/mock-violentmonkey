@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
-import {assertEventOrder} from '../_helpers';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
+import {assertEventOrder} from '../_helpers/index.js';
 
 test('httpbin/drip, duration=1, numbytes=10', async t => {
 	t.plan(46);

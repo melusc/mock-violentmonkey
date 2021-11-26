@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 
 import test from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest';
+import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 test('image', async t => {
 	t.plan(1);

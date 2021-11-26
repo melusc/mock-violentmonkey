@@ -4,9 +4,14 @@ import crypto from 'node:crypto';
 import {JSDOM} from 'jsdom';
 
 import {JsonValue} from 'type-fest';
-import {XMLHttpRequest, Method, Events, Headers} from '../xmlhttprequest';
-import {getWindow} from '../dom';
-import {getBaseUrl} from '../base-url';
+import {
+	XMLHttpRequest,
+	Method,
+	Events,
+	Headers,
+} from '../xmlhttprequest/index.js';
+import {getWindow} from '../dom.js';
+import {getBaseUrl} from '../base-url.js';
 
 type XHRResponseObject<TContext = any> = {
 	status: number;
@@ -310,9 +315,9 @@ export {
 	XHREventHandler,
 	XHRResponseObject,
 	XmlHttpRequest,
-	Headers,
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
+export {Headers} from '../xmlhttprequest/index.js';
 
 Object.defineProperties(global, {
 	GM_xmlhttpRequest: {

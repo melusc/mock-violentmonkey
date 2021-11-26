@@ -8,8 +8,8 @@ import {
 	GM_xmlhttpRequest,
 	Headers,
 	violentMonkeyContext,
-} from '../../src';
-import {setBaseUrl} from '../../src/base-url';
+} from '../../src/index.js';
+import {setBaseUrl} from '../../src/base-url.js';
 
 enableDomGlobal('FormData');
 enableDomGlobal('File');

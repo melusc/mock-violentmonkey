@@ -8,7 +8,7 @@ import {
 	GM_getResourceURL,
 	violentMonkeyContext,
 	GM_info,
-} from '../../src';
+} from '../../src/index.js';
 
 test(
 	'gist.github.com test.txt',

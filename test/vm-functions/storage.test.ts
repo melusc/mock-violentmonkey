@@ -11,7 +11,7 @@ import {
 	GM_removeValueChangeListener,
 	/*****/
 	tabContext,
-} from '../../src';
+} from '../../src/index.js';
 
 test(
 	'GM_getValue should be connected to GM_setValue',

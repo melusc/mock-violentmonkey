@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {GM_openInTab, getTabs, violentMonkeyContext} from '../../src';
+import {GM_openInTab, getTabs, violentMonkeyContext} from '../../src/index.js';
 
 test(
 	'GM_openInTab normal behaviour',

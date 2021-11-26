@@ -1,6 +1,10 @@
 import test from 'ava';
 
-import {GM_setClipboard, getClipboard, violentMonkeyContext} from '../../src';
+import {
+	GM_setClipboard,
+	getClipboard,
+	violentMonkeyContext,
+} from '../../src/index.js';
 
 test(
 	'GM_setClipboard normal behaviour',

@@ -23,7 +23,7 @@ import {
 	GM_setClipboard as GM_setClipboard_imported,
 	GM_openInTab as GM_openInTab_imported,
 	GM_xmlhttpRequest as GM_xmlhttpRequest_imported,
-} from '../../src';
+} from '../../src/index.js';
 
 declare const GM_setValue: SetValue;
 declare const GM_getValue: GetValue;

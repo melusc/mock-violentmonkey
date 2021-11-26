@@ -7,7 +7,7 @@ import {
 	GM_notification,
 	setNotificationCompat,
 	violentMonkeyContext,
-} from '../../src';
+} from '../../src/index.js';
 
 test(
 	'Letting notification timeout',

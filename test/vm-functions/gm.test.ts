@@ -13,7 +13,7 @@ import {
 	GM_setClipboard,
 	GM_openInTab,
 	GM_xmlhttpRequest,
-} from '../../src';
+} from '../../src/index.js';
 
 const pNextTick = async () =>
 	new Promise(resolve => {
@@ -68,7 +68,9 @@ test(
 
 		GM_setValue('key2', 2);
 
-		t.deepEqual((await keys).sort(), ['key1', 'key2'].sort());
+		const awaitedKeys = await keys;
+
+		t.deepEqual(awaitedKeys.sort(), ['key1', 'key2'].sort());
 	}),
 );
 

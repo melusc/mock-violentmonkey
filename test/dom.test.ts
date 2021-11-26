@@ -7,8 +7,8 @@ import {
 	loadURLToDom,
 	violentMonkeyContext,
 	enableDomGlobal,
-} from '../src';
-import {setBaseUrl} from '../src/base-url';
+} from '../src/index.js';
+import {setBaseUrl} from '../src/base-url.js';
 
 // Globals
 declare const window: DOMWindow;
