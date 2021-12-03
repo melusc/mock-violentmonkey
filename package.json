@@ -70,7 +70,7 @@
 		"@types/follow-redirects": "^1.13.1",
 		"@types/jsdom": "^16.2.13",
 		"follow-redirects": "^1.14.5",
-		"jsdom": "^18.1.1",
+		"jsdom": "^19.0.0",
 		"type-fest": "^2.6.0"
 	}
 }
