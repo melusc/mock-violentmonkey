@@ -1,0 +1,32 @@
+name: Run CI
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check code style
+        run: |
+          yarn run fmt
+          git --no-pager diff --exit-code
+
+      - name: CI tests
+        run: yarn run ava
+
+      - name: Type checking
+        run: yarn tsc --noEmit
