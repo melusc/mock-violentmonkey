@@ -61,7 +61,7 @@
 		"ava": "ava",
 		"build": "del-cli dist/lib/* && tsc",
 		"preava": "del-cli dist/test/* && tsc --project test/tsconfig.json",
-		"lint": "prettier . -w && xo --fix",
+		"fmt": "prettier . -w && xo --fix",
 		"test": "xo && yarn ava",
 		"prepublish": "yarn build"
 	},
