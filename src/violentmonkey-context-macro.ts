@@ -13,7 +13,9 @@ type MacroCb<Context = unknown> = (
 	If you have a better solution to this I'm open to ideas
  */
 
-export const violentMonkeyContextMacro
-	= <Context = unknown>(): Macro<[MacroCb<Context>], Context> =>
-	(t, run) =>
-		violentMonkeyContext(run)(t);
+export const violentMonkeyContextMacro = <Context = unknown>(): Macro<
+	[MacroCb<Context>],
+	Context
+> => ({
+	exec: (t, run) => violentMonkeyContext(run)(t),
+});

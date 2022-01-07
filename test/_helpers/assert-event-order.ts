@@ -23,7 +23,8 @@ export const assertEventOrder = (
 
 	for (const event of events) {
 		xhr.addEventListener(event, () => {
-			t.is(`${event}-${xhr.readyState}`, wantedOrder.shift());
+			// Let ava, not typescript complain about undefined
+			t.is(`${event}-${xhr.readyState}`, wantedOrder.shift()!);
 		});
 	}
 };

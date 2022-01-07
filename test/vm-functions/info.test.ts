@@ -3,7 +3,6 @@ import {
 	GM_info,
 	violentMonkeyContext,
 	update_GM_info,
-	PartialScriptInfo,
 	ScriptInfo,
 } from '../../src/index.js';
 
@@ -42,7 +41,8 @@ test(
 	violentMonkeyContext(t => {
 		const original = {...GM_info()};
 
-		const changedValues: PartialScriptInfo = {
+		// PartielDeep is not assignable to ScriptInfo in .deepEqual below
+		const changedValues: Partial<ScriptInfo> = {
 			version: '1.2.3',
 			scriptHandler: 'Tampermonkey',
 			scriptWillUpdate: false,

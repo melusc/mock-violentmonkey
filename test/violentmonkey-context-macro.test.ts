@@ -1,4 +1,4 @@
-import anyTest, {TestInterface} from 'ava';
+import anyTest, {TestFn} from 'ava';
 
 import {
 	violentMonkeyContextMacro,
@@ -6,7 +6,7 @@ import {
 	GM_setValue,
 } from '../src/index.js';
 
-const test = anyTest as TestInterface<{foo: string}>;
+const test = anyTest as TestFn<{foo: string}>;
 
 test.beforeEach(t => {
 	t.context = {

@@ -38,7 +38,9 @@ export const assertReadyStateValues = (
 				responseBuffer: xhr.responseBuffer.slice(),
 				responseURL: xhr.responseURL,
 			},
-			expectedValues[xhr.readyState],
+			// If it is undefined anyway ava will complain
+			// If readyState 2 never gets ava will never complain (but typescript doesn't know that)
+			expectedValues[xhr.readyState]!,
 		);
 	});
 };

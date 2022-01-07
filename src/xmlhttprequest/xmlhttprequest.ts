@@ -102,6 +102,10 @@ const isAllowedHttpHeader = (header: string) =>
 const isAllowedHttpMethod = (method: UppercaseMethods) =>
 	Boolean(typeof method === 'string' && allowedRequestMethods.has(method));
 
+type XHRResponse = Pick<Response, 'headers'> & {
+	destroy: () => void;
+};
+
 /**
  * `XMLHttpRequest` constructor.
  *
@@ -147,7 +151,7 @@ class XMLHttpRequest {
 
 	#options: Options;
 
-	#response: Pick<Response, 'headers' | 'destroy'> | undefined;
+	#response: XHRResponse | undefined;
 	#request: Request | undefined;
 
 	#headers: Record<string, string> = {...defaultHeaders};

@@ -59,15 +59,23 @@ test(
 test(
 	'invalid Urls',
 	violentMonkeyContext(async t => {
-		const error1 = await t.throwsAsync(async () => {
-			await setResource('name', '/f');
-		});
-		t.regex(error1.message, /\/f/);
+		await t.throwsAsync(
+			async () => {
+				await setResource('name', '/f');
+			},
+			{
+				message: /\/f/,
+			},
+		);
 
-		const error2 = await t.throwsAsync(async () => {
-			await setResource('name2', 'blob:nodedata:abcd');
-		});
-		t.regex(error2.message, /blob:nodedata:abcd/);
+		await t.throwsAsync(
+			async () => {
+				await setResource('name2', 'blob:nodedata:abcd');
+			},
+			{
+				message: /blob:nodedata:abcd/,
+			},
+		);
 
 		const error3 = await t.throwsAsync(async () => {
 			await setResource('name3', 'https://');

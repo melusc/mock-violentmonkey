@@ -13,7 +13,7 @@ test('request methods', async t => {
 	const {port, server} = await createServer((request, response) => {
 		// Check request method and URL
 		t.true((methods as readonly string[]).includes(request.method!));
-		t.is(`/${request.method!}`, request.url);
+		t.is(`/${request.method!}`, request.url!);
 
 		const body
 			= request.method === 'HEAD' || request.method === 'OPTIONS'
