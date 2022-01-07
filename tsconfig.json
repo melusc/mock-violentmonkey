@@ -1,7 +1,5 @@
 {
 	"compilerOptions": {
-		// ava doesn't work with esm
-		"module": "commonjs",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 
