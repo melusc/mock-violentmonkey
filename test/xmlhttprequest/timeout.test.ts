@@ -61,31 +61,3 @@ test('timeout after 1s', async t => {
 		xhr.send();
 	});
 });
-
-test('timeout with httpbin/drip', async t => {
-	t.plan(2);
-
-	const xhr = new XMLHttpRequest();
-	console.time('start');
-
-	xhr.timeout = 1200;
-
-	xhr.addEventListener('progress', () => {
-		t.is(xhr.responseBuffer.length, 1);
-	});
-
-	xhr.addEventListener('timeout', () => {
-		// This together with t.plan()
-		t.pass();
-	});
-
-	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
-
-		xhr.open(
-			'get',
-			'https://httpbin.org/drip?duration=10&numbytes=10&code=200',
-		);
-		xhr.send();
-	});
-});
