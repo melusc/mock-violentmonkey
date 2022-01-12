@@ -70,6 +70,7 @@
 	"dependencies": {
 		"@types/follow-redirects": "^1.13.1",
 		"@types/jsdom": "^16.2.14",
+		"data-uri-to-buffer": "^4.0.0",
 		"follow-redirects": "^1.14.6",
 		"jsdom": "^19.0.0",
 		"type-fest": "^2.9.0"

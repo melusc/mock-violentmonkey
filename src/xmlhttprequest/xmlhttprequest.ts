@@ -23,7 +23,7 @@ import {Buffer, resolveObjectURL} from 'node:buffer';
 
 import followRedirects from 'follow-redirects';
 
-import {dataUriToBuffer} from './data-uri-to-buffer.js';
+import {dataUriToBuffer} from 'data-uri-to-buffer';
 
 const {http, https} = followRedirects;
 
