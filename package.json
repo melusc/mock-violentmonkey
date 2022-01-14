@@ -66,7 +66,7 @@
 		"prepublish": "yarn build"
 	},
 	"type": "module",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"dependencies": {
 		"@types/follow-redirects": "^1.13.1",
 		"@types/jsdom": "^16.2.14",
