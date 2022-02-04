@@ -42,7 +42,7 @@ export type Method = UppercaseMethods | Lowercase<UppercaseMethods>;
 export type ReadyState = 0 | 1 | 2 | 3 | 4;
 export type Options = {base?: string | URL | undefined};
 
-type ResponseHandler = NonNullable<Parameters<typeof http.request>[1]>;
+type ResponseHandler = NonNullable<Parameters<typeof http.request>[2]>;
 type Response = Parameters<ResponseHandler>[0];
 type Request = ReturnType<typeof http.request>;
 
@@ -512,7 +512,7 @@ class XMLHttpRequest {
 		// Reset error flag
 		this.#errorFlag = false;
 		// Use the proper protocol
-		const doRequest = (ssl ? https : http).request;
+		const doRequest = (ssl ? https : http).request as typeof http.request;
 
 		// Request is being sent, set send flag
 		this.#sendFlag = true;
@@ -569,13 +569,10 @@ class XMLHttpRequest {
 
 		// Create the request
 		const request = doRequest(
+			url,
 			{
 				method: settings.method,
 				headers,
-				host: url.host,
-				hostname: url.hostname,
-				path: url.pathname + url.search,
-				port: url.port,
 			},
 			responseHandler,
 		).on('error', () => {
