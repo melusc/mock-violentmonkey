@@ -45,7 +45,7 @@ const download: Download = (options, name?: string) => {
 		url,
 		timeout: options_.timeout,
 		responseType: 'blob',
-		onload: async response => {
+		async onload(response) {
 			const blob = response.response as Blob;
 			const buffer = Buffer.from(await blob.arrayBuffer());
 

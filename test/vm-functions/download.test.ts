@@ -19,7 +19,7 @@ test(
 			GM_download({
 				url: '/base64/R01fZG93bmxvYWQ=',
 				name: 'out.txt',
-				onload: responseObject => {
+				onload(responseObject) {
 					t.like(responseObject, {
 						readyState: 4,
 						status: 200,
@@ -44,10 +44,10 @@ test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
 		GM_download({
 			url: 'htt://google.com',
 			name: 'name.txt',
-			onload: () => {
+			onload() {
 				reject();
 			},
-			onerror: () => {
+			onerror() {
 				resolve();
 			},
 		});

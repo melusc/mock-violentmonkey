@@ -18,6 +18,7 @@ type XHRResponseObject<TContext = any> = {
 	statusText: string;
 	readyState: number;
 	responseHeaders: string;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	response: string | Blob | ArrayBuffer | Document | JsonValue | null;
 	responseText: string | undefined;
 	finalUrl: string;
@@ -219,13 +220,13 @@ const makeEventResponse = <TContext = never>(
 		},
 		{
 			response: {
-				get: () => {
+				get() {
 					response ??= responseToResponseType(xhr, details.responseType);
 					return response;
 				},
 			},
 			responseText: {
-				get: () => {
+				get() {
 					responseText ??= xhr.responseBuffer.toString();
 					return responseText;
 				},
@@ -302,7 +303,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 	// This is necessary because turning the data to a buffer
 	// is asynchronous but GM_xmlhttpRequest not
 	const aborter = {
-		abort: () => {
+		abort() {
 			aborted = true;
 		},
 	};

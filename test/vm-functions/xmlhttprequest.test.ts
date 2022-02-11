@@ -30,7 +30,7 @@ test(
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: '/delay/3',
-				onabort: response => {
+				onabort(response) {
 					t.deepEqual(response, {
 						context: undefined,
 						finalUrl: '',
@@ -59,7 +59,7 @@ test(
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: '/html',
-				onload: ({finalUrl}) => {
+				onload({finalUrl}) {
 					t.is(finalUrl, 'https://httpbin.org/html');
 				},
 				onloadend: resolve,
@@ -79,7 +79,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/html',
 				responseType: 'document',
-				onload: responseObject => {
+				onload(responseObject) {
 					// Make sure that it doesn't reparse it every single time
 					t.is(responseObject.response, responseObject.response);
 
@@ -103,7 +103,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/html',
 				responseType: 'document',
-				onload: responseObject => {
+				onload(responseObject) {
 					t.is(
 						(responseObject.response as Document).URL,
 						'https://httpbin.org/html',
@@ -126,7 +126,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/json',
 				responseType: 'json',
-				onload: responseObject => {
+				onload(responseObject) {
 					t.is(
 						Object.prototype.toString.call(responseObject.response),
 						'[object Object]',
@@ -169,7 +169,7 @@ test(
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: '/html',
-				onload: response => {
+				onload(response) {
 					const dom = response.response as Document;
 
 					t.truthy(dom);
@@ -195,7 +195,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/base64/YWJj',
 				responseType: 'arraybuffer',
-				onload: response => {
+				onload(response) {
 					const arrayBuffer = response.response as ArrayBuffer;
 					t.true(arrayBuffer instanceof ArrayBuffer);
 
@@ -218,7 +218,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/base64/YWJj',
 				responseType: 'text',
-				onload: response => {
+				onload(response) {
 					t.is(typeof response.response, 'string');
 
 					t.is(response.response, 'abc');
@@ -240,7 +240,7 @@ test(
 			GM_xmlhttpRequest({
 				url: '/base64/eHl6',
 				responseType: 'blob',
-				onload: async response => {
+				async onload(response) {
 					const blob = response.response as Blob;
 
 					t.true(blob instanceof Blob);
@@ -277,7 +277,7 @@ test(
 				data: formData,
 				responseType: 'json',
 				method: 'post',
-				onload: responseObject => {
+				onload(responseObject) {
 					const response = responseObject.response as Record<
 						string,
 						Record<string, string>
@@ -311,7 +311,7 @@ test(
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: 'htt://google.com/',
-				onerror: () => {
+				onerror() {
 					t.pass();
 				},
 				onloadend: resolve,
@@ -335,7 +335,7 @@ test(
 				url: 'https://httpbin.org/headers',
 				responseType: 'json',
 				headers,
-				onload: ({response}) => {
+				onload({response}) {
 					t.like((response as JsonObject)['headers'], headers);
 				},
 				onloadend: resolve,

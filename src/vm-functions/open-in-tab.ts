@@ -18,6 +18,7 @@ type OpenInTab = (
 	url: string,
 	options?: OpenInTabOptions | boolean,
 ) => {
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	onclose?: (() => void) | undefined | null;
 	closed: boolean;
 	close: () => void;

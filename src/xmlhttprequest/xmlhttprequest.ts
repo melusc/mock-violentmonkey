@@ -56,7 +56,7 @@ export type Events =
 	| 'readystatechange'
 	| 'timeout';
 
-export type Headers = Record<string, string | null | undefined>;
+export type Headers = Record<string, string | undefined>;
 
 // Set some default headers
 const defaultHeaders = {

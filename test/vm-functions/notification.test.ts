@@ -22,11 +22,11 @@ test(
 		await new Promise<void>(resolve => {
 			GM_notification({
 				text: 'f',
-				ondone: () => {
+				ondone() {
 					++amountCalled.ondone;
 					resolve();
 				},
-				onclick: () => {
+				onclick() {
 					++amountCalled.onclick;
 				},
 			});
@@ -58,11 +58,11 @@ test(
 		const promise = new Promise<void>(resolve => {
 			GM_notification({
 				text,
-				ondone: () => {
+				ondone() {
 					++amountCalled.ondone;
 					resolve();
 				},
-				onclick: () => {
+				onclick() {
 					++amountCalled.onclick;
 				},
 			});
@@ -100,10 +100,10 @@ test(
 		const promise = new Promise<void>(resolve => {
 			GM_notification({
 				text,
-				ondone: () => {
+				ondone() {
 					++amountCalled.ondone;
 				},
-				onclick: () => {
+				onclick() {
 					resolve();
 					++amountCalled.onclick;
 				},
@@ -142,11 +142,11 @@ test(
 		const promise = new Promise<void>(resolve => {
 			GM_notification({
 				text,
-				ondone: () => {
+				ondone() {
 					++amountCalled.ondone;
 					resolve();
 				},
-				onclick: () => {
+				onclick() {
 					++amountCalled.onclick;
 				},
 			});
@@ -183,10 +183,10 @@ test(
 
 		GM_notification({
 			text,
-			ondone: () => {
+			ondone() {
 				++amountCalled.ondone;
 			},
-			onclick: () => {
+			onclick() {
 				++amountCalled.onclick;
 			},
 		});
@@ -224,10 +224,10 @@ test(
 
 		const notification = GM_notification({
 			text,
-			ondone: () => {
+			ondone() {
 				t.fail();
 			},
-			onclick: () => {
+			onclick() {
 				t.fail();
 			},
 		});
@@ -262,10 +262,10 @@ test(
 
 		const notification = GM_notification({
 			text,
-			ondone: () => {
+			ondone() {
 				t.fail();
 			},
-			onclick: () => {
+			onclick() {
 				t.fail();
 			},
 		});
@@ -302,10 +302,10 @@ test(
 
 		const notification = GM_notification({
 			text,
-			ondone: () => {
+			ondone() {
 				++amountOnDoneCalled;
 			},
-			onclick: () => {
+			onclick() {
 				t.fail();
 			},
 		});
@@ -343,10 +343,10 @@ test(
 
 		const notification = GM_notification({
 			text,
-			ondone: () => {
+			ondone() {
 				t.fail();
 			},
-			onclick: () => {
+			onclick() {
 				t.fail();
 			},
 		});
