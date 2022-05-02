@@ -84,23 +84,21 @@ const allowedRequestMethods = new Set<UppercaseMethods>([
 /**
  * Check if the specified header is allowed.
  *
- * @param string header Header to validate
- * @return boolean False if not allowed, otherwise true
+ * @param header Header to validate
+ * @return False if not allowed, otherwise true
  */
-const isAllowedHttpHeader = (header: string) =>
-	Boolean(
-		typeof header === 'string'
-			&& !forbiddenRequestHeaders.has(header.toLowerCase()),
-	);
+const isAllowedHttpHeader = (header: string): boolean =>
+	typeof header === 'string'
+	&& !forbiddenRequestHeaders.has(header.toLowerCase());
 
 /**
  * Check if the specified method is allowed.
  *
- * @param string method Request method to validate
- * @return boolean False if not allowed, otherwise true
+ * @param method Request method to validate
+ * @return False if not allowed, otherwise true
  */
-const isAllowedHttpMethod = (method: UppercaseMethods) =>
-	Boolean(typeof method === 'string' && allowedRequestMethods.has(method));
+const isAllowedHttpMethod = (method: UppercaseMethods): boolean =>
+	typeof method === 'string' && allowedRequestMethods.has(method);
 
 type XHRResponse = Pick<Response, 'headers'> & {
 	destroy: () => void;
