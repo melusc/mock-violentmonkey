@@ -61,9 +61,9 @@
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
 "@lusc/tsconfig@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@lusc/tsconfig/-/tsconfig-1.0.0.tgz#e169910ef888386ad26acf9389f0c0931d789bdc"
-  integrity sha512-p2AKvylOpbMJy0XrDpsgeV3UByp5KZbd6cmAPGTUR9WLtmhD7IH2h0fhQPw5R0pindNXM3gRyuOZrFcZLICEcw==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@lusc/tsconfig/-/tsconfig-1.1.0.tgz#09cbb296a6471da5e2c61a7ee486b03b863db385"
+  integrity sha512-Dgzixd358ju5/i/yvXidtR2h3ZxPzIdph4eWHfC/+dlQ3CjyoFu5uGGqPT/NSwFHrzsbx3KcfrygMtPSJ3WBWg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
