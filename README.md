@@ -249,7 +249,10 @@ type Tab = {
 Instead of polluting the global namespace, this allows you to only enable whatever is required.
 Only `document` and `window` are added to the global namespace by default.
 
-This is, however, not aware of violentmonkey-contexts, so calling it once at the start of the file is enough.
+This should always be used for `FormData`,
+because node's implementation of `FormData` does not work with jsdom's `File`.
+
+This is not aware of violentmonkey-contexts, so calling it once at the start of the file is enough.
 
 ```js
 console.log(typeof FormData); // undefined

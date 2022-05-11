@@ -138,7 +138,10 @@ const dataToBuffer = async (
 		return [Buffer.from(data), 'text/plain'];
 	}
 
-	if (data instanceof getWindow().FormData) {
+	if (
+		data instanceof getWindow().FormData
+		|| (typeof FormData !== 'undefined' && data instanceof FormData)
+	) {
 		return formDataToBuffer(data);
 	}
 

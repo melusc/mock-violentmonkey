@@ -31,10 +31,6 @@ test(
 		t.is(typeof File, 'undefined');
 		enableDomGlobal('File');
 		t.is(typeof new File(['content'], 'a.txt'), 'object');
-
-		t.is(typeof FormData, 'undefined');
-		enableDomGlobal('FormData');
-		t.is(typeof new FormData(), 'object');
 	}),
 );
 
