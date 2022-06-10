@@ -16,17 +16,17 @@ This the whole magic. violentMonkeyContext seperates the various testing context
 
 ```js
 test(
-	'title1',
-	violentMonkeyContext(t => {
-		// This is seperate
-	}),
+  'title1',
+  violentMonkeyContext(t => {
+    // This is seperate
+  }),
 );
 
 test(
-	'title2',
-	violentMonkeyContext(t => {
-		// from here
-	}),
+  'title2',
+  violentMonkeyContext(t => {
+    // from here
+  }),
 );
 ```
 
@@ -36,15 +36,15 @@ This is similar to violentMonkeyContext, but this makes use of [ava macros](http
 
 ```js
 test('title', violentMonkeyContextMacro(), t => {
-	t.is(GM_getValue('a'), 'b');
+  t.is(GM_getValue('a'), 'b');
 });
 
 // same as
 test(
-	'title',
-	violentMonkeyContext(t => {
-		t.is(GM_getValue('a'), 'b');
-	}),
+  'title',
+  violentMonkeyContext(t => {
+    t.is(GM_getValue('a'), 'b');
+  }),
 );
 ```
 
@@ -54,18 +54,18 @@ This allows you to simulate seperate tabs. It is currently only useful for `GM_a
 
 ```js
 test(
-	'title',
-	violentMonkeyContext(t => {
-		GM_addValueChangeListener('key', (key, oldValue, newValue, remote) => {
-			console.log(remote);
-		});
+  'title',
+  violentMonkeyContext(t => {
+    GM_addValueChangeListener('key', (key, oldValue, newValue, remote) => {
+      console.log(remote);
+    });
 
-		GM_setValue('key', 1); // Will log false
+    GM_setValue('key', 1); // Will log false
 
-		tabContext(() => {
-			GM_setValue('key', 2); // Will log true
-		});
-	}),
+    tabContext(() => {
+      GM_setValue('key', 2); // Will log true
+    });
+  }),
 );
 ```
 
@@ -102,10 +102,10 @@ If you import `GM_info` it is not a getter, you have to call it.
 ```js
 import {GM_info} from 'mock-violentmonkey';
 test(
-	'title',
-	violentMonkeyContext(t => {
-		console.log(GM_info());
-	}),
+  'title',
+  violentMonkeyContext(t => {
+    console.log(GM_info());
+  }),
 );
 ```
 
@@ -115,10 +115,10 @@ import {ScriptInfo} from 'mock-violentmonkey';
 declare const GM_info: ScriptInfo;
 
 test(
-	'title',
-	violentMonkeyContext(t => {
-		console.log(GM_info);
-	}),
+  'title',
+  violentMonkeyContext(t => {
+    console.log(GM_info);
+  }),
 );
 ```
 
@@ -132,26 +132,26 @@ This provides an easy way of updating `GM_info` / `GM.info`. The object is mutab
 
 ```js
 test(
-	'title',
-	violentMonkeyContext(t => {
-		update_GM_info({
-			version: '2.0.0', // Version of Violentmonkey
-			platform: {
-				// Supports deep assignment
-				arch: 'arm', // update platform arch
-			},
-			script: {
-				version: '1.5.2', // Version of userscript
-				matches: ['https://github.com/*'], // Merges old array and new array
-			},
-		});
+  'title',
+  violentMonkeyContext(t => {
+    update_GM_info({
+      version: '2.0.0', // Version of Violentmonkey
+      platform: {
+        // Supports deep assignment
+        arch: 'arm', // update platform arch
+      },
+      script: {
+        version: '1.5.2', // Version of userscript
+        matches: ['https://github.com/*'], // Merges old array and new array
+      },
+    });
 
-		// Same as
-		GM_info.version = '2.0.0';
-		GM_info.platform.arch = 'arm';
-		GM_info.script.version = '1.5.2';
-		GM_info.script.matches.push('https://github.com/*');
-	}),
+    // Same as
+    GM_info.version = '2.0.0';
+    GM_info.platform.arch = 'arm';
+    GM_info.script.version = '1.5.2';
+    GM_info.script.matches.push('https://github.com/*');
+  }),
 );
 ```
 
@@ -196,14 +196,14 @@ Setting any of the selectors to undefined allows any value. That's why `findNoti
 
 ```ts
 type FindNotifications = (selectors: {
-	text?: string;
-	image?: string;
-	title?: string;
+  text?: string;
+  image?: string;
+  title?: string;
 }) => {
-	remove: () => void; // Remove notifications that match the selectors
-	click: () => void; // Click notifications that match the selectors
-	close: () => void; // Close notifications that match the selectors
-	count: () => number; // Get count of notifications that match the selectors
+  remove: () => void; // Remove notifications that match the selectors
+  click: () => void; // Click notifications that match the selectors
+  close: () => void; // Close notifications that match the selectors
+  count: () => number; // Get count of notifications that match the selectors
 };
 ```
 
@@ -233,14 +233,14 @@ If url is undefined, it returns all tabs.
 type GetTabs = (url?: string | RegExp) => Tab[];
 
 type Tab = {
-	close: () => void;
-	url: string;
-	options: {
-		active: boolean;
-		container: number;
-		insert: boolean;
-		pinned: boolean;
-	};
+  close: () => void;
+  url: string;
+  options: {
+    active: boolean;
+    container: number;
+    insert: boolean;
+    pinned: boolean;
+  };
 };
 ```
 
@@ -271,25 +271,25 @@ ideally at the beginning of the vm context.
 
 ```js
 test(
-	'setBaseUrl before',
-	violentMonkeyContext(t => {
-		setBaseUrl('https://google.com/');
+  'setBaseUrl before',
+  violentMonkeyContext(t => {
+    setBaseUrl('https://google.com/');
 
-		console.log(getWindow().location.href); // https://google.com/
-	}),
+    console.log(getWindow().location.href); // https://google.com/
+  }),
 );
 
 test(
-	'setBaseUrl after',
-	violentMonkeyContext(t => {
-		// Initialise the window.
-		getWindow();
+  'setBaseUrl after',
+  violentMonkeyContext(t => {
+    // Initialise the window.
+    getWindow();
 
-		// The window is already initialised, changing the baseUrl doesn't do anything
-		setBaseUrl('https://google.com/');
+    // The window is already initialised, changing the baseUrl doesn't do anything
+    setBaseUrl('https://google.com/');
 
-		console.log(getWindow().location.href); // http:localhost:5000/
-	}),
+    console.log(getWindow().location.href); // http:localhost:5000/
+  }),
 );
 ```
 
@@ -303,18 +303,18 @@ type GetDownloads = () => Record<string, Buffer>;
 
 ```js
 test('title', violentMonkeyContextMacro(), t => {
-	console.log(getDownloads()); // {}
+  console.log(getDownloads()); // {}
 
-	GM_download({
-		url: 'https://example.com/',
-		name: 'example-com.html',
-		onload: () => {
-			console.log(getDownloads());
-			/* {
+  GM_download({
+    url: 'https://example.com/',
+    name: 'example-com.html',
+    onload: () => {
+      console.log(getDownloads());
+      /* {
 				"example-com.html": <Buffer 3c 21 ...>
 			} */
-		},
-	});
+    },
+  });
 });
 ```
 
@@ -328,16 +328,16 @@ type GetDownload = (name: string) => Buffer | undefined;
 
 ```js
 test('title', violentMonkeyContextMacro(), t => {
-	console.log(getDownload('example-com.html')); // undefined
+  console.log(getDownload('example-com.html')); // undefined
 
-	GM_download({
-		url: 'https://example.com/',
-		name: 'example-com.html',
-		onload: () => {
-			console.log(getDownload('example-com.html'));
-			// <Buffer 3c 21 ...>
-		},
-	});
+  GM_download({
+    url: 'https://example.com/',
+    name: 'example-com.html',
+    onload: () => {
+      console.log(getDownload('example-com.html'));
+      // <Buffer 3c 21 ...>
+    },
+  });
 });
 ```
 
