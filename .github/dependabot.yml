@@ -12,3 +12,10 @@ updates:
       day: 'friday'
     # Basically no limit
     open-pull-requests-limit: 50
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'friday'
+    open-pull-requests-limit: 50
