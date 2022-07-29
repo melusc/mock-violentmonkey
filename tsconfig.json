@@ -1,14 +1,6 @@
 {
 	"compilerOptions": {
-		"esModuleInterop": true,
-
-		"strict": true,
-
-		"lib": ["ESNext", "DOM.Iterable", "DOM"],
-
-		"outDir": "dist/lib",
-
-		"stripInternal": true
+		"outDir": "dist/lib"
 	},
 	"extends": "@lusc/tsconfig",
 	"include": ["src/**/*.ts"]
