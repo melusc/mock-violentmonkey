@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"outDir": "dist/lib"
+		"outDir": "dist/lib",
+		"types": ["@types/node"]
 	},
 	"extends": "@lusc/tsconfig",
 	"include": ["src/**/*.ts"]
