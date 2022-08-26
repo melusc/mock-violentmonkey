@@ -14,11 +14,7 @@ const getClipboard = () => {
 	return clipboardData && {...clipboardData};
 };
 
-export {
-	setClipboard as GM_setClipboard,
-	getClipboard,
-	type SetClipboard,
-};
+export {setClipboard as GM_setClipboard, getClipboard, type SetClipboard};
 
 Object.defineProperty(global, 'GM_setClipboard', {
 	value: setClipboard,
