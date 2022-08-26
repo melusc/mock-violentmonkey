@@ -14,7 +14,7 @@ const addStyle: AddStyle = css => {
 	return style;
 };
 
-export {addStyle as GM_addStyle, AddStyle};
+export {addStyle as GM_addStyle, type AddStyle};
 
 Object.defineProperty(global, 'GM_addStyle', {
 	value: addStyle,

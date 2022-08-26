@@ -1,4 +1,4 @@
-import {JSDOM, DOMWindow} from 'jsdom';
+import {JSDOM, type DOMWindow} from 'jsdom';
 import {VMStorage} from './vm-storage.js';
 import {getBaseUrl} from './base-url.js';
 import {XMLHttpRequest} from './xmlhttprequest/index.js';

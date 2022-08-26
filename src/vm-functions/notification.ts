@@ -234,7 +234,7 @@ export {
 	setNotificationTimeout,
 	findNotifications,
 	setNotificationCompat,
-	Notification,
+	type Notification,
 };
 
 Object.defineProperty(global, 'GM_notification', {

@@ -85,7 +85,7 @@ const getTabs = (url?: string | RegExp): Tab[] => {
 	return result;
 };
 
-export {openInTab as GM_openInTab, getTabs, OpenInTab};
+export {openInTab as GM_openInTab, getTabs, type OpenInTab};
 
 Object.defineProperty(global, 'GM_openInTab', {
 	value: openInTab,

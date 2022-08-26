@@ -25,9 +25,8 @@ export {
 	registerMenuCommand as GM_registerMenuCommand,
 	unregisterMenuCommand as GM_unregisterMenuCommand,
 	triggerMenuCommand,
-	/*****/
-	RegisterMenuCommand,
-	UnregisterMenuCommand,
+	type RegisterMenuCommand,
+	type UnregisterMenuCommand,
 };
 
 Object.defineProperties(global, {

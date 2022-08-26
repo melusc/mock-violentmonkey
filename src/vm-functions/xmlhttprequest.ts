@@ -3,12 +3,12 @@ import crypto from 'node:crypto';
 
 import {JSDOM} from 'jsdom';
 
-import {JsonValue} from 'type-fest';
+import type {JsonValue} from 'type-fest';
 import {
 	XMLHttpRequest,
-	Method,
-	Events,
-	Headers,
+	type Method,
+	type Events,
+	type Headers,
 } from '../xmlhttprequest/index.js';
 import {getWindow} from '../dom.js';
 import {getBaseUrl} from '../base-url.js';
@@ -315,13 +315,13 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 };
 
 export {
-	XHRDetails,
-	XHREventHandler,
-	XHRResponseObject,
-	XmlHttpRequest,
+	type XHRDetails,
+	type XHREventHandler,
+	type XHRResponseObject,
+	type XmlHttpRequest,
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
-export {Headers} from '../xmlhttprequest/index.js';
+export type {Headers} from '../xmlhttprequest/index.js';
 
 Object.defineProperties(global, {
 	GM_xmlhttpRequest: {

@@ -17,8 +17,7 @@ const getClipboard = () => {
 export {
 	setClipboard as GM_setClipboard,
 	getClipboard,
-	/*****/
-	SetClipboard,
+	type SetClipboard,
 };
 
 Object.defineProperty(global, 'GM_setClipboard', {

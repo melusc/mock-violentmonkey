@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-import {PartialDeep} from 'type-fest';
+import type {PartialDeep} from 'type-fest';
 import {VMStorage} from '../vm-storage.js';
 
 type ScriptInfo = {
@@ -187,8 +187,8 @@ const updateInfo = (newInfo: PartialScriptInfo) => {
 export {
 	getInfo as GM_info,
 	updateInfo as update_GM_info,
-	ScriptInfo,
-	PartialScriptInfo,
+	type ScriptInfo,
+	type PartialScriptInfo,
 };
 
 Object.defineProperties(global, {
