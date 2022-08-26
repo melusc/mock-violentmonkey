@@ -1,8 +1,8 @@
 import {Buffer} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
-import {Headers} from '../xmlhttprequest/index.js';
-import {XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
+import type {Headers} from '../xmlhttprequest/index.js';
+import {type XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
 
 const downloads = new VMStorage<Map<string, Buffer>>(() => new Map());
 
@@ -76,7 +76,7 @@ const getDownloads = (): Record<string, Buffer> => {
 
 const getDownload = (name: string) => downloads.get(false)?.get(name)?.slice();
 
-export {download as GM_download, getDownloads, getDownload, Download};
+export {download as GM_download, getDownloads, getDownload, type Download};
 
 Object.defineProperty(global, 'GM_download', {
 	value: download,

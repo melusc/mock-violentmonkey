@@ -1,9 +1,8 @@
-import {Buffer} from 'node:buffer';
+import type {Buffer} from 'node:buffer';
 
-// eslint-disable-next-line ava/use-test
-import {ExecutionContext} from 'ava';
+import type {ExecutionContext} from 'ava';
 
-import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
+import type {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 type ExpectedValues = {
 	headers: string;

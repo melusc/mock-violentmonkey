@@ -1,4 +1,4 @@
-import anyTest, {TestFn} from 'ava';
+import anyTest, {type TestFn} from 'ava';
 
 import {
 	violentMonkeyContextMacro,

@@ -1,12 +1,12 @@
 import {Blob as Blob_, Buffer} from 'node:buffer';
 
 import test from 'ava';
-import {JsonObject} from 'type-fest';
+import type {JsonObject} from 'type-fest';
 
 import {
 	enableDomGlobal,
 	GM_xmlhttpRequest,
-	Headers,
+	type Headers,
 	violentMonkeyContext,
 } from '../../src/index.js';
 import {setBaseUrl} from '../../src/base-url.js';

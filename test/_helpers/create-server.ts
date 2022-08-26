@@ -1,4 +1,4 @@
-import http, {RequestListener} from 'node:http';
+import http, {type RequestListener} from 'node:http';
 import process from 'node:process';
 
 export const createServer = async (requestListener: RequestListener) =>

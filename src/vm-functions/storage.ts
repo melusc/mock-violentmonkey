@@ -150,14 +150,13 @@ export {
 	listValues as GM_listValues,
 	addValueChangeListener as GM_addValueChangeListener,
 	removeValueChangeListener as GM_removeValueChangeListener,
-	/*****/
-	SetValue,
-	GetValue,
-	DeleteValue,
-	ListValues,
-	AddValueChangeListener,
-	AddValueChangeListenerCallback,
-	RemoveValueChangeListener,
+	type SetValue,
+	type GetValue,
+	type DeleteValue,
+	type ListValues,
+	type AddValueChangeListener,
+	type AddValueChangeListenerCallback,
+	type RemoveValueChangeListener,
 };
 
 /**

@@ -1,7 +1,6 @@
-// eslint-disable-next-line ava/use-test
-import {ExecutionContext} from 'ava';
+import type {ExecutionContext} from 'ava';
 
-import {XMLHttpRequest, Events} from '../../src/xmlhttprequest/index.js';
+import type {XMLHttpRequest, Events} from '../../src/xmlhttprequest/index.js';
 
 const events: readonly Events[] = [
 	'abort',

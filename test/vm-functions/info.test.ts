@@ -3,7 +3,7 @@ import {
 	GM_info,
 	violentMonkeyContext,
 	update_GM_info,
-	ScriptInfo,
+	type ScriptInfo,
 } from '../../src/index.js';
 
 test(

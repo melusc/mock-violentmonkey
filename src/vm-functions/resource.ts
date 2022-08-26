@@ -71,9 +71,8 @@ export {
 	setResource,
 	getResourceText as GM_getResourceText,
 	getResourceURL as GM_getResourceURL,
-	/*****/
-	GetResourceText,
-	GetResourceURL,
+	type GetResourceText,
+	type GetResourceURL,
 };
 
 Object.defineProperties(global, {
