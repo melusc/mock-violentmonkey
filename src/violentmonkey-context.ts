@@ -1,11 +1,12 @@
 // https://nodejs.org/api/async_context.html
 import {AsyncLocalStorage} from 'node:async_hooks';
 
+import type {EmptyObject} from 'type-fest';
+
 /* Ideally using empty arrays allows for garbage collection
 	in combination with (Better-)WeakMap
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-const asyncLocalStorage = new AsyncLocalStorage<[]>();
+const asyncLocalStorage = new AsyncLocalStorage<EmptyObject>();
 
 /* Abstract away AsyncLocalStorage#getStore to allow for error handling directly */
 
@@ -35,6 +36,6 @@ const getUserscriptId = () => {
 const violentMonkeyContext
 	= <Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
 	(...args: Args) =>
-		asyncLocalStorage.run([], cb, ...args);
+		asyncLocalStorage.run({}, cb, ...args);
 
 export {violentMonkeyContext, getUserscriptId};

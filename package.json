@@ -73,6 +73,6 @@
 		"data-uri-to-buffer": "^4.0.0",
 		"follow-redirects": "^1.15.1",
 		"jsdom": "^20.0.0",
-		"type-fest": "^2.19.0"
+		"type-fest": "^3.0.0"
 	}
 }
