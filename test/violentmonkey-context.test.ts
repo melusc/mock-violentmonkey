@@ -11,7 +11,7 @@ import {
 test(
 	'violentMonkeyContext should create a context with an id',
 	violentMonkeyContext(t => {
-		t.deepEqual(getUserscriptId(), []);
+		t.deepEqual(getUserscriptId(), {});
 	}),
 );
 

@@ -1,10 +1,11 @@
+import type {EmptyObject} from 'type-fest';
+
 import {BetterWeakMap} from './utils/index.js';
 import {getUserscriptId} from './violentmonkey-context.js';
 
 /** @internal */
 class VMStorage<V> {
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	private readonly storages = new BetterWeakMap<[], V>();
+	private readonly storages = new BetterWeakMap<EmptyObject, V>();
 
 	constructor(private readonly getDefaultValue: () => V) {}
 
