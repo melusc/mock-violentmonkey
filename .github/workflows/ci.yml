@@ -22,8 +22,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Enable corepack
+        run: corepack enable
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Check code style
         run: |
@@ -31,7 +34,7 @@ jobs:
           git --no-pager diff --exit-code
 
       - name: CI tests
-        run: yarn run ava
+        run: yarn run test
 
       - name: Type checking
-        run: yarn tsc --noEmit
+        run: yarn build
