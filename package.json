@@ -58,11 +58,10 @@
 		"url": "git+https://github.com/melusc/mock-violentmonkey.git"
 	},
 	"scripts": {
-		"ava": "ava",
 		"build": "rimraf dist/lib && tsc",
-		"preava": "rimraf dist/test && tsc --project test/tsconfig.json",
+		"build:test": "rimraf dist/test && tsc --project test/tsconfig.json",
 		"fmt": "prettier . -w && xo --fix",
-		"test": "xo && yarn ava",
+		"test": "yarn build:test && ava",
 		"prepublish": "yarn build"
 	},
 	"type": "module",
@@ -74,5 +73,6 @@
 		"follow-redirects": "^1.15.1",
 		"jsdom": "^20.0.0",
 		"type-fest": "^3.0.0"
-	}
+	},
+	"packageManager": "yarn@3.3.0"
 }
