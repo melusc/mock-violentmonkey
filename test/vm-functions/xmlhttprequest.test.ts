@@ -1,4 +1,4 @@
-import {Blob as Blob_, Buffer} from 'node:buffer';
+import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 import type {JsonObject} from 'type-fest';
@@ -13,12 +13,6 @@ import {setBaseUrl} from '../../src/base-url.js';
 
 enableDomGlobal('FormData');
 enableDomGlobal('File');
-
-declare const Blob: typeof Blob_;
-
-test('globals', t => {
-	t.is(Blob, Blob_);
-});
 
 test(
 	'GM_xmlhttpRequest with instant abort',

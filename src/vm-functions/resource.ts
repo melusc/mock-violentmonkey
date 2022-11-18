@@ -1,5 +1,3 @@
-import {Blob} from 'node:buffer';
-import {URL} from 'node:url';
 import {BetterMap} from '../utils/index.js';
 import {VMStorage} from '../vm-storage.js';
 import {XMLHttpRequest} from '../xmlhttprequest/index.js';

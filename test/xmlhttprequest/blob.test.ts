@@ -1,5 +1,4 @@
-import {Blob, Buffer} from 'node:buffer';
-import {URL} from 'node:url';
+import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 
