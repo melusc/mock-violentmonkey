@@ -1,4 +1,4 @@
-import {Buffer} from 'node:buffer';
+import {Buffer, type Blob} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
 import type {Headers} from '../xmlhttprequest/index.js';
