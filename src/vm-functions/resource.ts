@@ -1,4 +1,6 @@
 import {Blob} from 'node:buffer';
+// Wait for #151
+// eslint-disable-next-line n/prefer-global/url
 import {URL} from 'node:url';
 import {BetterMap} from '../utils/index.js';
 import {VMStorage} from '../vm-storage.js';
