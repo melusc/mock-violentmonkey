@@ -1,4 +1,6 @@
 import {Blob, Buffer} from 'node:buffer';
+// Wait for #151
+// eslint-disable-next-line n/prefer-global/url
 import {URL} from 'node:url';
 
 import test from 'ava';
