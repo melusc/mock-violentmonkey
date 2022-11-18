@@ -28,13 +28,12 @@ jobs:
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.CPR_TOKEN }}
         with:
           commit-message: Update all dependencies ${{ github.run_id }}-${{ github.run_attempt }}
           branch: automatic_dependency_updates
           title: Update all dependencies
           body: Update all NPM dependencies.
           delete-branch: true
+          token: ${{ secrets.CPR_TOKEN }}
           #labels: auto-merge
           #reviewers: # optional
