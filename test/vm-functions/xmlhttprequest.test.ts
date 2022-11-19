@@ -235,7 +235,7 @@ test(
 				url: '/base64/eHl6',
 				responseType: 'blob',
 				async onload(response) {
-					const blob = response.response as Blob;
+					const blob = response.response as Blob_;
 
 					t.true(blob instanceof Blob);
 

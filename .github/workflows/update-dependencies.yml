@@ -7,33 +7,6 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Enable corepack
-        run: corepack enable
-
-      - run: |
-          yarn set version latest
-          git checkout HEAD -- .yarnrc.yml
-          git clean .yarn/releases -f
-
-      - run: yarn up '**'
-
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: Update all dependencies ${{ github.run_id }}-${{ github.run_attempt }}
-          branch: automatic_dependency_updates
-          title: Update all dependencies
-          body: Update all NPM dependencies.
-          delete-branch: true
-          token: ${{ secrets.CPR_TOKEN }}
-          #labels: auto-merge
-          #reviewers: # optional
+    uses: melusc/workflows/.github/workflows/update-dependencies.yml@main
+    secrets:
+      cprToken: ${{ secrets.CPR_TOKEN }}
