@@ -459,7 +459,7 @@ class XMLHttpRequest {
 		this.responseURL = url.href;
 		this.#setState(this.HEADERS_RECEIVED);
 
-		this.responseBuffer = buffer.slice();
+		this.responseBuffer = Buffer.from(buffer);
 		this.#setState(this.LOADING);
 		this.#dispatchEvent('progress');
 		if (options.extraProgressEvent && buffer.length > 0) {
