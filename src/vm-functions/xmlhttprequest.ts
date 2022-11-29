@@ -309,7 +309,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 			}
 		}
 
-		if (contentType !== undefined) {
+		if (contentType !== undefined && !xhr.getRequestHeader('content-type')) {
 			xhr.setRequestHeader('content-type', contentType);
 		}
 
