@@ -10,6 +10,7 @@ import {
 	violentMonkeyContext,
 } from '../../src/index.js';
 import {setBaseUrl} from '../../src/base-url.js';
+import {createServer} from '../_helpers/create-server.js';
 
 enableDomGlobal('FormData');
 enableDomGlobal('File');
@@ -339,6 +340,290 @@ test(
 					t.like((response as JsonObject)['headers'], headers);
 				},
 				onloadend: resolve,
+			});
+		});
+	}),
+);
+
+test(
+	'Sending FormData',
+	violentMonkeyContext(async t => {
+		t.plan(5);
+		const body = new FormData();
+
+		body.append(
+			'file-txt',
+			new File(['abc'], 'file.txt', {
+				type: 'text/plain',
+			}),
+		);
+
+		body.append('file-octet', new File(['def'], 'file.blob'));
+
+		body.append('string', 'ghi');
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.regex(
+				request.headers['content-type']!,
+				/^multipart\/form-data; boundary=-+[a-f\d]+$/,
+			);
+			const boundary = /boundary=(?<boundary>-+[a-f\d]+)$/.exec(
+				request.headers['content-type']!,
+			)!.groups!['boundary']!;
+
+			const bodyParts: Buffer[] = [];
+
+			request
+				.on('data', b => {
+					bodyParts.push(b);
+				})
+				.on('close', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.true(body.includes(boundary));
+					t.regex(
+						body,
+						new RegExp(
+							[
+								'^content-disposition: form-data; name="file-txt"; filename="file.txt"$',
+								'^content-type: text/plain$',
+								'^$',
+								'^abc$',
+							].join('\\r\\n'),
+							'im',
+						),
+					);
+					t.regex(
+						body,
+						new RegExp(
+							[
+								'^content-disposition: form-data; name="file-octet"; filename="file.blob"$',
+								'^content-type: application/octet-stream$',
+								'^$',
+								'^def$',
+							].join('\\r\\n'),
+							'im',
+						),
+					);
+					t.regex(
+						body,
+						new RegExp(
+							[
+								'^content-disposition: form-data; name="string"$',
+								'^$',
+								'^ghi$',
+							].join('\\r\\n'),
+							'im',
+						),
+					);
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				data: body,
+				onloadend() {
+					server.close();
+					resolve();
+				},
+			});
+		});
+	}),
+);
+
+test(
+	'Sending Blob with content-type',
+	violentMonkeyContext(async t => {
+		t.plan(2);
+		const body = new Blob(['abc'], {
+			type: 'text/plain',
+		});
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.is(request.headers['content-type'], 'text/plain');
+
+			const bodyParts: any[] = [];
+
+			request
+				.on('data', chunk => {
+					bodyParts.push(chunk);
+				})
+				.on('end', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.is(body, 'abc');
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				data: body,
+				onloadend() {
+					server.close();
+					resolve();
+				},
+			});
+		});
+	}),
+);
+
+test(
+	'Sending Blob without content-type',
+	violentMonkeyContext(async t => {
+		t.plan(2);
+		const body = new Blob(['qwerty']);
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.is(request.headers['content-type'], undefined);
+
+			const bodyParts: any[] = [];
+
+			request
+				.on('data', chunk => {
+					bodyParts.push(chunk);
+				})
+				.on('end', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.is(body, 'qwerty');
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				data: body,
+				onloadend() {
+					server.close();
+					resolve();
+				},
+			});
+		});
+	}),
+);
+
+test(
+	'Sending string',
+	violentMonkeyContext(async t => {
+		t.plan(2);
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.is(request.headers['content-type'], 'text/plain;charset=UTF-8');
+
+			const bodyParts: any[] = [];
+
+			request
+				.on('data', chunk => {
+					bodyParts.push(chunk);
+				})
+				.on('end', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.is(body, 'Never gonna give you up');
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				data: 'Never gonna give you up',
+				onloadend() {
+					server.close();
+					resolve();
+				},
+			});
+		});
+	}),
+);
+
+test(
+	'Sending no data',
+	violentMonkeyContext(async t => {
+		t.plan(2);
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.is(request.headers['content-type'], undefined);
+
+			const bodyParts: any[] = [];
+
+			request
+				.on('data', chunk => {
+					bodyParts.push(chunk);
+				})
+				.on('end', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.is(body, '');
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				onloadend() {
+					server.close();
+					resolve();
+				},
+			});
+		});
+	}),
+);
+
+test(
+	'Overriding content-type',
+	violentMonkeyContext(async t => {
+		t.plan(2);
+		const body = new Blob(['{"key": "value"}'], {
+			type: 'text/plain',
+		});
+
+		const {port, server} = await createServer((request, response) => {
+			response.writeHead(200);
+
+			t.is(request.headers['content-type'], 'application/json');
+
+			const bodyParts: any[] = [];
+
+			request
+				.on('data', chunk => {
+					bodyParts.push(chunk);
+				})
+				.on('end', () => {
+					const body = Buffer.concat(bodyParts).toString('utf8');
+					t.is(body, '{"key": "value"}');
+					response.end();
+				});
+		});
+
+		await new Promise<void>(resolve => {
+			GM_xmlhttpRequest({
+				url: `http://localhost:${port}/`,
+				method: 'post',
+				data: body,
+				headers: {
+					'content-type': 'application/json',
+				},
+				onloadend() {
+					server.close();
+					resolve();
+				},
 			});
 		});
 	}),

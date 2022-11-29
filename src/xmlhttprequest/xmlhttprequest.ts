@@ -499,8 +499,6 @@ class XMLHttpRequest {
 			data = undefined;
 		} else if (data) {
 			headers['content-length'] = String(data.length);
-
-			headers['content-type'] ||= 'text/plain;charset=utf-8';
 		} else if (settings.method === 'POST') {
 			// For a post with no data set Content-Length: 0.
 			// This is required by buggy servers that don't meet the specs.
