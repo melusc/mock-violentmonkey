@@ -78,7 +78,12 @@ type XmlHttpRequest = <TContext>(details: XHRDetails<TContext>) => {
 	abort: () => void;
 };
 
-const formDataToBuffer = async (data: FormData): Promise<[Buffer, string]> => {
+const formDataToBuffer = async (
+	data: FormData,
+): Promise<{
+	content: Buffer;
+	contentType: string;
+}> => {
 	const boundary = '-'.repeat(20) + crypto.randomBytes(20).toString('hex');
 
 	const body: string[] = [];
@@ -124,18 +129,30 @@ const formDataToBuffer = async (data: FormData): Promise<[Buffer, string]> => {
 
 	const contentType = `multipart/form-data; boundary=${boundary}`;
 
-	return [Buffer.from(body.join('\r\n')), contentType];
+	return {
+		content: Buffer.from(body.join('\r\n')),
+		contentType,
+	};
 };
 
 const dataToBuffer = async (
 	data: XHRDetails['data'],
-): Promise<[Buffer | undefined, string | undefined]> => {
+): Promise<{
+	content: Buffer | undefined;
+	contentType: string | undefined;
+}> => {
 	if (data === undefined) {
-		return [undefined, undefined];
+		return {
+			content: undefined,
+			contentType: undefined,
+		};
 	}
 
 	if (typeof data === 'string') {
-		return [Buffer.from(data), 'text/plain'];
+		return {
+			content: Buffer.from(data),
+			contentType: 'text/plain;charset=UTF-8',
+		};
 	}
 
 	if (
@@ -146,10 +163,13 @@ const dataToBuffer = async (
 	}
 
 	if (data instanceof Blob) {
-		return [Buffer.from(await data.arrayBuffer()), 'application/octet-stream'];
+		return {
+			content: Buffer.from(await data.arrayBuffer()),
+			contentType: data.type || undefined,
+		};
 	}
 
-	return [Buffer.from(String(data as any)), 'application/octet-stream'];
+	return dataToBuffer(String(data));
 };
 
 const responseToResponseType = (
@@ -243,7 +263,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 ) => {
 	let aborted = false;
 
-	void dataToBuffer(details.data).then(([body, contentType]) => {
+	void dataToBuffer(details.data).then(({content, contentType}) => {
 		const xhr = new XMLHttpRequest({
 			base: getBaseUrl(),
 		});
@@ -293,7 +313,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 			xhr.setRequestHeader('content-type', contentType);
 		}
 
-		xhr.send(body);
+		xhr.send(content);
 
 		// Doing it like this makes sure that
 		// it behaves just like asynchronous abort
