@@ -224,10 +224,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.11.12":
-  version: 18.11.12
-  resolution: "@types/node@npm:18.11.12"
-  checksum: 6c67f0998a9ad8ef0f357fcc0d72841c579576c746cfbac67c9d0229e1cd219d3b96297c2caaeaa4084ba7e9ad112b412e64af4066e522faa0be4ef9ad0a613a
+"@types/node@npm:^18.11.15":
+  version: 18.11.15
+  resolution: "@types/node@npm:18.11.15"
+  checksum: cae8692a5cee0316f93ee0342237eb921f70c51afb37c661c711a925a4642654ae7e404c5a80899d481c0cfaff3a6891ef04bacd330a2e72734192bfc91dc2d8
   languageName: node
   linkType: hard
 
@@ -3583,7 +3583,7 @@ __metadata:
     "@lusc/tsconfig": ^2.0.0
     "@types/follow-redirects": ^1.14.1
     "@types/jsdom": ^20.0.1
-    "@types/node": ^18.11.12
+    "@types/node": ^18.11.15
     "@types/tampermonkey": ^4.0.5
     ava: ^5.1.0
     data-uri-to-buffer: ^4.0.0
@@ -3591,7 +3591,7 @@ __metadata:
     jsdom: ^20.0.3
     prettier: ^2.8.1
     rimraf: ^3.0.2
-    type-fest: ^3.3.0
+    type-fest: ^3.4.0
     typescript: ^4.9.4
     xo: ^0.53.1
   peerDependencies:
@@ -5004,10 +5004,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "type-fest@npm:3.3.0"
-  checksum: 6f260466dd1847048bca4481412f39c32fbb69abbe6daf1ead67e682529adfe8ab8f150a9937eddd065fa544eaf92c15e35ebad0f45f46feadcfbd3a87ae5a2d
+"type-fest@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "type-fest@npm:3.4.0"
+  checksum: 37e8559f07778b6a24a1d01f285d9b6904537cfde49f6231f080f146c6ff753ea12a9163bcbe8e9bcd24f72529cf4d3baf69874b9a6e1d2da47046c41e4567f6
   languageName: node
   linkType: hard
 
