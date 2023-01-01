@@ -55,3 +55,51 @@ test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
 
 	t.deepEqual(getDownloads(), {});
 });
+
+test('GM_download event handlers', violentMonkeyContextMacro(), async t => {
+	const called = new Set<string>();
+
+	await new Promise<void>((resolve, reject) => {
+		GM_download({
+			url: 'https://httpbin.org/base64/YWJj',
+			name: 'out.txt',
+			onabort() {
+				reject();
+			},
+			onerror() {
+				reject();
+			},
+			onload() {
+				called.add('onload');
+			},
+			onloadend() {
+				called.add('onloadend');
+				resolve();
+			},
+			onloadstart() {
+				called.add('onloadstart');
+			},
+			onprogress() {
+				called.add('onprogress');
+			},
+			onreadystatechange() {
+				called.add('onreadystatechange');
+			},
+			ontimeout() {
+				reject();
+			},
+		});
+	});
+
+	t.is(called.size, 5);
+	t.deepEqual(
+		[...called].sort(),
+		[
+			'onload',
+			'onloadend',
+			'onloadstart',
+			'onprogress',
+			'onreadystatechange',
+		].sort(),
+	);
+});
