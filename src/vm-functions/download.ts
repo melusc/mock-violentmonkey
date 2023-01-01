@@ -56,11 +56,11 @@ const download: Download = (options, name?: string) => {
 		url,
 		responseType: 'blob',
 		async onload(response) {
-			options_.onload?.(response);
-
 			const blob = response.response as Blob;
 			const buffer = Buffer.from(await blob.arrayBuffer());
 			downloads.get(true).set(name_, buffer);
+
+			options_.onload?.(response);
 		},
 	});
 };
