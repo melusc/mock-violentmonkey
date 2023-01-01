@@ -6,14 +6,24 @@ import {type XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
 
 const downloads = new VMStorage<Map<string, Buffer>>(() => new Map());
 
+// https://violentmonkey.github.io/api/gm/#gm_download
 type DownloadOptions = {
 	url: string;
 	name: string;
-	onload?: XHREventHandler | undefined;
-	timeout?: number | undefined;
+
 	headers?: Headers | undefined;
-	onerror?: XHREventHandler | undefined;
+	timeout?: number | undefined;
+	context?: any;
+	user?: string | undefined;
+	password?: string | undefined;
+	anonymous?: boolean | undefined;
+	onabort?: XHREventHandler;
+	onerror?: XHREventHandler;
+	onload?: XHREventHandler | undefined;
+	onloadend?: XHREventHandler | undefined;
+	onloadstart?: XHREventHandler | undefined;
 	onprogress?: XHREventHandler | undefined;
+	onreadystatechange?: XHREventHandler | undefined;
 	ontimeout?: XHREventHandler | undefined;
 };
 
@@ -42,24 +52,16 @@ const download: Download = (options, name?: string) => {
 	}
 
 	GM_xmlhttpRequest({
+		...options_,
 		url,
-		timeout: options_.timeout,
 		responseType: 'blob',
 		async onload(response) {
+			options_.onload?.(response);
+
 			const blob = response.response as Blob;
 			const buffer = Buffer.from(await blob.arrayBuffer());
-
 			downloads.get(true).set(name_, buffer);
-
-			const {onload} = options_;
-			if (typeof onload === 'function') {
-				onload(response);
-			}
 		},
-		headers: options_.headers,
-		onerror: options_.onerror,
-		onprogress: options_.onprogress,
-		ontimeout: options_.ontimeout,
 	});
 };
 
@@ -74,7 +76,11 @@ const getDownloads = (): Record<string, Buffer> => {
 	return result;
 };
 
-const getDownload = (name: string) => downloads.get(false)?.get(name)?.slice();
+const getDownload = (name: string) => {
+	const buffer = downloads.get(false)?.get(name);
+
+	return buffer && Buffer.from(buffer);
+};
 
 export {download as GM_download, getDownloads, getDownload, type Download};
 
