@@ -19,7 +19,7 @@
 		"@ava/typescript": "^3.0.1",
 		"@lusc/tsconfig": "^2.0.0",
 		"@types/node": "^18.11.18",
-		"@types/tampermonkey": "^4.0.5",
+		"@types/tampermonkey": "^4.0.6",
 		"ava": "^5.1.0",
 		"prettier": "^2.8.1",
 		"rimraf": "^3.0.2",
@@ -72,7 +72,7 @@
 		"data-uri-to-buffer": "^4.0.0",
 		"follow-redirects": "^1.15.2",
 		"jsdom": "^20.0.3",
-		"type-fest": "^3.5.0"
+		"type-fest": "^3.5.1"
 	},
 	"packageManager": "yarn@3.3.1"
 }
