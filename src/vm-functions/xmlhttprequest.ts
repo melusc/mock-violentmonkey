@@ -1,17 +1,18 @@
-import {Blob, Buffer} from 'node:buffer';
+// TODO: Remove when @types/node releases new version with `File`
+// @ts-expect-error File is not in @types/node yet
+import {Blob, Buffer, File} from 'node:buffer';
 import crypto from 'node:crypto';
 
 import {JSDOM} from 'jsdom';
-
 import type {JsonValue} from 'type-fest';
+
+import {getBaseUrl} from '../base-url.js';
 import {
 	XMLHttpRequest,
-	type Method,
 	type Events,
 	type Headers,
+	type Method,
 } from '../xmlhttprequest/index.js';
-import {getWindow} from '../dom.js';
-import {getBaseUrl} from '../base-url.js';
 
 type XHRResponseObject<TContext = any> = {
 	status: number;
@@ -98,29 +99,18 @@ const formDataToBuffer = async (
 			body.push('', value);
 		} else {
 			// eslint-disable-next-line no-await-in-loop
-			await new Promise<void>((resolve, reject) => {
-				const fr = new (getWindow().FileReader)();
-				fr.addEventListener('load', () => {
-					const result = fr.result as string;
+			const arrayBuffer = await value.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			const stringified = buffer.toString('utf8');
 
-					body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
+			body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
 
-					// Two CRLF before result
-					body.push(
-						`Content-Type: ${value.type || 'application/octet-stream'}`,
-						'',
-						result,
-					);
-
-					resolve();
-				});
-
-				fr.addEventListener('error', () => {
-					reject(fr.error);
-				});
-
-				fr.readAsText(value);
-			});
+			// Two CRLF before result
+			body.push(
+				`Content-Type: ${value.type || 'application/octet-stream'}`,
+				'',
+				stringified,
+			);
 		}
 	}
 
@@ -155,10 +145,7 @@ const dataToBuffer = async (
 		};
 	}
 
-	if (
-		data instanceof getWindow().FormData
-		|| (typeof FormData !== 'undefined' && data instanceof FormData)
-	) {
+	if (data instanceof FormData) {
 		return formDataToBuffer(data);
 	}
 
@@ -334,6 +321,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 	return aborter;
 };
 
+export type {Headers} from '../xmlhttprequest/index.js';
 export {
 	type XHRDetails,
 	type XHREventHandler,
@@ -341,7 +329,6 @@ export {
 	type XmlHttpRequest,
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
-export type {Headers} from '../xmlhttprequest/index.js';
 
 Object.defineProperties(global, {
 	GM_xmlhttpRequest: {
@@ -349,5 +336,10 @@ Object.defineProperties(global, {
 	},
 	Blob: {
 		value: Blob,
+	},
+	File: {
+		// TODO: Remove when @types/node releases new version with `File`
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		value: File,
 	},
 });

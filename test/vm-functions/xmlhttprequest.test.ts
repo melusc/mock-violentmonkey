@@ -4,16 +4,12 @@ import test from 'ava';
 import type {JsonObject} from 'type-fest';
 
 import {
-	enableDomGlobal,
 	GM_xmlhttpRequest,
 	type Headers,
 	violentMonkeyContext,
 } from '../../src/index.js';
 import {setBaseUrl} from '../../src/base-url.js';
 import {createServer} from '../_helpers/create-server.js';
-
-enableDomGlobal('FormData');
-enableDomGlobal('File');
 
 declare const Blob: typeof Blob_;
 
