@@ -36,7 +36,7 @@ test('request methods', async t => {
 	// Test standard methods
 	const methods = ['GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'OPTIONS'] as const;
 
-	const start = async (method: typeof methods[number]) =>
+	const start = async (method: (typeof methods)[number]) =>
 		new Promise<void>(resolve => {
 			// Reset each time
 			const xhr = new XMLHttpRequest();
