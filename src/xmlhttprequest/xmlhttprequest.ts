@@ -128,15 +128,14 @@ class XMLHttpRequest {
 	readonly LOADING = 3;
 	readonly DONE = 4;
 
-	// Request settings
-	#settings:
-		| {
-				method: UppercaseMethods;
-				url: string;
-				user: string | undefined;
-				password: string | undefined;
-		  }
-		| undefined;
+	onabort: (() => void) | undefined;
+	onerror: (() => void) | undefined;
+	onload: (() => void) | undefined;
+	onloadend: (() => void) | undefined;
+	onloadstart: (() => void) | undefined;
+	onprogress: (() => void) | undefined;
+	onreadystatechange: (() => void) | undefined;
+	ontimeout: (() => void) | undefined;
 
 	// Current state
 	readyState: ReadyState = this.UNSENT;
@@ -146,6 +145,17 @@ class XMLHttpRequest {
 	responseURL = '';
 	status = 0;
 	statusText = '';
+	timeout = 0;
+
+	// Request settings
+	#settings:
+		| {
+				method: UppercaseMethods;
+				url: string;
+				user: string | undefined;
+				password: string | undefined;
+		  }
+		| undefined;
 
 	#options: Options;
 
@@ -159,21 +169,11 @@ class XMLHttpRequest {
 
 	// Event listeners
 	#listeners: Partial<Record<Events, Array<() => void>>> = {};
-	onabort: (() => void) | undefined;
-	onerror: (() => void) | undefined;
-	onload: (() => void) | undefined;
-	onloadend: (() => void) | undefined;
-	onloadstart: (() => void) | undefined;
-	onprogress: (() => void) | undefined;
-	onreadystatechange: (() => void) | undefined;
-	ontimeout: (() => void) | undefined;
 
 	// Error flag, used when errors occur or abort is called
 	#errorFlag = false;
 	#abortedFlag = false;
 	#timeoutFlag = false;
-
-	timeout = 0;
 
 	/**
 	 * @param options Set the options for the request
@@ -241,47 +241,6 @@ class XMLHttpRequest {
 		};
 
 		this.#setState(this.OPENED);
-	};
-
-	/**
-	 * Changes readyState and calls onreadystatechange.
-	 *
-	 * @param int state New state
-	 */
-	#setState = (state: 0 | 1 | 2 | 3 | 4) => {
-		if (
-			(this.readyState === state && state !== this.LOADING)
-			|| (this.readyState === this.UNSENT && this.#abortedFlag)
-		) {
-			return;
-		}
-
-		this.readyState = state;
-
-		// Not on UNSENT
-		// OPENED gets called seperately
-		if (state > this.OPENED) {
-			this.#dispatchEvent('readystatechange');
-		}
-
-		if (state === this.DONE) {
-			let fire: Events;
-
-			if (this.#errorFlag) {
-				fire = 'error';
-			} else if (this.#abortedFlag) {
-				fire = 'abort';
-			} else if (this.#timeoutFlag) {
-				fire = 'timeout';
-			} else {
-				fire = 'load';
-			}
-
-			this.#dispatchEvent(fire);
-
-			// @TODO figure out InspectorInstrumentation::didLoadXHR(cookie)
-			this.#dispatchEvent('loadend');
-		}
 	};
 
 	/**
@@ -395,6 +354,101 @@ class XMLHttpRequest {
 		}
 	};
 
+	/**
+	 * Aborts a request.
+	 */
+	abort = () => {
+		if (this.readyState === this.UNSENT || this.#abortedFlag) {
+			return;
+		}
+
+		this.#abortedFlag = true;
+		if (
+			(this.readyState === this.OPENED && this.#sendFlag)
+			|| this.readyState === this.HEADERS_RECEIVED
+			|| this.readyState === this.LOADING
+		) {
+			this.#sendFlag = false;
+			this.#reset();
+
+			/**
+			 * .abort() is the only function that directly modifies readyState
+			 * If you abort in an event listener (like readystatechange) that could cause abort to run before
+			 * the rest of the readystatechange event listeners (because everything is synchronous).
+			 * That's why it needs to run on the next tick so that all the other event listeners have got to run
+			 */
+			process.nextTick(() => {
+				this.#setState(this.DONE);
+			});
+		}
+	};
+
+	/**
+	 * Adds an event listener. Preferred method of binding to events.
+	 */
+	addEventListener = (event: Events, callback: () => void) => {
+		event = event.toLowerCase() as Events;
+		(this.#listeners[event] ??= []).push(callback);
+	};
+
+	/**
+	 * Remove an event callback that has already been bound.
+	 * Only works on the matching funciton, cannot be a copy.
+	 */
+	removeEventListener = (event: Events, callback: () => void) => {
+		const listeners = this.#listeners;
+		const specificListeners = listeners[event];
+
+		if (specificListeners) {
+			for (let i = 0; i < specificListeners.length; ++i) {
+				if (specificListeners[i] === callback) {
+					specificListeners.splice(i--, 1);
+				}
+			}
+		}
+	};
+
+	/**
+	 * Changes readyState and calls onreadystatechange.
+	 *
+	 * @param int state New state
+	 */
+	#setState = (state: 0 | 1 | 2 | 3 | 4) => {
+		if (
+			(this.readyState === state && state !== this.LOADING)
+			|| (this.readyState === this.UNSENT && this.#abortedFlag)
+		) {
+			return;
+		}
+
+		this.readyState = state;
+
+		// Not on UNSENT
+		// OPENED gets called seperately
+		if (state > this.OPENED) {
+			this.#dispatchEvent('readystatechange');
+		}
+
+		if (state === this.DONE) {
+			let fire: Events;
+
+			if (this.#errorFlag) {
+				fire = 'error';
+			} else if (this.#abortedFlag) {
+				fire = 'abort';
+			} else if (this.#timeoutFlag) {
+				fire = 'timeout';
+			} else {
+				fire = 'load';
+			}
+
+			this.#dispatchEvent(fire);
+
+			// @TODO figure out InspectorInstrumentation::didLoadXHR(cookie)
+			this.#dispatchEvent('loadend');
+		}
+	};
+
 	#fetchDataURI = (url: URL) => {
 		this.#response = {
 			headers: {},
@@ -459,7 +513,7 @@ class XMLHttpRequest {
 		this.responseURL = url.href;
 		this.#setState(this.HEADERS_RECEIVED);
 
-		this.responseBuffer = buffer.slice();
+		this.responseBuffer = Buffer.from(buffer);
 		this.#setState(this.LOADING);
 		this.#dispatchEvent('progress');
 		if (options.extraProgressEvent && buffer.length > 0) {
@@ -499,8 +553,6 @@ class XMLHttpRequest {
 			data = undefined;
 		} else if (data) {
 			headers['content-length'] = String(data.length);
-
-			headers['content-type'] ||= 'text/plain;charset=utf-8';
 		} else if (settings.method === 'POST') {
 			// For a post with no data set Content-Length: 0.
 			// This is required by buggy servers that don't meet the specs.
@@ -627,66 +679,12 @@ class XMLHttpRequest {
 		this.responseURL = '';
 	};
 
-	/**
-	 * Aborts a request.
-	 */
-	abort = () => {
-		if (this.readyState === this.UNSENT || this.#abortedFlag) {
-			return;
-		}
-
-		this.#abortedFlag = true;
-		if (
-			(this.readyState === this.OPENED && this.#sendFlag)
-			|| this.readyState === this.HEADERS_RECEIVED
-			|| this.readyState === this.LOADING
-		) {
-			this.#sendFlag = false;
-			this.#reset();
-
-			/**
-			 * .abort() is the only function that directly modifies readyState
-			 * If you abort in an event listener (like readystatechange) that could cause abort to run before
-			 * the rest of the readystatechange event listeners (because everything is synchronous).
-			 * That's why it needs to run on the next tick so that all the other event listeners have got to run
-			 */
-			process.nextTick(() => {
-				this.#setState(this.DONE);
-			});
-		}
-	};
-
 	#onTimeout = () => {
 		this.#reset();
 
 		this.#timeoutFlag = true;
 
 		this.#setState(this.DONE);
-	};
-
-	/**
-	 * Adds an event listener. Preferred method of binding to events.
-	 */
-	addEventListener = (event: Events, callback: () => void) => {
-		event = event.toLowerCase() as Events;
-		(this.#listeners[event] ??= []).push(callback);
-	};
-
-	/**
-	 * Remove an event callback that has already been bound.
-	 * Only works on the matching funciton, cannot be a copy.
-	 */
-	removeEventListener = (event: Events, callback: () => void) => {
-		const listeners = this.#listeners;
-		const specificListeners = listeners[event];
-
-		if (specificListeners) {
-			for (let i = 0; i < specificListeners.length; ++i) {
-				if (specificListeners[i] === callback) {
-					specificListeners.splice(i--, 1);
-				}
-			}
-		}
 	};
 
 	/**

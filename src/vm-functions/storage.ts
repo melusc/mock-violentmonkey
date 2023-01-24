@@ -1,6 +1,5 @@
 import crypto from 'node:crypto';
 
-import {jsonStringify} from '../json-stringify.js';
 import {VMStorage} from '../vm-storage.js';
 import {BetterMap} from '../utils/index.js';
 import {getTabId} from '../tab.js';
@@ -20,9 +19,13 @@ type SetValue = (key: string, value: any) => void;
 const setValue: SetValue = (key, value) => {
 	const oldValue = getRawValue(key);
 
-	const stringified = jsonStringify(value);
+	const stringified = JSON.stringify(value);
 
-	storages.get(true).set(key, stringified);
+	if (stringified === undefined) {
+		storages.get(false)?.delete(key);
+	} else {
+		storages.get(true).set(key, stringified);
+	}
 
 	dispatchChange(key, oldValue, stringified);
 };
