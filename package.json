@@ -18,7 +18,7 @@
 	"devDependencies": {
 		"@ava/typescript": "^3.0.1",
 		"@lusc/tsconfig": "^2.1.0",
-		"@types/node": "^18.13.0",
+		"@types/node": "^18.14.1",
 		"@types/tampermonkey": "^4.0.10",
 		"ava": "^5.2.0",
 		"prettier": "^2.8.4",
@@ -72,7 +72,7 @@
 		"data-uri-to-buffer": "^4.0.1",
 		"follow-redirects": "^1.15.2",
 		"jsdom": "^21.1.0",
-		"type-fest": "^3.5.7"
+		"type-fest": "^3.6.0"
 	},
 	"packageManager": "yarn@3.4.1"
 }
