@@ -16,5 +16,5 @@ export const violentMonkeyContextMacro = <Context = unknown>(): Macro<
 	[MacroCb<Context>],
 	Context
 > => ({
-	exec: (t, run) => violentMonkeyContext(run)(t),
+	exec: async (t, run) => violentMonkeyContext(run)(t),
 });
