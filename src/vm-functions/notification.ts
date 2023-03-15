@@ -17,16 +17,6 @@ const shouldBehaveLikeFirefox = () => {
 	return platform === undefined || platform === 'Firefox';
 };
 
-/**
- * Chromium doesn't remove the notification
- * Firefox removes the notification after 20s
- * Use 50ms since more isn't necessary
- */
-let timeoutDuration = 50;
-const setNotificationTimeout = (n: number) => {
-	timeoutDuration = n;
-};
-
 const enum NotificationStates {
 	visible,
 	removed,
@@ -42,7 +32,6 @@ class NotificationHandler {
 	private readonly onDone: () => void;
 	private amountRemoveCalled = 0;
 
-	private readonly timeoutId: NodeJS.Timeout | undefined;
 	private state: NotificationStates = NotificationStates.visible;
 
 	constructor(options: NotificationOptions) {
@@ -58,11 +47,6 @@ class NotificationHandler {
 		};
 
 		notifications.get(true).add(this);
-
-		// Treat (Infinity,NaN,-Infinity) as never timing out
-		if (Number.isFinite(timeoutDuration)) {
-			this.timeoutId = setTimeout(this.close, timeoutDuration).unref();
-		}
 	}
 
 	readonly click = () => {
@@ -70,16 +54,16 @@ class NotificationHandler {
 			return;
 		}
 
-		this.onClick();
-		this.cleanUp();
-
 		/**
-		 * Firefox: Fire `onclick`, closing-animation (~600ms), fire `ondone`
+		 * Firefox: Fire `onclick`, fire `ondone`
 		 * Chromium: Fire `onclick`
 		 */
 
+		this.onClick();
+		this.cleanUp();
+
 		if (shouldBehaveLikeFirefox()) {
-			setTimeout(this.onDone, 600);
+			this.onDone();
 		}
 	};
 
@@ -124,11 +108,6 @@ class NotificationHandler {
 	private readonly cleanUp = () => {
 		notifications.get(false)?.delete(this);
 		this.state = NotificationStates.removed;
-
-		const {timeoutId} = this;
-		if (timeoutId !== undefined) {
-			clearTimeout(timeoutId);
-		}
 	};
 }
 
@@ -231,7 +210,6 @@ const findNotifications = (selectors: Partial<Selectors>) => {
 
 export {
 	notification as GM_notification,
-	setNotificationTimeout,
 	findNotifications,
 	setNotificationCompat,
 	type Notification,

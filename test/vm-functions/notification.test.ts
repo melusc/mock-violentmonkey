@@ -10,38 +10,6 @@ import {
 } from '../../src/index.js';
 
 test(
-	'Letting notification timeout',
-	violentMonkeyContext(async t => {
-		t.timeout(1000);
-
-		const amountCalled = {
-			ondone: 0,
-			onclick: 0,
-		};
-
-		await new Promise<void>(resolve => {
-			GM_notification({
-				text: 'f',
-				ondone() {
-					++amountCalled.ondone;
-					resolve();
-				},
-				onclick() {
-					++amountCalled.onclick;
-				},
-			});
-		});
-
-		t.deepEqual(amountCalled, {
-			ondone: 1,
-			onclick: 0,
-		});
-
-		t.is(findNotifications({}).count(), 0);
-	}),
-);
-
-test(
 	'Clicking a notification (Firefox)',
 	violentMonkeyContext(async t => {
 		setNotificationCompat('Firefox');
@@ -279,90 +247,6 @@ test(
 		);
 
 		t.is(findNotifications({}).count(), 0);
-	}),
-);
-
-test(
-	'Removing a notification after it has been removed (Firefox)',
-	violentMonkeyContext(async t => {
-		/*
-		 Expect onclick to never be called
-		 Expect ondone to be never be called
-
-		 Expect the first call to remove() to never resolve (since it's already removed)
-		*/
-
-		setNotificationCompat('Firefox');
-
-		t.timeout(3000);
-
-		const text = 'notification-text';
-
-		let amountOnDoneCalled = 0;
-
-		const notification = GM_notification({
-			text,
-			ondone() {
-				++amountOnDoneCalled;
-			},
-			onclick() {
-				t.fail();
-			},
-		});
-
-		await setTimeout(100);
-
-		t.is(amountOnDoneCalled, 1);
-
-		t.is(findNotifications({}).count(), 0);
-
-		const sym = Symbol('');
-		t.is(
-			await Promise.race([setTimeout(100, sym), notification.remove()]),
-			sym,
-		);
-	}),
-);
-
-test(
-	'Removing a notification after it has been removed (Chromium)',
-	violentMonkeyContext(async t => {
-		/*
-		 Expect onclick to never be called
-		 Expect ondone to never be called
-
-		 Expect the first call to remove() to resolve (even though it's already removed)
-		 Expect the second call to remove() to resolve
-		*/
-
-		setNotificationCompat('Chromium');
-
-		t.timeout(3000);
-
-		const text = 'notification-text';
-
-		const notification = GM_notification({
-			text,
-			ondone() {
-				t.fail();
-			},
-			onclick() {
-				t.fail();
-			},
-		});
-
-		// Timeout is 50ms
-		await setTimeout(100);
-
-		t.is(findNotifications({}).count(), 0);
-
-		t.is(await notification.remove(), true);
-
-		const sym = Symbol('');
-		t.is(
-			await Promise.race([setTimeout(100, sym), notification.remove()]),
-			sym,
-		);
 	}),
 );
 
