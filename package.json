@@ -16,14 +16,14 @@
 	},
 	"description": "Mock violentmonkey's globals for testing userscripts",
 	"devDependencies": {
-		"@ava/typescript": "^3.0.1",
+		"@ava/typescript": "^4.0.0",
 		"@lusc/tsconfig": "^2.1.0",
-		"@types/node": "^18.15.0",
+		"@types/node": "^18.15.3",
 		"@types/tampermonkey": "^4.0.10",
 		"ava": "^5.2.0",
 		"prettier": "^2.8.4",
 		"rimraf": "^4.4.0",
-		"typescript": "^4.9.5",
+		"typescript": "^5.0.2",
 		"xo": "^0.53.1"
 	},
 	"peerDependencies": {
@@ -71,8 +71,8 @@
 		"@types/jsdom": "^21.1.0",
 		"data-uri-to-buffer": "^4.0.1",
 		"follow-redirects": "^1.15.2",
-		"jsdom": "^21.1.0",
+		"jsdom": "^21.1.1",
 		"type-fest": "^3.6.1"
 	},
-	"packageManager": "yarn@3.4.1"
+	"packageManager": "yarn@3.5.0"
 }
