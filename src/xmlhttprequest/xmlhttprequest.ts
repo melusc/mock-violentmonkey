@@ -18,12 +18,11 @@
  * @license MIT
  */
 
-import process from 'node:process';
 import {Buffer, resolveObjectURL} from 'node:buffer';
-
-import followRedirects from 'follow-redirects';
+import process from 'node:process';
 
 import {dataUriToBuffer} from 'data-uri-to-buffer';
+import followRedirects from 'follow-redirects';
 
 const {http, https} = followRedirects;
 

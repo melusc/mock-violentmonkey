@@ -1,14 +1,14 @@
 import test from 'ava';
 import type {DOMWindow} from 'jsdom';
 
+import {setBaseUrl} from '../src/base-url.js';
 import {
+	enableDomGlobal,
 	getWindow,
 	loadStringToDom,
 	loadURLToDom,
 	violentMonkeyContext,
-	enableDomGlobal,
 } from '../src/index.js';
-import {setBaseUrl} from '../src/base-url.js';
 
 // Globals
 declare const window: DOMWindow;

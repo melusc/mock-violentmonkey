@@ -1,22 +1,22 @@
 import process from 'node:process';
 
+import {GM_addStyle, type AddStyle} from './add-style.js';
+import {GM_setClipboard, type SetClipboard} from './clipboard.js';
+import {GM_info, type ScriptInfo} from './info.js';
+import {GM_notification, type Notification} from './notification.js';
+import {GM_openInTab, type OpenInTab} from './open-in-tab.js';
+import {GM_getResourceURL, type GetResourceURL} from './resource.js';
 import {
-	type DeleteValue,
-	type GetValue,
 	GM_deleteValue,
 	GM_getValue,
 	GM_listValues,
 	GM_setValue,
+	type DeleteValue,
+	type GetValue,
 	type ListValues,
 	type SetValue,
 } from './storage.js';
-import {GM_info, type ScriptInfo} from './info.js';
-import {GM_addStyle, type AddStyle} from './add-style.js';
-import {GM_notification, type Notification} from './notification.js';
-import {GM_setClipboard, type SetClipboard} from './clipboard.js';
-import {GM_openInTab, type OpenInTab} from './open-in-tab.js';
 import {GM_xmlhttpRequest, type XmlHttpRequest} from './xmlhttprequest.js';
-import {GM_getResourceURL, type GetResourceURL} from './resource.js';
 
 type MakeFunctionAsync<T extends (...args: any[]) => void> = (
 	...args: Parameters<T>
@@ -46,7 +46,7 @@ const makeFunctionAsync
 		return fn(...args);
 	};
 
-const GM = Object.defineProperties<GM_type>({} as any, {
+const GM = Object.defineProperties<GM_type>({} as GM_type, {
 	setValue: {
 		value: makeFunctionAsync(GM_setValue),
 	},

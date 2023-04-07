@@ -1,4 +1,5 @@
 import type {ExecutionContext, Macro} from 'ava';
+
 import {violentMonkeyContext} from './violentmonkey-context.js';
 
 type MacroCb<Context = unknown> = (

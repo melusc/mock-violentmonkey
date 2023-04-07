@@ -2,16 +2,16 @@ import {Blob, Buffer} from 'node:buffer';
 import crypto from 'node:crypto';
 
 import {JSDOM} from 'jsdom';
-
 import type {JsonValue} from 'type-fest';
+
+import {getBaseUrl} from '../base-url.js';
+import {getWindow} from '../dom.js';
 import {
 	XMLHttpRequest,
-	type Method,
 	type Events,
 	type Headers,
+	type Method,
 } from '../xmlhttprequest/index.js';
-import {getWindow} from '../dom.js';
-import {getBaseUrl} from '../base-url.js';
 
 type XHRResponseObject<TContext = any> = {
 	status: number;
@@ -334,6 +334,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 	return aborter;
 };
 
+export type {Headers} from '../xmlhttprequest/index.js';
 export {
 	type XHRDetails,
 	type XHREventHandler,
@@ -341,7 +342,6 @@ export {
 	type XmlHttpRequest,
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
-export type {Headers} from '../xmlhttprequest/index.js';
 
 Object.defineProperties(global, {
 	GM_xmlhttpRequest: {

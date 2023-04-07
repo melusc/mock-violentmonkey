@@ -1,6 +1,6 @@
+import {AsyncLocalStorage} from 'node:async_hooks';
 import process from 'node:process';
 
-import {AsyncLocalStorage} from 'node:async_hooks';
 import test from 'ava';
 
 import {

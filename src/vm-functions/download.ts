@@ -2,7 +2,8 @@ import {Buffer, type Blob} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
 import type {Headers} from '../xmlhttprequest/index.js';
-import {type XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
+
+import {GM_xmlhttpRequest, type XHREventHandler} from './xmlhttprequest.js';
 
 const downloads = new VMStorage<Map<string, Buffer>>(() => new Map());
 

@@ -3,8 +3,7 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-
-import {createServer, assertEventOrder} from '../_helpers/index.js';
+import {assertEventOrder, createServer} from '../_helpers/index.js';
 
 test('Aborting after send', async t => {
 	t.plan(7);

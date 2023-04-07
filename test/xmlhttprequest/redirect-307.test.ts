@@ -1,8 +1,8 @@
 import {Buffer} from 'node:buffer';
+
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/xmlhttprequest.js';
-
 import {createServer} from '../_helpers/index.js';
 
 test('redirect 307', async t => {

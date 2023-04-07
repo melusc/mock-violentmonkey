@@ -1,8 +1,8 @@
 import crypto from 'node:crypto';
 
-import {VMStorage} from '../vm-storage.js';
-import {BetterMap} from '../utils/index.js';
 import {getTabId} from '../tab.js';
+import {BetterMap} from '../utils/index.js';
+import {VMStorage} from '../vm-storage.js';
 
 /* See:
  *	https://violentmonkey.github.io/api/gm/

@@ -3,11 +3,11 @@ import {resolveObjectURL} from 'node:buffer';
 import test from 'ava';
 
 import {
-	setResource,
 	GM_getResourceText,
 	GM_getResourceURL,
-	violentMonkeyContext,
 	GM_info,
+	setResource,
+	violentMonkeyContext,
 } from '../../src/index.js';
 
 test(

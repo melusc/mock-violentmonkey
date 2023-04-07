@@ -1,13 +1,14 @@
 import {Buffer} from 'node:buffer';
+
 import test from 'ava';
 
+import {setBaseUrl} from '../../src/base-url.js';
 import {
 	GM_download,
+	getDownload,
 	getDownloads,
 	violentMonkeyContextMacro,
-	getDownload,
 } from '../../src/index.js';
-import {setBaseUrl} from '../../src/base-url.js';
 
 test(
 	'GM_download with an existant url',

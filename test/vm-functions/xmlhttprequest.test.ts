@@ -3,13 +3,13 @@ import {Blob as Blob_, Buffer} from 'node:buffer';
 import test from 'ava';
 import type {JsonObject} from 'type-fest';
 
-import {
-	enableDomGlobal,
-	GM_xmlhttpRequest,
-	type Headers,
-	violentMonkeyContext,
-} from '../../src/index.js';
 import {setBaseUrl} from '../../src/base-url.js';
+import {
+	GM_xmlhttpRequest,
+	enableDomGlobal,
+	violentMonkeyContext,
+	type Headers,
+} from '../../src/index.js';
 import {createServer} from '../_helpers/create-server.js';
 
 enableDomGlobal('FormData');
@@ -377,7 +377,7 @@ test(
 
 			request
 				.on('data', b => {
-					bodyParts.push(b);
+					bodyParts.push(b as Buffer);
 				})
 				.on('close', () => {
 					const body = Buffer.concat(bodyParts).toString('utf8');
