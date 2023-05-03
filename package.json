@@ -7,7 +7,7 @@
 		"typescript": {
 			"compile": false,
 			"rewritePaths": {
-				"test/": "dist/test/test/"
+				"test/": "dist/test/"
 			}
 		}
 	},
@@ -37,9 +37,9 @@
 	"engines": {
 		"node": "^16.9 || 18 || 20"
 	},
-	"main": "./dist/lib/index.js",
+	"main": "./dist/src/index.js",
 	"files": [
-		"dist/lib"
+		"dist/src"
 	],
 	"homepage": "https://github.com/melusc/mock-violentmonkey#readme",
 	"keywords": [
@@ -58,10 +58,9 @@
 		"url": "git+https://github.com/melusc/mock-violentmonkey.git"
 	},
 	"scripts": {
-		"build": "rimraf dist/lib && tsc",
-		"build:test": "rimraf dist/test && tsc --project test/tsconfig.json",
+		"build": "rimraf dist && tsc",
 		"fmt": "prettier . -w && xo --fix",
-		"test": "yarn build:test && ava",
+		"test": "yarn build && ava",
 		"prepublish": "yarn build"
 	},
 	"type": "module",
