@@ -28,9 +28,9 @@ test(
 test(
 	'enableDomGlobal',
 	violentMonkeyContext(t => {
-		t.is(typeof File, 'undefined');
-		enableDomGlobal('File');
-		t.is(typeof new File(['content'], 'a.txt'), 'object');
+		t.is(typeof frames, 'undefined');
+		enableDomGlobal('frames');
+		t.is(typeof frames.window, 'object');
 	}),
 );
 
