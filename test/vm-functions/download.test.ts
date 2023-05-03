@@ -92,7 +92,6 @@ test('GM_download event handlers', violentMonkeyContextMacro(), async t => {
 		});
 	});
 
-	t.is(called.size, 5);
 	t.deepEqual(
 		[...called].sort(),
 		[
