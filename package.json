@@ -37,7 +37,9 @@
 	"engines": {
 		"node": "^16.9 || 18 || 20"
 	},
-	"main": "./dist/src/index.js",
+	"exports": {
+		".": "./dist/src/index.js"
+	},
 	"files": [
 		"dist/src"
 	],
