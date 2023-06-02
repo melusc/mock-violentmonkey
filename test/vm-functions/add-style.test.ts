@@ -5,10 +5,10 @@ import {GM_addStyle, getWindow, violentMonkeyContext} from '../../src/index.js';
 test(
 	'GM_addStyle should add a style to the current dom',
 	violentMonkeyContext(t => {
-		const color = 'green';
+		const display = 'flex';
 		const css = `
 div {
-	color: ${color};
+	display: ${display};
 }`;
 
 		const style = GM_addStyle(css);
@@ -23,6 +23,6 @@ div {
 		const div = document.createElement('div');
 		document.body.append(div);
 
-		t.is(getWindow().getComputedStyle(div).color, color);
+		t.is(getWindow().getComputedStyle(div).display, display);
 	}),
 );
