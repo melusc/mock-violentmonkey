@@ -17,7 +17,7 @@
 	"description": "Mock violentmonkey's globals for testing userscripts",
 	"devDependencies": {
 		"@ava/typescript": "^4.0.0",
-		"@lusc/tsconfig": "^2.2.0",
+		"@lusc/tsconfig": "^2.3.0",
 		"@types/node": "^20.2.5",
 		"@types/tampermonkey": "^4.0.10",
 		"ava": "^5.3.0",
