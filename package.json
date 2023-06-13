@@ -27,7 +27,7 @@
 		"xo": "^0.54.2"
 	},
 	"peerDependencies": {
-		"ava": "^3.0.0"
+		"ava": "^3.15.0"
 	},
 	"peerDependenciesMeta": {
 		"ava": {
