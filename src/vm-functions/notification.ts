@@ -120,7 +120,12 @@ type NotificationOptions = {
 };
 
 type Notification = {
-	(text: string, title?: string, image?: string, onclick?: () => void): {
+	(
+		text: string,
+		title?: string,
+		image?: string,
+		onclick?: () => void,
+	): {
 		remove: () => Promise<true>;
 	};
 	(options: NotificationOptions): {
