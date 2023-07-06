@@ -587,6 +587,14 @@ class XMLHttpRequest {
 				this.responseBuffer = Buffer.concat(bufferItems);
 			};
 
+			const timeoutLeft = this.timeout - (Date.now() - start);
+			if (timeoutLeft <= 0) {
+				this.#onTimeout();
+				return;
+			}
+
+			response.setTimeout(timeoutLeft, this.#onTimeout);
+
 			try {
 				for await (const chunk of response) {
 					appendBuffer(chunk as Buffer);
@@ -598,7 +606,6 @@ class XMLHttpRequest {
 				}
 
 				this.statusText = http.STATUS_CODES[response.statusCode!]!;
-				clearTimeout_();
 
 				if (this.#sendFlag) {
 					// The this.#sendFlag needs to be set before setState is called.  Otherwise if we are chaining callbacks
@@ -608,7 +615,6 @@ class XMLHttpRequest {
 					this.#setState(this.DONE);
 				}
 			} catch {
-				clearTimeout_();
 				this.#handleError();
 			}
 		};
@@ -622,22 +628,14 @@ class XMLHttpRequest {
 			},
 			responseHandler,
 		).on('error', () => {
-			clearTimeout_();
-
 			this.#handleError();
 		});
 
-		let timeout: NodeJS.Timeout | undefined;
+		const start = Date.now();
 
 		if (this.timeout > 0) {
-			timeout = setTimeout(this.#onTimeout, this.timeout);
+			request.setTimeout(this.timeout, this.#onTimeout);
 		}
-
-		const clearTimeout_ = () => {
-			if (timeout) {
-				clearTimeout(timeout);
-			}
-		};
 
 		this.#request = request;
 
@@ -656,6 +654,10 @@ class XMLHttpRequest {
 	 * @param {URL} url If the url is still accessible even on error
 	 */
 	#handleError = (url?: URL) => {
+		if (this.#timeoutFlag) {
+			return;
+		}
+
 		this.responseURL = url?.href ?? '';
 		this.status = 0;
 		this.responseBuffer = Buffer.alloc(0);
