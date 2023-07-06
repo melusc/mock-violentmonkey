@@ -259,46 +259,68 @@ function makeFormDataRegex(...lines: string[]): RegExp {
 test(
 	'GM_xmlhttpRequest with global FormData',
 	createTestHttpServer,
-	violentMonkeyContext(async (t, {baseUrl}) => {
-		t.plan(1);
+	violentMonkeyContext(async (t, {app, baseUrl}) => {
+		t.plan(3);
+
+		app.post('/', async (request, response) => {
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString();
+
+			t.regex(
+				request.headers['content-type']!,
+				/^multipart\/form-data; boundary=-+[a-f\d]+$/,
+			);
+			const boundary = /boundary=(?<boundary>-+[a-f\d]+)$/.exec(
+				request.headers['content-type']!,
+			)!.groups!['boundary']!;
+
+			t.true(body.includes(boundary));
+
+			t.regex(
+				body,
+				makeFormDataRegex(
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="file-txt"; filename="file.txt"',
+					'Content-Type: text/plain',
+					'',
+					'abc, def',
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="file-octet"; filename="file.blob"',
+					'Content-Type: application/octet-stream',
+					'',
+					'ghi',
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="string"',
+					'',
+					'jkl',
+					'-+[a-f\\d]+--',
+				),
+			);
+
+			response.end();
+		});
 
 		setBaseUrl(baseUrl);
 
-		const formData = new FormData();
+		const body = new FormData();
 
-		formData.append('string', 'value');
-
-		const file = new File(
-			['string', ', another string', Buffer.from(', a buffer')],
-			'text.txt',
+		body.append(
+			'file-txt',
+			new File(['abc', Buffer.from(', def')], 'file.txt', {
+				type: 'text/plain',
+			}),
 		);
-		formData.append('file', file);
+
+		body.append('file-octet', new File(['ghi'], 'file.blob'));
+
+		body.append('string', 'jkl');
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
-				url: '/echo',
-				data: formData,
+				url: '/',
+				data: body,
 				responseType: 'text',
 				method: 'post',
-				onload(response) {
-					const stringifiedFormData = response.response as string;
-
-					t.regex(
-						stringifiedFormData,
-						makeFormDataRegex(
-							'-+[^-]+',
-							'Content-Disposition: form-data; name="string"',
-							'',
-							'value',
-							'-+[^-]+',
-							'Content-Disposition: form-data; name="file"; filename="text.txt"',
-							'Content-Type: application/octet-stream',
-							'',
-							'string, another string, a buffer',
-							'-+[^-]+--',
-						),
-					);
-				},
 				onloadend: resolve,
 			});
 		});
@@ -344,89 +366,6 @@ test(
 					t.like(response as JsonObject, headers);
 				},
 				onloadend: resolve,
-			});
-		});
-	}),
-);
-
-test(
-	'Sending FormData',
-	createTestHttpServer,
-	violentMonkeyContext(async (t, {app, baseUrl}) => {
-		t.plan(5);
-		const body = new FormData();
-
-		body.append(
-			'file-txt',
-			new File(['abc'], 'file.txt', {
-				type: 'text/plain',
-			}),
-		);
-
-		body.append('file-octet', new File(['def'], 'file.blob'));
-
-		body.append('string', 'ghi');
-
-		app.post('/', async (request, response) => {
-			response.status(200);
-
-			t.regex(
-				request.headers['content-type']!,
-				/^multipart\/form-data; boundary=-+[a-f\d]+$/,
-			);
-			const boundary = /boundary=(?<boundary>-+[a-f\d]+)$/.exec(
-				request.headers['content-type']!,
-			)!.groups!['boundary']!;
-
-			const bodyBuffer = await requestBodyToBuffer(request);
-			const body = bodyBuffer.toString('utf8');
-			t.true(body.includes(boundary));
-			t.regex(
-				body,
-				new RegExp(
-					[
-						'^content-disposition: form-data; name="file-txt"; filename="file.txt"$',
-						'^content-type: text/plain$',
-						'^$',
-						'^abc$',
-					].join('\\r\\n'),
-					'im',
-				),
-			);
-			t.regex(
-				body,
-				new RegExp(
-					[
-						'^content-disposition: form-data; name="file-octet"; filename="file.blob"$',
-						'^content-type: application/octet-stream$',
-						'^$',
-						'^def$',
-					].join('\\r\\n'),
-					'im',
-				),
-			);
-			t.regex(
-				body,
-				new RegExp(
-					[
-						'^content-disposition: form-data; name="string"$',
-						'^$',
-						'^ghi$',
-					].join('\\r\\n'),
-					'im',
-				),
-			);
-			response.end();
-		});
-
-		await new Promise<void>(resolve => {
-			GM_xmlhttpRequest({
-				url: baseUrl,
-				method: 'post',
-				data: body,
-				onloadend() {
-					resolve();
-				},
 			});
 		});
 	}),
