@@ -44,7 +44,7 @@ usefulRoutes.get('/uuid', (_request, response) => {
 usefulRoutes.get('/status/:status', (request, response) => {
 	const status = Number.parseInt(request.params.status, 10);
 	if (Number.isFinite(status)) {
-		response.status(status).send(status);
+		response.status(status).send(String(status));
 	} else {
 		response.status(400).send('Invalid status code');
 	}
