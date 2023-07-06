@@ -9,6 +9,7 @@ import {
 	setResource,
 	violentMonkeyContext,
 } from '../../src/index.js';
+import {createTestHttpServer} from '../_helpers/create-server.js';
 
 test(
 	'gist.github.com test.txt',
@@ -28,7 +29,7 @@ test(
 		t.is(typeof url, 'string');
 		t.is(text, expectedText);
 
-		t.regex(url!, /blob:/);
+		t.regex(url!, /^blob:/);
 
 		t.is(await resolveObjectURL(url!)?.text(), expectedText);
 	}),
@@ -86,44 +87,42 @@ test(
 
 test(
 	'GM_resource should update GM_info.script.resources',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {resolve}) => {
 		t.deepEqual(GM_info().script.resources, []);
 
-		await setResource(
-			'resource1',
-			'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
-		);
+		await setResource('resource1', resolve('/base64/R01fcmVzb3VyY2U'));
 
 		t.deepEqual(GM_info().script.resources, [
 			{
 				name: 'resource1',
-				url: 'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
+				url: resolve('/base64/R01fcmVzb3VyY2U'),
 			},
 		]);
 
-		await setResource('resource2', 'https://httpbin.org/bytes/3');
+		await setResource('resource2', resolve('/uuid'));
 
 		t.deepEqual(GM_info().script.resources, [
 			{
 				name: 'resource1',
-				url: 'https://httpbin.org/base64/R01fcmVzb3VyY2U=',
+				url: resolve('/base64/R01fcmVzb3VyY2U'),
 			},
 			{
 				name: 'resource2',
-				url: 'https://httpbin.org/bytes/3',
+				url: resolve('/uuid'),
 			},
 		]);
 
-		await setResource('resource1', 'https://httpbin.org/uuid');
+		await setResource('resource1', resolve('/status/200'));
 
 		t.deepEqual(GM_info().script.resources, [
 			{
 				name: 'resource1',
-				url: 'https://httpbin.org/uuid',
+				url: resolve('/status/200'),
 			},
 			{
 				name: 'resource2',
-				url: 'https://httpbin.org/bytes/3',
+				url: resolve('/uuid'),
 			},
 		]);
 	}),

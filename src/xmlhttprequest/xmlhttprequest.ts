@@ -567,7 +567,7 @@ class XMLHttpRequest {
 		this.#sendFlag = true;
 
 		// Handler for the response
-		const responseHandler = (response: Response) => {
+		const responseHandler = async (response: Response) => {
 			if (this.#abortedFlag || this.#errorFlag || this.#timeoutFlag) {
 				response.destroy();
 				return;
@@ -587,33 +587,30 @@ class XMLHttpRequest {
 				this.responseBuffer = Buffer.concat(bufferItems);
 			};
 
-			response
-				.on('data', (chunk: Buffer) => {
-					appendBuffer(chunk);
-
-					// Don't emit state changes if the connection has been aborted.
+			try {
+				for await (const chunk of response) {
+					appendBuffer(chunk as Buffer);
 					if (this.#sendFlag) {
 						this.#setState(this.LOADING);
 					}
 
 					this.#dispatchEvent('progress');
-				})
-				.on('end', () => {
-					this.statusText = http.STATUS_CODES[response.statusCode!]!;
-					clearTimeout_();
+				}
 
-					if (this.#sendFlag) {
-						// The this.#sendFlag needs to be set before setState is called.  Otherwise if we are chaining callbacks
-						// there can be a timing issue (the callback is called and a new call is made before the flag is reset).
-						this.#sendFlag = false;
-						// Discard the 'end' event if the connection has been aborted
-						this.#setState(this.DONE);
-					}
-				})
-				.on('error', () => {
-					clearTimeout_();
-					this.#handleError();
-				});
+				this.statusText = http.STATUS_CODES[response.statusCode!]!;
+				clearTimeout_();
+
+				if (this.#sendFlag) {
+					// The this.#sendFlag needs to be set before setState is called.  Otherwise if we are chaining callbacks
+					// there can be a timing issue (the callback is called and a new call is made before the flag is reset).
+					this.#sendFlag = false;
+					// Discard the 'end' event if the connection has been aborted
+					this.#setState(this.DONE);
+				}
+			} catch {
+				clearTimeout_();
+				this.#handleError();
+			}
 		};
 
 		// Create the request

@@ -1,28 +1,18 @@
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {assertEventOrder, createServer} from '../_helpers/index.js';
+import {assertEventOrder, createTestHttpServer} from '../_helpers/index.js';
 
-test('timeout after 1s', async t => {
+test('timeout after 1s', createTestHttpServer, async (t, {app, baseUrl}) => {
 	t.plan(10);
 
-	const {port, server} = await createServer((_request, response) => {
-		const timeout = setTimeout(() => {
-			response.end('[french accent] 5s seconds later');
-		}, 3000);
-
+	app.get('/', (_request, response) => {
 		response.writeHead(200, {
 			'x-abc': 'xyz',
 			'content-length': 33,
 			'content-type': 'plain/text',
 			date: 'Sun, 17 Oct 2021 14:00:00 GMT',
 			connection: 'keep-alive',
-		});
-
-		response.write('a');
-
-		server.on('close', () => {
-			clearTimeout(timeout);
 		});
 	});
 
@@ -42,22 +32,21 @@ test('timeout after 1s', async t => {
 	xhr.addEventListener('timeout', () => {
 		t.is(xhr.status, 200);
 
-		const expectedHeaders
-			= 'x-abc: xyz\r\n'
-			+ 'content-length: 33\r\n'
-			+ 'content-type: plain/text\r\n'
-			+ 'date: Sun, 17 Oct 2021 14:00:00 GMT\r\n'
-			+ 'connection: keep-alive\r\n';
+		const expectedHeaders = [
+			'x-abc: xyz',
+			'content-length: 33',
+			'content-type: plain/text',
+			'date: Sun, 17 Oct 2021 14:00:00 GMT',
+			'connection: keep-alive',
+			'',
+		].join('\r\n');
 		t.is(xhr.getAllResponseHeaders(), expectedHeaders);
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', () => {
-			server.close();
-			resolve();
-		});
+		xhr.addEventListener('loadend', resolve);
 
-		xhr.open('get', `http://localhost:${port}`);
+		xhr.open('get', baseUrl);
 		xhr.send();
 	});
 });

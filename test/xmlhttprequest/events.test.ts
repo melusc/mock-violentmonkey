@@ -1,30 +1,17 @@
-import {Buffer} from 'node:buffer';
-
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {createServer} from '../_helpers/index.js';
+import {createTestHttpServer} from '../_helpers/index.js';
 
-test('events', async t => {
+test('events', createTestHttpServer, async (t, {resolve: resolveUrl}) => {
 	t.plan(3);
-
-	// Test server
-	const {port, server} = await createServer((_request, response) => {
-		const body = 'Hello World';
-
-		response.writeHead(200, {
-			'Content-Type': 'text/plain',
-			'Content-Length': Buffer.byteLength(body),
-		});
-
-		response.end('Hello World');
-	});
 
 	const xhr = new XMLHttpRequest();
 
 	// Track event calls
 	let onreadystatechange = false;
 	let readystatechange = false;
+
 	let removedEventCalled = false;
 	const removedEvent = () => {
 		removedEventCalled = true;
@@ -48,11 +35,10 @@ test('events', async t => {
 			t.true(readystatechange);
 			t.false(removedEventCalled);
 
-			server.close();
 			resolve();
 		});
 
-		xhr.open('GET', `http://localhost:${port}/`);
+		xhr.open('GET', resolveUrl('/uuid'));
 		xhr.send();
 	});
 });
