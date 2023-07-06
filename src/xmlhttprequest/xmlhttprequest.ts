@@ -587,13 +587,15 @@ class XMLHttpRequest {
 				this.responseBuffer = Buffer.concat(bufferItems);
 			};
 
-			const timeoutLeft = this.timeout - (Date.now() - start);
-			if (timeoutLeft <= 0) {
-				this.#onTimeout();
-				return;
-			}
+			if (this.timeout > 0) {
+				const timeoutLeft = this.timeout - (Date.now() - start);
+				if (timeoutLeft <= 0) {
+					this.#onTimeout();
+					return;
+				}
 
-			response.setTimeout(timeoutLeft, this.#onTimeout);
+				response.setTimeout(timeoutLeft, this.#onTimeout);
+			}
 
 			try {
 				for await (const chunk of response) {
