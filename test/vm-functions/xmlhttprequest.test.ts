@@ -538,6 +538,8 @@ test(
 		app.post('/', async (request, response) => {
 			response.status(200);
 
+			t.is(request.headers['content-type'], undefined);
+
 			const bodyBuffer = await requestBodyToBuffer(request);
 			const body = bodyBuffer.toString('utf8');
 			t.is(body, '');
@@ -567,6 +569,8 @@ test(
 
 		app.post('/', async (request, response) => {
 			response.status(200);
+
+			t.is(request.headers['content-type'], 'application/json');
 
 			const bodyBuffer = await requestBodyToBuffer(request);
 			const body = bodyBuffer.toString('utf8');
