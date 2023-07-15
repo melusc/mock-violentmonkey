@@ -98,29 +98,14 @@ const formDataToBuffer = async (
 			body.push('', value);
 		} else {
 			// eslint-disable-next-line no-await-in-loop
-			await new Promise<void>((resolve, reject) => {
-				const fr = new (getWindow().FileReader)();
-				fr.addEventListener('load', () => {
-					const result = fr.result as string;
-
-					body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
-
-					// Two CRLF before result
-					body.push(
-						`Content-Type: ${value.type || 'application/octet-stream'}`,
-						'',
-						result,
-					);
-
-					resolve();
-				});
-
-				fr.addEventListener('error', () => {
-					reject(fr.error);
-				});
-
-				fr.readAsText(value);
-			});
+			const text = await value.text();
+			body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
+			// Two CRLF before result
+			body.push(
+				`Content-Type: ${value.type || 'application/octet-stream'}`,
+				'',
+				text,
+			);
 		}
 	}
 
