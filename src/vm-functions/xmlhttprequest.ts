@@ -119,6 +119,8 @@ const formDataToBuffer = async (
 					reject(fr.error);
 				});
 
+				// For some reason I can't figure out, Blob#text() just times out
+				// eslint-disable-next-line unicorn/prefer-blob-reading-methods
 				fr.readAsText(value);
 			});
 		}

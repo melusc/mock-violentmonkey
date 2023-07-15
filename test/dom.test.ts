@@ -69,8 +69,8 @@ test(
 		loadStringToDom(html);
 
 		t.is(
-			getWindow().document.documentElement.outerHTML.replace(/\s+/g, ''),
-			html.replace(/\s+/g, ''),
+			getWindow().document.documentElement.outerHTML.replaceAll(/\s+/g, ''),
+			html.replaceAll(/\s+/g, ''),
 		);
 		t.is(document.querySelectorAll('*').length, 6);
 
