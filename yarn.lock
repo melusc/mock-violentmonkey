@@ -323,10 +323,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.4.5":
-  version: 20.4.5
-  resolution: "@types/node@npm:20.4.5"
-  checksum: 36a0304a8dc346a1b2d2edac4c4633eecf70875793d61a5274d0df052d7a7af7a8e34f29884eac4fbd094c4f0201477dcb39c0ecd3307ca141688806538d1138
+"@types/node@npm:*, @types/node@npm:^20.4.7":
+  version: 20.4.7
+  resolution: "@types/node@npm:20.4.7"
+  checksum: a40d7003f66b56220a2028179e49f950b46fa6dbf860a4a6ecbd6ba7976f05b2f0b31ced39689ec88a7d9e32d07e088c6a06d270b99d5bc13a28291ac2f30ca7
   languageName: node
   linkType: hard
 
@@ -4079,7 +4079,7 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/follow-redirects": ^1.14.1
     "@types/jsdom": ^21.1.1
-    "@types/node": ^20.4.5
+    "@types/node": ^20.4.7
     "@types/tampermonkey": ^4.0.10
     ava: ^5.3.1
     data-uri-to-buffer: ^5.0.1
