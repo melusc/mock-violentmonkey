@@ -1936,7 +1936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.27.5":
+"eslint-plugin-import@npm:~2.27.5":
   version: 2.27.5
   resolution: "eslint-plugin-import@npm:2.27.5"
   dependencies:
@@ -4090,7 +4090,7 @@ __metadata:
     rimraf: ^5.0.1
     type-fest: ^4.1.0
     typescript: ^5.1.6
-    xo: ^0.55.0
+    xo: ^0.56.0
   peerDependencies:
     ava: ^5.3.1
   peerDependenciesMeta:
@@ -6023,9 +6023,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xo@npm:^0.55.0":
-  version: 0.55.0
-  resolution: "xo@npm:0.55.0"
+"xo@npm:^0.56.0":
+  version: 0.56.0
+  resolution: "xo@npm:0.56.0"
   dependencies:
     "@eslint/eslintrc": ^2.1.0
     "@typescript-eslint/eslint-plugin": ^6.0.0
@@ -6041,7 +6041,7 @@ __metadata:
     eslint-import-resolver-webpack: ^0.13.2
     eslint-plugin-ava: ^14.0.0
     eslint-plugin-eslint-comments: ^3.2.0
-    eslint-plugin-import: ^2.27.5
+    eslint-plugin-import: ~2.27.5
     eslint-plugin-n: ^16.0.1
     eslint-plugin-no-use-extend-native: ^0.5.0
     eslint-plugin-prettier: ^5.0.0
@@ -6065,7 +6065,7 @@ __metadata:
     typescript: ^5.1.6
   bin:
     xo: cli.js
-  checksum: e08ebf6b30c6f005ec40bff712dfdf4ac765cf97e2532e3a30791b0dba7442e70388b94915cb9dc931535e183bbb3abc2ad09c3f9cff8f12ecb518a004a58f8f
+  checksum: 890a941e823167e8c33618c9bc6bdb9074c52da38e82a21ec27085fd868c3864b3f71973e52fe37cb0401f558042c0218ad0d653086c2c2bafa1805edf8f0905
   languageName: node
   linkType: hard
 
