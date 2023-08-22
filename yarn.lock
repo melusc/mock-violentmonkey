@@ -379,10 +379,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tampermonkey@npm:^4.0.11":
-  version: 4.0.11
-  resolution: "@types/tampermonkey@npm:4.0.11"
-  checksum: da7dd6ac4e739ba5e636a699ff2193471c9fa8c7337c0006c52d1196c16cef559ffeb6245b1c48b89c8e874fbfd50f036e60353fa4ffcccc821497767e09a58b
+"@types/tampermonkey@npm:^4.20.0":
+  version: 4.20.0
+  resolution: "@types/tampermonkey@npm:4.20.0"
+  checksum: 50c9d6363b7f3908d3fbe6d52bce70dfbd08a7b4dde48f942e5e14708a548489aef6c4882e68f65373dd5a61f57dcde168ca8b426ae0612003d17e42278193f8
   languageName: node
   linkType: hard
 
@@ -4080,7 +4080,7 @@ __metadata:
     "@types/follow-redirects": ^1.14.1
     "@types/jsdom": ^21.1.1
     "@types/node": ^20.5.1
-    "@types/tampermonkey": ^4.0.11
+    "@types/tampermonkey": ^4.20.0
     ava: ^5.3.1
     data-uri-to-buffer: ^5.0.1
     express: ^4.18.2
