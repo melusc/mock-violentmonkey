@@ -277,14 +277,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsdom@npm:^21.1.1":
-  version: 21.1.1
-  resolution: "@types/jsdom@npm:21.1.1"
+"@types/jsdom@npm:^21.1.2":
+  version: 21.1.2
+  resolution: "@types/jsdom@npm:21.1.2"
   dependencies:
     "@types/node": "*"
     "@types/tough-cookie": "*"
     parse5: ^7.0.0
-  checksum: 7450d6e23aa31b837a1682f0e59b06838aacca85c9d030035f40e21d559169c773aee5cee9244f23c3004b78f7064f0c540ceb808d2f187deb3140f2b0449dee
+  checksum: 62513fc82afa0234034919dee37d3f82425245e1794c58bac55fabbd00de10b3c384992db1cdd53d35a0af58540e2733730f22dbeb57f5b76bca90bca8c368a8
   languageName: node
   linkType: hard
 
@@ -379,10 +379,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tampermonkey@npm:^4.20.0":
-  version: 4.20.0
-  resolution: "@types/tampermonkey@npm:4.20.0"
-  checksum: 50c9d6363b7f3908d3fbe6d52bce70dfbd08a7b4dde48f942e5e14708a548489aef6c4882e68f65373dd5a61f57dcde168ca8b426ae0612003d17e42278193f8
+"@types/tampermonkey@npm:^4.20.1":
+  version: 4.20.1
+  resolution: "@types/tampermonkey@npm:4.20.1"
+  checksum: 7b6596a542df3404d53870d6a9f87d21c8583a107bf0d066ac79d86a997172989fefdd1f1cd3bdd8ec53a8262ef5c916357c059c087d302a7b97a3ce4767c3e2
   languageName: node
   linkType: hard
 
@@ -4078,9 +4078,9 @@ __metadata:
     "@lusc/tsconfig": ^3.0.0
     "@types/express": ^4.17.17
     "@types/follow-redirects": ^1.14.1
-    "@types/jsdom": ^21.1.1
+    "@types/jsdom": ^21.1.2
     "@types/node": ^20.5.6
-    "@types/tampermonkey": ^4.20.0
+    "@types/tampermonkey": ^4.20.1
     ava: ^5.3.1
     data-uri-to-buffer: ^5.0.1
     express: ^4.18.2
@@ -4088,7 +4088,7 @@ __metadata:
     jsdom: ^22.1.0
     prettier: ^3.0.2
     rimraf: ^5.0.1
-    type-fest: ^4.2.0
+    type-fest: ^4.3.0
     typescript: ^5.2.2
     xo: ^0.56.0
   peerDependencies:
@@ -5696,10 +5696,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "type-fest@npm:4.2.0"
-  checksum: 76c5dfde9293b1b185b266a07df669f68d58ae3e19c06e33f0ff0dd0ba68628f05389bc26bcee8476e29a79ab7da054653670b9778399ceb079c4c259bac29f0
+"type-fest@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "type-fest@npm:4.3.0"
+  checksum: 3786b95d17f18cbb24664b96845805391e1aee74eb573981d55acd742f545c379eb65221e2f3bf9f969fbb84b4d2b4670fcfa64acbcd9d2a7593fe566237beb7
   languageName: node
   linkType: hard
 
