@@ -229,15 +229,12 @@ type Tab = {
 Instead of polluting the global namespace, this allows you to only enable whatever is required.
 Only `document` and `window` are added to the global namespace by default.
 
-This should always be used for `FormData`,
-because node's implementation of `FormData` does not work with jsdom's `File`.
-
 This is not aware of violentmonkey-contexts, so calling it once at the start of the file is enough.
 
 ```js
-console.log(typeof FormData); // undefined
-enableDomGlobal('FormData');
-console.log(typeof FormData); // function
+console.log(typeof HTMLElement); // undefined
+enableDomGlobal('HTMLElement');
+console.log(typeof HTMLElement); // function
 ```
 
 ### setBaseUrl
