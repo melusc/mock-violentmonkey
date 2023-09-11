@@ -50,15 +50,28 @@ type MapKnownKeys<T> = {
 	[K in keyof T as string extends K ? never : K]: string;
 };
 
+const builtinGlobals: ReadonlySet<keyof MapKnownKeys<DOMWindow>> = new Set([
+	'URL',
+	'Blob',
+]);
+
 /**
  * Enable a global dom value.
  * This allows you to enable only what you need.
  */
-const enableDomGlobal = (key: keyof MapKnownKeys<DOMWindow>) => {
+function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
+	if (builtinGlobals.has(key)) {
+		console.warn(
+			'Warning(mock-violentmonkey):'
+				+ ` enableDomGlobal("${key}") is not necessary anymore.`
+				+ ` Please use the built-in version of \`${key}\` instead.`,
+		);
+	}
+
 	Object.defineProperty(global, key, {
 		get: (): any => getWindow()[key],
 	});
-};
+}
 
 enableDomGlobal('window');
 enableDomGlobal('document');
