@@ -1,16 +1,16 @@
 import test from 'ava';
 
 import {
-	violentMonkeyContextMacro,
+	GM_addValueChangeListener,
 	/*****/
 	GM_deleteValue,
 	GM_getValue,
 	GM_listValues,
-	GM_setValue,
-	GM_addValueChangeListener,
 	GM_removeValueChangeListener,
+	GM_setValue,
 	/*****/
 	tabContext,
+	violentMonkeyContextMacro,
 } from '../../src/index.js';
 
 test(

@@ -4,15 +4,15 @@ import test from 'ava';
 
 import {
 	GM,
+	GM_addStyle,
 	GM_getValue,
 	GM_info,
-	GM_setValue,
-	GM_addStyle,
-	violentMonkeyContext,
 	GM_notification,
-	GM_setClipboard,
 	GM_openInTab,
+	GM_setClipboard,
+	GM_setValue,
 	GM_xmlhttpRequest,
+	violentMonkeyContext,
 } from '../../src/index.js';
 
 const pNextTick = async () =>

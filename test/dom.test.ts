@@ -1,14 +1,14 @@
 import test from 'ava';
 import type {DOMWindow} from 'jsdom';
 
+import {setBaseUrl} from '../src/base-url.js';
 import {
+	enableDomGlobal,
 	getWindow,
 	loadStringToDom,
 	loadURLToDom,
 	violentMonkeyContext,
-	enableDomGlobal,
 } from '../src/index.js';
-import {setBaseUrl} from '../src/base-url.js';
 
 // Globals
 declare const window: DOMWindow;
@@ -28,9 +28,9 @@ test(
 test(
 	'enableDomGlobal',
 	violentMonkeyContext(t => {
-		t.is(typeof File, 'undefined');
-		enableDomGlobal('File');
-		t.is(typeof new File(['content'], 'a.txt'), 'object');
+		t.is(typeof frames, 'undefined');
+		enableDomGlobal('frames');
+		t.is(typeof frames.window, 'object');
 	}),
 );
 
@@ -69,8 +69,8 @@ test(
 		loadStringToDom(html);
 
 		t.is(
-			getWindow().document.documentElement.outerHTML.replace(/\s+/g, ''),
-			html.replace(/\s+/g, ''),
+			getWindow().document.documentElement.outerHTML.replaceAll(/\s+/g, ''),
+			html.replaceAll(/\s+/g, ''),
 		);
 		t.is(document.querySelectorAll('*').length, 6);
 

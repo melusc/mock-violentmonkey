@@ -18,12 +18,11 @@
  * @license MIT
  */
 
-import process from 'node:process';
 import {Buffer, resolveObjectURL} from 'node:buffer';
-
-import followRedirects from 'follow-redirects';
+import process from 'node:process';
 
 import {dataUriToBuffer} from 'data-uri-to-buffer';
+import followRedirects from 'follow-redirects';
 
 const {http, https} = followRedirects;
 
@@ -568,7 +567,7 @@ class XMLHttpRequest {
 		this.#sendFlag = true;
 
 		// Handler for the response
-		const responseHandler = (response: Response) => {
+		const responseHandler = async (response: Response) => {
 			if (this.#abortedFlag || this.#errorFlag || this.#timeoutFlag) {
 				response.destroy();
 				return;
@@ -588,33 +587,38 @@ class XMLHttpRequest {
 				this.responseBuffer = Buffer.concat(bufferItems);
 			};
 
-			response
-				.on('data', (chunk: Buffer) => {
-					appendBuffer(chunk);
+			if (this.timeout > 0) {
+				const timeoutLeft = this.timeout - (Date.now() - start);
+				if (timeoutLeft <= 0) {
+					this.#onTimeout();
+					return;
+				}
 
-					// Don't emit state changes if the connection has been aborted.
+				response.setTimeout(timeoutLeft, this.#onTimeout);
+			}
+
+			try {
+				for await (const chunk of response) {
+					appendBuffer(chunk as Buffer);
 					if (this.#sendFlag) {
 						this.#setState(this.LOADING);
 					}
 
 					this.#dispatchEvent('progress');
-				})
-				.on('end', () => {
-					this.statusText = http.STATUS_CODES[response.statusCode!]!;
-					clearTimeout_();
+				}
 
-					if (this.#sendFlag) {
-						// The this.#sendFlag needs to be set before setState is called.  Otherwise if we are chaining callbacks
-						// there can be a timing issue (the callback is called and a new call is made before the flag is reset).
-						this.#sendFlag = false;
-						// Discard the 'end' event if the connection has been aborted
-						this.#setState(this.DONE);
-					}
-				})
-				.on('error', () => {
-					clearTimeout_();
-					this.#handleError();
-				});
+				this.statusText = http.STATUS_CODES[response.statusCode!]!;
+
+				if (this.#sendFlag) {
+					// The this.#sendFlag needs to be set before setState is called.  Otherwise if we are chaining callbacks
+					// there can be a timing issue (the callback is called and a new call is made before the flag is reset).
+					this.#sendFlag = false;
+					// Discard the 'end' event if the connection has been aborted
+					this.#setState(this.DONE);
+				}
+			} catch {
+				this.#handleError();
+			}
 		};
 
 		// Create the request
@@ -626,22 +630,14 @@ class XMLHttpRequest {
 			},
 			responseHandler,
 		).on('error', () => {
-			clearTimeout_();
-
 			this.#handleError();
 		});
 
-		let timeout: NodeJS.Timeout | undefined;
+		const start = Date.now();
 
 		if (this.timeout > 0) {
-			timeout = setTimeout(this.#onTimeout, this.timeout);
+			request.setTimeout(this.timeout, this.#onTimeout);
 		}
-
-		const clearTimeout_ = () => {
-			if (timeout) {
-				clearTimeout(timeout);
-			}
-		};
 
 		this.#request = request;
 
@@ -660,6 +656,10 @@ class XMLHttpRequest {
 	 * @param {URL} url If the url is still accessible even on error
 	 */
 	#handleError = (url?: URL) => {
+		if (this.#timeoutFlag) {
+			return;
+		}
+
 		this.responseURL = url?.href ?? '';
 		this.status = 0;
 		this.responseBuffer = Buffer.alloc(0);

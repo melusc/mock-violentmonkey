@@ -1,23 +1,26 @@
 import {Buffer} from 'node:buffer';
+
 import test from 'ava';
 
+import {setBaseUrl} from '../../src/base-url.js';
 import {
 	GM_download,
-	getDownloads,
-	violentMonkeyContextMacro,
 	getDownload,
+	getDownloads,
+	violentMonkeyContext,
+	violentMonkeyContextMacro,
 } from '../../src/index.js';
-import {setBaseUrl} from '../../src/base-url.js';
+import {createTestHttpServer} from '../_helpers/create-server.js';
 
 test(
 	'GM_download with an existant url',
-	violentMonkeyContextMacro(),
-	async t => {
-		setBaseUrl('https://httpbin.org/');
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
+		setBaseUrl(baseUrl);
 
 		await new Promise<void>(resolve => {
 			GM_download({
-				url: '/base64/R01fZG93bmxvYWQ=',
+				url: '/base64/R01fZG93bmxvYWQ',
 				name: 'out.txt',
 				onload(responseObject) {
 					t.like(responseObject, {
@@ -36,7 +39,7 @@ test(
 				},
 			});
 		});
-	},
+	}),
 );
 
 test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
@@ -56,50 +59,54 @@ test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
 	t.deepEqual(getDownloads(), {});
 });
 
-test('GM_download event handlers', violentMonkeyContextMacro(), async t => {
-	const called = new Set<string>();
+test(
+	'GM_download event handlers',
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
+		const called = new Set<string>();
+		setBaseUrl(baseUrl);
 
-	await new Promise<void>((resolve, reject) => {
-		GM_download({
-			url: 'https://httpbin.org/base64/YWJj',
-			name: 'out.txt',
-			onabort() {
-				reject();
-			},
-			onerror() {
-				reject();
-			},
-			onload() {
-				called.add('onload');
-			},
-			onloadend() {
-				called.add('onloadend');
-				resolve();
-			},
-			onloadstart() {
-				called.add('onloadstart');
-			},
-			onprogress() {
-				called.add('onprogress');
-			},
-			onreadystatechange() {
-				called.add('onreadystatechange');
-			},
-			ontimeout() {
-				reject();
-			},
+		await new Promise<void>((resolve, reject) => {
+			GM_download({
+				url: '/uuid',
+				name: 'out.txt',
+				onabort() {
+					reject();
+				},
+				onerror() {
+					reject();
+				},
+				onload() {
+					called.add('onload');
+				},
+				onloadend() {
+					called.add('onloadend');
+					resolve();
+				},
+				onloadstart() {
+					called.add('onloadstart');
+				},
+				onprogress() {
+					called.add('onprogress');
+				},
+				onreadystatechange() {
+					called.add('onreadystatechange');
+				},
+				ontimeout() {
+					reject();
+				},
+			});
 		});
-	});
 
-	t.is(called.size, 5);
-	t.deepEqual(
-		[...called].sort(),
-		[
-			'onload',
-			'onloadend',
-			'onloadstart',
-			'onprogress',
-			'onreadystatechange',
-		].sort(),
-	);
-});
+		t.deepEqual(
+			[...called].sort(),
+			[
+				'onload',
+				'onloadend',
+				'onloadstart',
+				'onprogress',
+				'onreadystatechange',
+			].sort(),
+		);
+	}),
+);

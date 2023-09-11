@@ -1,4 +1,5 @@
 import type {ExecutionContext, Macro} from 'ava';
+
 import {violentMonkeyContext} from './violentmonkey-context.js';
 
 type MacroCb<Context = unknown> = (
@@ -16,5 +17,5 @@ export const violentMonkeyContextMacro = <Context = unknown>(): Macro<
 	[MacroCb<Context>],
 	Context
 > => ({
-	exec: (t, run) => violentMonkeyContext(run)(t),
+	exec: async (t, run) => violentMonkeyContext(run)(t),
 });

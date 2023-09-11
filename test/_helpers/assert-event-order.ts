@@ -1,6 +1,6 @@
 import type {ExecutionContext} from 'ava';
 
-import type {XMLHttpRequest, Events} from '../../src/xmlhttprequest/index.js';
+import type {Events, XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 const events: readonly Events[] = [
 	'abort',

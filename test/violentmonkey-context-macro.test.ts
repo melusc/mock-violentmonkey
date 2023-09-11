@@ -1,9 +1,9 @@
 import anyTest, {type TestFn} from 'ava';
 
 import {
-	violentMonkeyContextMacro,
 	GM_getValue,
 	GM_setValue,
+	violentMonkeyContextMacro,
 } from '../src/index.js';
 
 const test = anyTest as TestFn<{foo: string}>;

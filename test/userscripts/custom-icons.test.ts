@@ -1,10 +1,11 @@
 import test from 'ava';
 
 import {
-	GM_setValue,
 	GM_getValue,
+	GM_setValue,
 	violentMonkeyContext,
 } from '../../src/index.js';
+
 import {updateDeprecatedSplitDataURI} from './custom-icons.user.js';
 
 test(

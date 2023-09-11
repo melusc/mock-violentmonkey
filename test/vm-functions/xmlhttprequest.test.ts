@@ -3,24 +3,28 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 import type {JsonObject} from 'type-fest';
 
-import {
-	enableDomGlobal,
-	GM_xmlhttpRequest,
-	type Headers,
-	violentMonkeyContext,
-} from '../../src/index.js';
 import {setBaseUrl} from '../../src/base-url.js';
-import {createServer} from '../_helpers/create-server.js';
+import {
+	GM_xmlhttpRequest,
+	enableDomGlobal,
+	violentMonkeyContext,
+	type Headers,
+} from '../../src/index.js';
+import {
+	createTestHttpServer,
+	requestBodyToBuffer,
+} from '../_helpers/create-server.js';
 
 enableDomGlobal('FormData');
 enableDomGlobal('File');
 
 test(
 	'GM_xmlhttpRequest with instant abort',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(3);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -46,16 +50,17 @@ test(
 
 test(
 	'GM_xmlhttpRequest with relative url',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl, resolve: resolveUrl}) => {
 		t.plan(1);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: '/html',
 				onload({finalUrl}) {
-					t.is(finalUrl, 'https://httpbin.org/html');
+					t.is(finalUrl, resolveUrl('/html'));
 				},
 				onloadend: resolve,
 			});
@@ -65,10 +70,11 @@ test(
 
 test(
 	'Cached GM_xmlhttpRequest response',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(2);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -89,20 +95,18 @@ test(
 
 test(
 	'GM_xmlhttpRequest document url',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl, resolve: resolveUrl}) => {
 		t.plan(1);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
 				url: '/html',
 				responseType: 'document',
 				onload(responseObject) {
-					t.is(
-						(responseObject.response as Document).URL,
-						'https://httpbin.org/html',
-					);
+					t.is((responseObject.response as Document).URL, resolveUrl('/html'));
 				},
 				onloadend: resolve,
 			});
@@ -112,10 +116,11 @@ test(
 
 test(
 	'GM_xmlhttpRequest json response',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(2);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -128,24 +133,12 @@ test(
 					);
 
 					t.deepEqual(responseObject.response, {
-						slideshow: {
-							author: 'Yours Truly',
-							date: 'date of publication',
-							slides: [
-								{
-									title: 'Wake up to WonderWidgets!',
-									type: 'all',
-								},
-								{
-									items: [
-										'Why <em>WonderWidgets</em> are great',
-										'Who <em>buys</em> WonderWidgets',
-									],
-									title: 'Overview',
-									type: 'all',
-								},
-							],
-							title: 'Sample Slide Show',
+						string: 'string',
+						number: 42,
+						boolean: true,
+						array: [1, 2, 3],
+						object: {
+							key: 'value',
 						},
 					});
 				},
@@ -157,9 +150,10 @@ test(
 
 test(
 	'GM_xmlhttpRequest document response',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(3);
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -181,10 +175,11 @@ test(
 
 test(
 	'GM_xmlhttpRequest arraybuffer',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(2);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -204,10 +199,11 @@ test(
 
 test(
 	'GM_xmlhttpRequest text response',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(2);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
@@ -226,10 +222,11 @@ test(
 
 test(
 	'GM_xmlhttpRequest blob response',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(2);
 
-		setBaseUrl('https://httpbin.org/');
+		setBaseUrl(baseUrl);
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
@@ -249,49 +246,75 @@ test(
 	}),
 );
 
+function makeFormDataRegex(...lines: string[]): RegExp {
+	return new RegExp(lines.map(s => `^${s}$`).join('\\r\\n'), 'm');
+}
+
 test(
 	'GM_xmlhttpRequest with global FormData',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {app, baseUrl}) => {
 		t.plan(3);
 
-		setBaseUrl('https://httpbin.org/');
+		app.post('/', async (request, response) => {
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString();
 
-		const formData = new FormData();
+			t.regex(
+				request.headers['content-type']!,
+				/^multipart\/form-data; boundary=-+[a-f\d]+$/,
+			);
+			const boundary = /boundary=(?<boundary>-+[a-f\d]+)$/.exec(
+				request.headers['content-type']!,
+			)!.groups!['boundary']!;
 
-		formData.append('string', 'value');
+			t.true(body.includes(boundary));
 
-		const file = new File(
-			['string', ', another string', Buffer.from(', a buffer')],
-			'text.txt',
+			t.regex(
+				body,
+				makeFormDataRegex(
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="file-txt"; filename="file.txt"',
+					'Content-Type: text/plain',
+					'',
+					'abc, def',
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="file-octet"; filename="file.blob"',
+					'Content-Type: application/octet-stream',
+					'',
+					'ghi',
+					'-+[a-f\\d]+',
+					'Content-Disposition: form-data; name="string"',
+					'',
+					'jkl',
+					'-+[a-f\\d]+--',
+				),
+			);
+
+			response.end();
+		});
+
+		setBaseUrl(baseUrl);
+
+		const body = new FormData();
+
+		body.append(
+			'file-txt',
+			new File(['abc', Buffer.from(', def')], 'file.txt', {
+				type: 'text/plain',
+			}),
 		);
-		formData.append('file', file);
+
+		body.append('file-octet', new File(['ghi'], 'file.blob'));
+
+		body.append('string', 'jkl');
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
-				url: '/anything',
-				data: formData,
-				responseType: 'json',
+				url: '/',
+				data: body,
+				responseType: 'text',
 				method: 'post',
-				onload(responseObject) {
-					const response = responseObject.response as Record<
-						string,
-						Record<string, string>
-					>;
-
-					t.deepEqual(response['files'], {
-						file: 'string, another string, a buffer',
-					});
-
-					t.deepEqual(response['form'], {
-						string: 'value',
-					});
-
-					// Non-null because otherwise typescript complains and this way ava will complain
-					t.regex(
-						response['headers']!['Content-Type']!,
-						/^multipart\/form-data; boundary=-+[\da-f]+$/,
-					);
-				},
 				onloadend: resolve,
 			});
 		});
@@ -299,7 +322,7 @@ test(
 );
 
 test(
-	'GM_xmlhttpRequest with incorrect url',
+	'GM_xmlhttpRequest with invalid url',
 	violentMonkeyContext(async t => {
 		t.plan(1);
 
@@ -317,21 +340,24 @@ test(
 
 test(
 	'GM_xmlhttpRequest with headers',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl}) => {
 		t.plan(1);
 
+		setBaseUrl(baseUrl);
+
 		const headers: Headers = {
-			'X-Abc': 'xyz',
-			'User-Agent': 'node-xmlhttprequest',
+			'x-abc': 'xyz',
+			'user-agent': 'node-xmlhttprequest',
 		};
 
 		await new Promise(resolve => {
 			GM_xmlhttpRequest({
-				url: 'https://httpbin.org/headers',
+				url: '/headers',
 				responseType: 'json',
 				headers,
 				onload({response}) {
-					t.like((response as JsonObject)['headers'], headers);
+					t.like(response as JsonObject, headers);
 				},
 				onloadend: resolve,
 			});
@@ -340,128 +366,33 @@ test(
 );
 
 test(
-	'Sending FormData',
-	violentMonkeyContext(async t => {
-		t.plan(5);
-		const body = new FormData();
-
-		body.append(
-			'file-txt',
-			new File(['abc'], 'file.txt', {
-				type: 'text/plain',
-			}),
-		);
-
-		body.append('file-octet', new File(['def'], 'file.blob'));
-
-		body.append('string', 'ghi');
-
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
-
-			t.regex(
-				request.headers['content-type']!,
-				/^multipart\/form-data; boundary=-+[a-f\d]+$/,
-			);
-			const boundary = /boundary=(?<boundary>-+[a-f\d]+)$/.exec(
-				request.headers['content-type']!,
-			)!.groups!['boundary']!;
-
-			const bodyParts: Buffer[] = [];
-
-			request
-				.on('data', b => {
-					bodyParts.push(b);
-				})
-				.on('close', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.true(body.includes(boundary));
-					t.regex(
-						body,
-						new RegExp(
-							[
-								'^content-disposition: form-data; name="file-txt"; filename="file.txt"$',
-								'^content-type: text/plain$',
-								'^$',
-								'^abc$',
-							].join('\\r\\n'),
-							'im',
-						),
-					);
-					t.regex(
-						body,
-						new RegExp(
-							[
-								'^content-disposition: form-data; name="file-octet"; filename="file.blob"$',
-								'^content-type: application/octet-stream$',
-								'^$',
-								'^def$',
-							].join('\\r\\n'),
-							'im',
-						),
-					);
-					t.regex(
-						body,
-						new RegExp(
-							[
-								'^content-disposition: form-data; name="string"$',
-								'^$',
-								'^ghi$',
-							].join('\\r\\n'),
-							'im',
-						),
-					);
-					response.end();
-				});
-		});
-
-		await new Promise<void>(resolve => {
-			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
-				method: 'post',
-				data: body,
-				onloadend() {
-					server.close();
-					resolve();
-				},
-			});
-		});
-	}),
-);
-
-test(
 	'Sending Blob with content-type',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl, app}) => {
 		t.plan(2);
 		const body = new Blob(['abc'], {
 			type: 'text/plain',
 		});
 
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
+		app.post('/', async (request, response) => {
+			response.status(200);
+
+			const requestBody = await requestBodyToBuffer(request);
 
 			t.is(request.headers['content-type'], 'text/plain');
 
-			const bodyParts: any[] = [];
-
-			request
-				.on('data', chunk => {
-					bodyParts.push(chunk);
-				})
-				.on('end', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.is(body, 'abc');
-					response.end();
-				});
+			const body = requestBody.toString('utf8');
+			t.is(body, 'abc');
+			response.end();
 		});
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
+				url: baseUrl,
 				method: 'post',
 				data: body,
+				responseType: 'text',
 				onloadend() {
-					server.close();
 					resolve();
 				},
 			});
@@ -471,35 +402,28 @@ test(
 
 test(
 	'Sending Blob without content-type',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {baseUrl, app}) => {
 		t.plan(2);
 		const body = new Blob(['qwerty']);
 
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
+		app.post('/', async (request, response) => {
+			response.status(200);
 
 			t.is(request.headers['content-type'], undefined);
 
-			const bodyParts: any[] = [];
-
-			request
-				.on('data', chunk => {
-					bodyParts.push(chunk);
-				})
-				.on('end', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.is(body, 'qwerty');
-					response.end();
-				});
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString('utf8');
+			t.is(body, 'qwerty');
+			response.end();
 		});
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
+				url: baseUrl,
 				method: 'post',
 				data: body,
 				onloadend() {
-					server.close();
 					resolve();
 				},
 			});
@@ -509,34 +433,28 @@ test(
 
 test(
 	'Sending string',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {app, baseUrl}) => {
 		t.plan(2);
 
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
+		app.post('/', async (request, response) => {
+			response.status(200);
 
 			t.is(request.headers['content-type'], 'text/plain;charset=UTF-8');
 
-			const bodyParts: any[] = [];
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString('utf8');
 
-			request
-				.on('data', chunk => {
-					bodyParts.push(chunk);
-				})
-				.on('end', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.is(body, 'Never gonna give you up');
-					response.end();
-				});
+			t.is(body, 'Never gonna give you up');
+			response.end();
 		});
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
+				url: baseUrl,
 				method: 'post',
 				data: 'Never gonna give you up',
 				onloadend() {
-					server.close();
 					resolve();
 				},
 			});
@@ -546,33 +464,26 @@ test(
 
 test(
 	'Sending no data',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {app, baseUrl}) => {
 		t.plan(2);
 
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
+		app.post('/', async (request, response) => {
+			response.status(200);
 
 			t.is(request.headers['content-type'], undefined);
 
-			const bodyParts: any[] = [];
-
-			request
-				.on('data', chunk => {
-					bodyParts.push(chunk);
-				})
-				.on('end', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.is(body, '');
-					response.end();
-				});
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString('utf8');
+			t.is(body, '');
+			response.end();
 		});
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
+				url: baseUrl,
 				method: 'post',
 				onloadend() {
-					server.close();
 					resolve();
 				},
 			});
@@ -582,40 +493,34 @@ test(
 
 test(
 	'Overriding content-type',
-	violentMonkeyContext(async t => {
+	createTestHttpServer,
+	violentMonkeyContext(async (t, {app, baseUrl}) => {
 		t.plan(2);
 		const body = new Blob(['{"key": "value"}'], {
 			type: 'text/plain',
 		});
 
-		const {port, server} = await createServer((request, response) => {
-			response.writeHead(200);
+		app.post('/', async (request, response) => {
+			response.status(200);
 
 			t.is(request.headers['content-type'], 'application/json');
 
-			const bodyParts: any[] = [];
+			const bodyBuffer = await requestBodyToBuffer(request);
+			const body = bodyBuffer.toString('utf8');
 
-			request
-				.on('data', chunk => {
-					bodyParts.push(chunk);
-				})
-				.on('end', () => {
-					const body = Buffer.concat(bodyParts).toString('utf8');
-					t.is(body, '{"key": "value"}');
-					response.end();
-				});
+			t.is(body, '{"key": "value"}');
+			response.end();
 		});
 
 		await new Promise<void>(resolve => {
 			GM_xmlhttpRequest({
-				url: `http://localhost:${port}/`,
+				url: baseUrl,
 				method: 'post',
 				data: body,
 				headers: {
 					'content-type': 'application/json',
 				},
 				onloadend() {
-					server.close();
 					resolve();
 				},
 			});

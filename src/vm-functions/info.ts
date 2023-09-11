@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 
 import type {PartialDeep} from 'type-fest';
+
 import {VMStorage} from '../vm-storage.js';
 
 type ScriptInfo = {

@@ -11,7 +11,6 @@ Chromium uses the built-in notifications of the OS.
 Firefox:
 
 1. Calls `onclick`
-1. Plays fadeout animation (~600ms)
 1. Calls `ondone`
 
 Chromium:
@@ -20,14 +19,7 @@ Chromium:
 
 ## Letting the notification timeout
 
-Firefox:
-
-1. Times out after 20s
-1. Calls `ondone`
-
-Chromium:
-
-- Doesn't timeout
+Both don't timeout
 
 ## Closing the notification
 

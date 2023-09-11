@@ -29,6 +29,13 @@
 			{
 				"//": "let prettier handle it, https://prettier.io/docs/en/options.html#tabs"
 			}
+		],
+		"import/order": [
+			"error",
+			{
+				"newlines-between": "always",
+				"warnOnUnassignedImports": true
+			}
 		]
 	}
 }

@@ -3,7 +3,6 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-
 import {assertEventOrder, assertReadyStateValues} from '../_helpers/index.js';
 
 test('valid object url', async t => {

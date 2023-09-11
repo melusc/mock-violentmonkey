@@ -2,7 +2,8 @@ import {Buffer} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
 import type {Headers} from '../xmlhttprequest/index.js';
-import {type XHREventHandler, GM_xmlhttpRequest} from './xmlhttprequest.js';
+
+import {GM_xmlhttpRequest, type XHREventHandler} from './xmlhttprequest.js';
 
 const downloads = new VMStorage<Map<string, Buffer>>(() => new Map());
 
@@ -51,6 +52,21 @@ const download: Download = (options, name?: string) => {
 		throw new TypeError('Expected name to be a string.');
 	}
 
+	// This is a fix for a race condition where onloadend is called before onload
+	// Because all event handlers but onload were passed without any modification
+	// this caused a race condition
+	// Our onload was called. Because it is async, onloadend was called, before we could call options_.onload
+	// To fix this, we intercept that call and call onloadend when we're ready
+	// For errors, we call it right away
+	// For onload, we wait until the buffer is loaded and then call their onload and then onloadend
+
+	function overrideError(name: 'error' | 'abort' | 'timeout') {
+		return function (response) {
+			options_[`on${name}`]?.(response);
+			options_.onloadend?.(response);
+		} satisfies XHREventHandler;
+	}
+
 	GM_xmlhttpRequest({
 		...options_,
 		url,
@@ -61,7 +77,13 @@ const download: Download = (options, name?: string) => {
 			downloads.get(true).set(name_, buffer);
 
 			options_.onload?.(response);
+			options_.onloadend?.(response);
 		},
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		onloadend() {},
+		onerror: overrideError('error'),
+		onabort: overrideError('abort'),
+		ontimeout: overrideError('timeout'),
 	});
 };
 
@@ -70,7 +92,7 @@ const getDownloads = (): Record<string, Buffer> => {
 
 	const result: Record<string, Buffer> = {};
 	for (const [name, buffer] of downloadsMap ?? []) {
-		result[name] = buffer.slice();
+		result[name] = Buffer.from(buffer);
 	}
 
 	return result;

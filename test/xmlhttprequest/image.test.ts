@@ -3,8 +3,9 @@ import crypto from 'node:crypto';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
+import {createTestHttpServer} from '../_helpers/create-server.js';
 
-test('image', async t => {
+test('image', createTestHttpServer, async (t, {resolve: resolveUrl}) => {
 	t.plan(1);
 
 	const xhr = new XMLHttpRequest();
@@ -12,14 +13,14 @@ test('image', async t => {
 	xhr.addEventListener('load', () => {
 		t.is(
 			crypto.createHash('sha256').update(xhr.responseBuffer).digest('hex'),
-			'541a1ef5373be3dc49fc542fd9a65177b664aec01c8d8608f99e6ec95577d8c1',
+			'3b852b7faaed217e958c20ddc84e9218e5efb2e31af73970327fffe17cfe7c91',
 		);
 	});
 
 	await new Promise<void>(resolve => {
 		xhr.addEventListener('loadend', resolve);
 
-		xhr.open('get', 'https://httpbin.org/image/png');
+		xhr.open('get', resolveUrl('/image'));
 		xhr.send();
 	});
 });

@@ -1,8 +1,9 @@
 import test from 'ava';
+
 import {
 	GM_info,
-	violentMonkeyContext,
 	update_GM_info,
+	violentMonkeyContext,
 	type ScriptInfo,
 } from '../../src/index.js';
 
