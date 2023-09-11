@@ -1,4 +1,4 @@
-import {Blob as Blob_, Buffer} from 'node:buffer';
+import {Buffer} from 'node:buffer';
 
 import test from 'ava';
 import type {JsonObject} from 'type-fest';
@@ -17,12 +17,6 @@ import {
 
 enableDomGlobal('FormData');
 enableDomGlobal('File');
-
-declare const Blob: typeof Blob_;
-
-test('globals', t => {
-	t.is(Blob, Blob_);
-});
 
 test(
 	'GM_xmlhttpRequest with instant abort',
@@ -239,7 +233,7 @@ test(
 				url: '/base64/eHl6',
 				responseType: 'blob',
 				async onload(response) {
-					const blob = response.response as Blob_;
+					const blob = response.response as Blob;
 
 					t.true(blob instanceof Blob);
 

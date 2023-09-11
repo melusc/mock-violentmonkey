@@ -1,4 +1,4 @@
-import {Blob, Buffer} from 'node:buffer';
+import {Buffer} from 'node:buffer';
 import crypto from 'node:crypto';
 
 import {JSDOM} from 'jsdom';
@@ -348,8 +348,5 @@ export {
 Object.defineProperties(global, {
 	GM_xmlhttpRequest: {
 		value: xmlhttpRequest,
-	},
-	Blob: {
-		value: Blob,
 	},
 });
