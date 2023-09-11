@@ -6,7 +6,6 @@ import type {JsonObject} from 'type-fest';
 import {setBaseUrl} from '../../src/base-url.js';
 import {
 	GM_xmlhttpRequest,
-	enableDomGlobal,
 	violentMonkeyContext,
 	type Headers,
 } from '../../src/index.js';
@@ -14,9 +13,6 @@ import {
 	createTestHttpServer,
 	requestBodyToBuffer,
 } from '../_helpers/create-server.js';
-
-enableDomGlobal('FormData');
-enableDomGlobal('File');
 
 test(
 	'GM_xmlhttpRequest with instant abort',
