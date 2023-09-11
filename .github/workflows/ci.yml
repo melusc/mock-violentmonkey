@@ -12,9 +12,8 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - ^16.9
-          - 18
-          - 20
+          - ^18.17.1
+          - ^20.6.1
     name: Node ${{ matrix.node-version }}
     steps:
       - name: Checkout
