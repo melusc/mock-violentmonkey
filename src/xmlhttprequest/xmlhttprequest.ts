@@ -457,9 +457,9 @@ class XMLHttpRequest {
 		this.#dispatchEvent('loadstart');
 
 		try {
-			const buffer = dataUriToBuffer(url.href);
+			const parsed = dataUriToBuffer(url.href);
 
-			this.#simulateEventsWith(buffer, buffer.typeFull, url, {
+			this.#simulateEventsWith(parsed.buffer, parsed.typeFull, url, {
 				extraProgressEvent: true,
 			});
 		} catch {
@@ -482,7 +482,7 @@ class XMLHttpRequest {
 			this.#handleError();
 		} else if (method === 'GET') {
 			void blob.arrayBuffer().then(ab => {
-				this.#simulateEventsWith(Buffer.from(ab), blob.type, url, {
+				this.#simulateEventsWith(ab, blob.type, url, {
 					extraProgressEvent: false,
 				});
 			});
@@ -492,11 +492,13 @@ class XMLHttpRequest {
 	};
 
 	#simulateEventsWith = (
-		buffer: Buffer,
+		arrayBuffer: ArrayBuffer,
 		type: string,
 		url: URL,
 		options: {extraProgressEvent: boolean},
 	) => {
+		const buffer = Buffer.from(arrayBuffer);
+
 		this.#response = {
 			headers: {},
 			destroy: noop,
@@ -512,7 +514,7 @@ class XMLHttpRequest {
 		this.responseURL = url.href;
 		this.#setState(this.HEADERS_RECEIVED);
 
-		this.responseBuffer = Buffer.from(buffer);
+		this.responseBuffer = buffer;
 		this.#setState(this.LOADING);
 		this.#dispatchEvent('progress');
 		if (options.extraProgressEvent && buffer.length > 0) {
