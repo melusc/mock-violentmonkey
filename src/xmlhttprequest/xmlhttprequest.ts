@@ -156,7 +156,7 @@ class XMLHttpRequest {
 		  }
 		| undefined;
 
-	#options: Options;
+	readonly #options: Options;
 
 	#response: XHRResponse | undefined;
 	#request: Request | undefined;
@@ -167,7 +167,7 @@ class XMLHttpRequest {
 	#sendFlag = false;
 
 	// Event listeners
-	#listeners: Partial<Record<Events, Array<() => void>>> = {};
+	readonly #listeners: Partial<Record<Events, Array<() => void>>> = {};
 
 	// Error flag, used when errors occur or abort is called
 	#errorFlag = false;
@@ -412,7 +412,7 @@ class XMLHttpRequest {
 	 *
 	 * @param int state New state
 	 */
-	#setState = (state: 0 | 1 | 2 | 3 | 4) => {
+	readonly #setState = (state: 0 | 1 | 2 | 3 | 4) => {
 		if (
 			(this.readyState === state && state !== this.LOADING)
 			|| (this.readyState === this.UNSENT && this.#abortedFlag)
@@ -448,7 +448,7 @@ class XMLHttpRequest {
 		}
 	};
 
-	#fetchDataURI = (url: URL) => {
+	readonly #fetchDataURI = (url: URL) => {
 		this.#response = {
 			headers: {},
 			destroy: noop,
@@ -470,7 +470,7 @@ class XMLHttpRequest {
 	/**
 	 * @param {URL} url
 	 */
-	#fetchBlob = (url: URL) => {
+	readonly #fetchBlob = (url: URL) => {
 		const blob = resolveObjectURL(url.href);
 
 		const method = this.#settings?.method ?? 'GET';
@@ -491,7 +491,7 @@ class XMLHttpRequest {
 		}
 	};
 
-	#simulateEventsWith = (
+	readonly #simulateEventsWith = (
 		arrayBuffer: ArrayBuffer,
 		type: string,
 		url: URL,
@@ -525,7 +525,7 @@ class XMLHttpRequest {
 		this.#setState(this.DONE);
 	};
 
-	#fetchHttp = (url: URL, data?: Buffer) => {
+	readonly #fetchHttp = (url: URL, data?: Buffer) => {
 		const headers = this.#headers;
 		const settings = this.#settings!;
 
@@ -657,7 +657,7 @@ class XMLHttpRequest {
 	 * Called when an error is encountered to deal with it.
 	 * @param {URL} url If the url is still accessible even on error
 	 */
-	#handleError = (url?: URL) => {
+	readonly #handleError = (url?: URL) => {
 		if (this.#timeoutFlag) {
 			return;
 		}
@@ -669,7 +669,7 @@ class XMLHttpRequest {
 		this.#setState(this.DONE);
 	};
 
-	#reset = () => {
+	readonly #reset = () => {
 		this.#request?.destroy();
 		this.#request &&= undefined;
 
@@ -681,7 +681,7 @@ class XMLHttpRequest {
 		this.responseURL = '';
 	};
 
-	#onTimeout = () => {
+	readonly #onTimeout = () => {
 		this.#reset();
 
 		this.#timeoutFlag = true;
@@ -692,7 +692,7 @@ class XMLHttpRequest {
 	/**
 	 * Dispatch any events, including both "on" methods and events attached using addEventListener.
 	 */
-	#dispatchEvent = (event: Events) => {
+	readonly #dispatchEvent = (event: Events) => {
 		const onFunction = this[`on${event}`];
 		const listeners = this.#listeners;
 		const functionArray = listeners[event];
