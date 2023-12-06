@@ -8,7 +8,13 @@ mock-violentmonkey allows you to mock Violentmonkey's api for testing Violentmon
 mock-violentmonkey allows you to have seperated contexts for testing different scenarious without them interfering with each other.
 It was written with ava in mind but should work with other test runners.
 
-## api
+## Disclaimer
+
+I've stopped active development on this library.
+I'll continue to provide updates for dependencies and address any bugs that pop up.
+As for features, I consider the library complete. If you think there's something crucial missing, please open an issue to discuss potential additions.
+
+## API
 
 ### violentMonkeyContext
 
