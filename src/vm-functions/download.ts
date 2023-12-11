@@ -39,7 +39,7 @@ const download: Download = (options, name?: string) => {
 			? {
 					url: options,
 					name: name!,
-			  }
+				}
 			: options;
 
 	const {url, name: name_} = options_;

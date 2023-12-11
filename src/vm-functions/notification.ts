@@ -147,7 +147,7 @@ const notification: Notification = (
 					title,
 					image,
 					onclick,
-			  };
+				};
 
 	if (!options.text) {
 		throw new Error('GM_notification: `text` is required!');
