@@ -337,12 +337,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.10.3":
-  version: 20.10.3
-  resolution: "@types/node@npm:20.10.3"
+"@types/node@npm:*, @types/node@npm:^20.10.4":
+  version: 20.10.4
+  resolution: "@types/node@npm:20.10.4"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 7c8a0327a29d68a0bb152ae30e8c4738638515dd599064821c9d0c1884a1efa103021cd8f8c91e690cd56b0602bb6fe0e6651a5df2337bdc85e0c0f66054b2ce
+  checksum: 2c8b70cba731eb2ae3ae046daa74903bfcbb0e7b9196da767e5895054f6d252296ae7a04fb1dbbcb53bb004c4c658c05eaea2731bc9e2dd9e08f7e88d672f563
   languageName: node
   linkType: hard
 
@@ -3839,14 +3839,14 @@ __metadata:
     "@types/express": "npm:^4.17.21"
     "@types/follow-redirects": "npm:^1.14.4"
     "@types/jsdom": "npm:^21.1.6"
-    "@types/node": "npm:^20.10.3"
+    "@types/node": "npm:^20.10.4"
     "@types/tampermonkey": "npm:^5.0.2"
     ava: "npm:^6.0.1"
     data-uri-to-buffer: "npm:^6.0.1"
     express: "npm:^4.18.2"
     follow-redirects: "npm:^1.15.3"
     jsdom: "npm:^23.0.1"
-    prettier: "npm:^3.1.0"
+    prettier: "npm:^3.1.1"
     rimraf: "npm:^5.0.5"
     type-fest: "npm:^4.8.3"
     typescript: "npm:^5.3.3"
@@ -4397,12 +4397,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.0, prettier@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "prettier@npm:3.1.0"
+"prettier@npm:^3.0.0, prettier@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "prettier@npm:3.1.1"
   bin:
     prettier: bin/prettier.cjs
-  checksum: a45ea70aa97fde162ea4c4aba3dfc7859aa6a732a1db34458d9535dc3c2c16d3bc3fb5689e6cd76aa835562555303b02d9449fd2e15af3b73c8053557e25c5b6
+  checksum: facc944ba20e194ff4db765e830ffbcb642803381f0d2033ed397e79904fa4ccc877dc25ad68f42d36985c01d051c990ca1b905fb83d2d7d65fe69e4386fa1a3
   languageName: node
   linkType: hard
 
