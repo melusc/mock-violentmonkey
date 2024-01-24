@@ -74,7 +74,7 @@
 		"@types/jsdom": "^21.1.6",
 		"data-uri-to-buffer": "^6.0.1",
 		"follow-redirects": "^1.15.5",
-		"jsdom": "^23.2.0",
+		"jsdom": "^24.0.0",
 		"type-fest": "^4.10.1"
 	},
 	"packageManager": "yarn@4.0.2"

@@ -12,17 +12,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asamuzakjp/dom-selector@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@asamuzakjp/dom-selector@npm:2.0.1"
-  dependencies:
-    bidi-js: "npm:^1.0.3"
-    css-tree: "npm:^2.3.1"
-    is-potential-custom-element-name: "npm:^1.0.1"
-  checksum: 232895f16f2f9dfc637764df2529084d16e1c122057766a79b16e1d40808e09fffae28c0f0cc8376f8a1564a85dba9d4b2f140a9a0b65f4f95c960192b797037
-  languageName: node
-  linkType: hard
-
 "@ava/typescript@npm:^4.1.0":
   version: 4.1.0
   resolution: "@ava/typescript@npm:4.1.0"
@@ -915,15 +904,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bidi-js@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "bidi-js@npm:1.0.3"
-  dependencies:
-    require-from-string: "npm:^2.0.2"
-  checksum: fdddea4aa4120a34285486f2267526cd9298b6e8b773ad25e765d4f104b6d7437ab4ba542e6939e3ac834a7570bcf121ee2cf6d3ae7cd7082c4b5bedc8f271e1
-  languageName: node
-  linkType: hard
-
 "big-integer@npm:^1.6.44":
   version: 1.6.51
   resolution: "big-integer@npm:1.6.51"
@@ -1328,16 +1308,6 @@ __metadata:
     shebang-command: "npm:^2.0.0"
     which: "npm:^2.0.1"
   checksum: 5738c312387081c98d69c98e105b6327b069197f864a60593245d64c8089c8a0a744e16349281210d56835bb9274130d825a78b2ad6853ca13cfbeffc0c31750
-  languageName: node
-  linkType: hard
-
-"css-tree@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "css-tree@npm:2.3.1"
-  dependencies:
-    mdn-data: "npm:2.0.30"
-    source-map-js: "npm:^1.0.1"
-  checksum: 6f8c1a11d5e9b14bf02d10717fc0351b66ba12594166f65abfbd8eb8b5b490dd367f5c7721db241a3c792d935fc6751fbc09f7e1598d421477ad9fadc30f4f24
   languageName: node
   linkType: hard
 
@@ -3424,11 +3394,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^23.2.0":
-  version: 23.2.0
-  resolution: "jsdom@npm:23.2.0"
+"jsdom@npm:^24.0.0":
+  version: 24.0.0
+  resolution: "jsdom@npm:24.0.0"
   dependencies:
-    "@asamuzakjp/dom-selector": "npm:^2.0.1"
     cssstyle: "npm:^4.0.1"
     data-urls: "npm:^5.0.0"
     decimal.js: "npm:^10.4.3"
@@ -3437,6 +3406,7 @@ __metadata:
     http-proxy-agent: "npm:^7.0.0"
     https-proxy-agent: "npm:^7.0.2"
     is-potential-custom-element-name: "npm:^1.0.1"
+    nwsapi: "npm:^2.2.7"
     parse5: "npm:^7.1.2"
     rrweb-cssom: "npm:^0.6.0"
     saxes: "npm:^6.0.0"
@@ -3454,7 +3424,7 @@ __metadata:
   peerDependenciesMeta:
     canvas:
       optional: true
-  checksum: b062af50f7be59d914ba75236b7817c848ef3cd007aea1d6b8020a41eb263b7d5bd2652298106e9756b56892f773d990598778d02adab7d0d0d8e58726fc41d3
+  checksum: 7b35043d7af39ad6dcaef0fa5679d8c8a94c6c9b6cc4a79222b7c9987d57ab7150c50856684ae56b473ab28c7d82aec0fb7ca19dcbd4c3f46683c807d717a3af
   languageName: node
   linkType: hard
 
@@ -3662,13 +3632,6 @@ __metadata:
   dependencies:
     blueimp-md5: "npm:^2.10.0"
   checksum: ee2b4d8da16b527b3a3fe4d7a96720f43afd07b46a82d49421208b5a126235fb75cfb30b80d4029514772c8844273f940bddfbf4155c787f968f3be4060d01e4
-  languageName: node
-  linkType: hard
-
-"mdn-data@npm:2.0.30":
-  version: 2.0.30
-  resolution: "mdn-data@npm:2.0.30"
-  checksum: a2c472ea16cee3911ae742593715aa4c634eb3d4b9f1e6ada0902aa90df13dcbb7285d19435f3ff213ebaa3b2e0c0265c1eb0e3fb278fda7f8919f046a410cd9
   languageName: node
   linkType: hard
 
@@ -3882,7 +3845,7 @@ __metadata:
     data-uri-to-buffer: "npm:^6.0.1"
     express: "npm:^4.18.2"
     follow-redirects: "npm:^1.15.5"
-    jsdom: "npm:^23.2.0"
+    jsdom: "npm:^24.0.0"
     prettier: "npm:^3.2.4"
     rimraf: "npm:^5.0.5"
     type-fest: "npm:^4.10.1"
@@ -4013,6 +3976,13 @@ __metadata:
     gauge: "npm:^3.0.0"
     set-blocking: "npm:^2.0.0"
   checksum: 489ba519031013001135c463406f55491a17fc7da295c18a04937fe3a4d523fd65e88dd418a28b967ab743d913fdeba1e29838ce0ad8c75557057c481f7d49fa
+  languageName: node
+  linkType: hard
+
+"nwsapi@npm:^2.2.7":
+  version: 2.2.7
+  resolution: "nwsapi@npm:2.2.7"
+  checksum: 44be198adae99208487a1c886c0a3712264f7bbafa44368ad96c003512fed2753d4e22890ca1e6edb2690c3456a169f2a3c33bfacde1905cf3bf01c7722464db
   languageName: node
   linkType: hard
 
@@ -4590,13 +4560,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"require-from-string@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "require-from-string@npm:2.0.2"
-  checksum: aaa267e0c5b022fc5fd4eef49d8285086b15f2a1c54b28240fdf03599cbd9c26049fee3eab894f2e1f6ca65e513b030a7c264201e3f005601e80c49fb2937ce2
-  languageName: node
-  linkType: hard
-
 "requires-port@npm:^1.0.0":
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
@@ -4963,13 +4926,6 @@ __metadata:
     ansi-styles: "npm:^6.0.0"
     is-fullwidth-code-point: "npm:^4.0.0"
   checksum: 2d4d40b2a9d5cf4e8caae3f698fe24ae31a4d778701724f578e984dcb485ec8c49f0c04dab59c401821e80fcdfe89cace9c66693b0244e40ec485d72e543914f
-  languageName: node
-  linkType: hard
-
-"source-map-js@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "source-map-js@npm:1.0.2"
-  checksum: 32f2dfd1e9b7168f9a9715eb1b4e21905850f3b50cf02cf476e47e4eebe8e6b762b63a64357896aa29b37e24922b4282df0f492e0d2ace572b43d15525976ff8
   languageName: node
   linkType: hard
 
