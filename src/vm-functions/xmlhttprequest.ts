@@ -5,7 +5,6 @@ import {JSDOM} from 'jsdom';
 import type {JsonValue} from 'type-fest';
 
 import {getBaseUrl} from '../base-url.js';
-import {getWindow} from '../dom.js';
 import {
 	XMLHttpRequest,
 	type Events,
@@ -98,31 +97,16 @@ const formDataToBuffer = async (
 			body.push('', value);
 		} else {
 			// eslint-disable-next-line no-await-in-loop
-			await new Promise<void>((resolve, reject) => {
-				const fr = new (getWindow().FileReader)();
-				fr.addEventListener('load', () => {
-					const result = fr.result as string;
+			const stringified = await value.text();
 
-					body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
+			body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
 
-					// Two CRLF before result
-					body.push(
-						`Content-Type: ${value.type || 'application/octet-stream'}`,
-						'',
-						result,
-					);
-
-					resolve();
-				});
-
-				fr.addEventListener('error', () => {
-					reject(fr.error);
-				});
-
-				// For some reason I can't figure out, Blob#text() just times out
-				// eslint-disable-next-line unicorn/prefer-blob-reading-methods
-				fr.readAsText(value);
-			});
+			// Two CRLF before result
+			body.push(
+				`Content-Type: ${value.type || 'application/octet-stream'}`,
+				'',
+				stringified,
+			);
 		}
 	}
 
@@ -157,10 +141,7 @@ const dataToBuffer = async (
 		};
 	}
 
-	if (
-		data instanceof getWindow().FormData
-		|| (typeof FormData !== 'undefined' && data instanceof FormData)
-	) {
+	if (data instanceof FormData) {
 		return formDataToBuffer(data);
 	}
 
@@ -338,11 +319,11 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 
 export type {Headers} from '../xmlhttprequest/index.js';
 export {
+	xmlhttpRequest as GM_xmlhttpRequest,
 	type XHRDetails,
 	type XHREventHandler,
 	type XHRResponseObject,
 	type XmlHttpRequest,
-	xmlhttpRequest as GM_xmlhttpRequest,
 };
 
 Object.defineProperties(global, {
