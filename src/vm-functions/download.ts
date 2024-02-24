@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {Buffer} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
@@ -104,7 +105,9 @@ const getDownload = (name: string) => {
 	return buffer && Buffer.from(buffer);
 };
 
-export {download as GM_download, getDownloads, getDownload, type Download};
+export {
+download as GM_download, getDownloads, getDownload, type Download,
+};
 
 Object.defineProperty(global, 'GM_download', {
 	value: download,

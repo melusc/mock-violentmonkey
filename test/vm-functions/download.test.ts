@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
 import {Buffer} from 'node:buffer';
 
 import test from 'ava';

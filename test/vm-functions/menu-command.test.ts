@@ -11,13 +11,13 @@ test(
 	'Normal behaviour',
 	violentMonkeyContext(t => {
 		let amountCalled = 0;
-		const cb = () => {
+		const callback = () => {
 			++amountCalled;
 		};
 
 		const caption = 'caption';
 
-		GM_registerMenuCommand(caption, cb);
+		GM_registerMenuCommand(caption, callback);
 		triggerMenuCommand(caption);
 		t.is(amountCalled, 1);
 		triggerMenuCommand(caption);

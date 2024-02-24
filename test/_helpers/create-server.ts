@@ -72,18 +72,20 @@ usefulRoutes.post('/echo', async (request, response) => {
 	request.pipe(response);
 });
 
-const filesDir = new URL(
+const serverFilesDirectory = new URL(
 	'../../../test/_helpers/server-files/',
 	import.meta.url,
 );
 usefulRoutes.get('/html', async (_request, response) => {
-	response.sendFile(fileURLToPath(new URL('document.html', filesDir)));
+	response.sendFile(
+		fileURLToPath(new URL('document.html', serverFilesDirectory)),
+	);
 });
 usefulRoutes.get('/json', async (_request, response) => {
-	response.sendFile(fileURLToPath(new URL('data.json', filesDir)));
+	response.sendFile(fileURLToPath(new URL('data.json', serverFilesDirectory)));
 });
 usefulRoutes.get('/image', async (_request, response) => {
-	response.sendFile(fileURLToPath(new URL('image.jpeg', filesDir)));
+	response.sendFile(fileURLToPath(new URL('image.jpeg', serverFilesDirectory)));
 });
 
 function getInteger(
@@ -182,8 +184,8 @@ export const createTestHttpServer: Macro<[TestingFunction]> = {
 let registered = false;
 const onShutdownCallbacks = new Set<() => void>();
 
-function registerShutdown(fn: () => void) {
-	onShutdownCallbacks.add(fn);
+function registerShutdown(function_: () => void) {
+	onShutdownCallbacks.add(function_);
 
 	if (registered) {
 		return;

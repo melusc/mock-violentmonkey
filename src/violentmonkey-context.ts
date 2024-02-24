@@ -34,8 +34,10 @@ const getUserscriptId = () => {
  * @returns Returns the callback, mainly useful if the function is async
  */
 const violentMonkeyContext
-	= <Args extends any[], ReturnV>(cb: (...args: Args) => ReturnV) =>
-	(...args: Args) =>
-		asyncLocalStorage.run({}, cb, ...args);
+	= <Arguments extends any[], ReturnV>(
+		callback: (...arguments_: Arguments) => ReturnV,
+	) =>
+	(...arguments_: Arguments) =>
+		asyncLocalStorage.run({}, callback, ...arguments_);
 
 export {violentMonkeyContext, getUserscriptId};

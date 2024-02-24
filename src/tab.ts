@@ -15,6 +15,7 @@ let idSeq = 0;
  *
  * @returns Returns what the callback returns
  */
-const tabContext = <ReturnV>(cb: () => ReturnV) => tabIds.run(++idSeq, cb);
+const tabContext = <ReturnV>(callback: () => ReturnV) =>
+	tabIds.run(++idSeq, callback);
 
 export {getTabId, tabContext};
