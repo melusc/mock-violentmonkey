@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import type {Buffer} from 'node:buffer';
 
 import type {ExecutionContext} from 'ava';

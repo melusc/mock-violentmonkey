@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/class-literal-property-style */
 
 // Taken from https://github.com/mjwwit/node-XMLHttpRequest (MIT license) and heavily modified by me

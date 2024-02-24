@@ -8,16 +8,16 @@ test(
 	createTestHttpServer,
 	async (t, {resolve: resolveUrl}) => {
 		let counter = 0;
-		const cb = (orderExpected: number) => () => {
+		const callback = (orderExpected: number) => () => {
 			t.is(counter++, orderExpected);
 		};
 
 		const xhr = new XMLHttpRequest();
 
-		xhr.onloadend = cb(0);
-		xhr.addEventListener('loadend', cb(1));
-		xhr.addEventListener('loadend', cb(2));
-		xhr.addEventListener('loadend', cb(3));
+		xhr.onloadend = callback(0);
+		xhr.addEventListener('loadend', callback(1));
+		xhr.addEventListener('loadend', callback(2));
+		xhr.addEventListener('loadend', callback(3));
 
 		await new Promise<void>(resolve => {
 			xhr.addEventListener('loadend', () => {

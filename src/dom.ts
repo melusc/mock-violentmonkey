@@ -76,4 +76,6 @@ function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
 enableDomGlobal('window');
 enableDomGlobal('document');
 
-export {getWindow, getJSDOM, loadURLToDom, loadStringToDom, enableDomGlobal};
+export {
+getWindow, getJSDOM, loadURLToDom, loadStringToDom, enableDomGlobal,
+};

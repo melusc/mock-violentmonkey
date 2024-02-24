@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {Buffer} from 'node:buffer';
 import crypto from 'node:crypto';
 
@@ -18,7 +19,6 @@ type XHRResponseObject<TContext = any> = {
 	statusText: string;
 	readyState: number;
 	responseHeaders: string;
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	response: string | Blob | ArrayBuffer | Document | JsonValue | null;
 	responseText: string | undefined;
 	finalUrl: string;
@@ -116,7 +116,7 @@ const formDataToBuffer = async (
 				});
 
 				fr.addEventListener('error', () => {
-					reject(fr.error);
+					reject(fr.error!);
 				});
 
 				// For some reason I can't figure out, Blob#text() just times out
@@ -291,9 +291,9 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 
 		for (const event of events) {
 			xhr.addEventListener(event, () => {
-				const cb = details[`on${event}`];
-				if (typeof cb === 'function') {
-					cb(makeEventResponse(xhr, details));
+				const callback = details[`on${event}`];
+				if (typeof callback === 'function') {
+					callback(makeEventResponse(xhr, details));
 				}
 			});
 		}

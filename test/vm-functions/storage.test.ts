@@ -141,13 +141,13 @@ test(
 );
 
 test('GM_removeValueChangeListener', violentMonkeyContextMacro(), t => {
-	let amountCalledCb1 = 0;
+	let amountCalledCallback1 = 0;
 	const valueListenerId = GM_addValueChangeListener('key', () => {
-		++amountCalledCb1;
+		++amountCalledCallback1;
 	});
-	let amountCalledCb2 = 0;
+	let amountCalledCallback2 = 0;
 	GM_addValueChangeListener('key', () => {
-		++amountCalledCb2;
+		++amountCalledCallback2;
 	});
 
 	GM_setValue('key', 0);
@@ -157,8 +157,8 @@ test('GM_removeValueChangeListener', violentMonkeyContextMacro(), t => {
 
 	GM_setValue('key', 3);
 
-	t.is(amountCalledCb1, 2);
-	t.is(amountCalledCb2, 3);
+	t.is(amountCalledCallback1, 2);
+	t.is(amountCalledCallback2, 3);
 });
 
 test('GM_* without violentMonkeyContext should throw.', t => {

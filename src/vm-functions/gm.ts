@@ -18,8 +18,8 @@ import {
 } from './storage.js';
 import {GM_xmlhttpRequest, type XmlHttpRequest} from './xmlhttprequest.js';
 
-type MakeFunctionAsync<T extends (...args: any[]) => void> = (
-	...args: Parameters<T>
+type MakeFunctionAsync<T extends (...arguments_: any[]) => void> = (
+	...arguments_: Parameters<T>
 ) => Promise<ReturnType<T>>;
 
 type GM_type = Readonly<{
@@ -37,13 +37,15 @@ type GM_type = Readonly<{
 }>;
 
 const makeFunctionAsync
-	= <Args extends any[], ReturnV>(fn: (...args: Args) => ReturnV) =>
-	async (...args: Args): Promise<ReturnV> => {
+	= <Arguments extends any[], ReturnV>(
+		function_: (...arguments_: Arguments) => ReturnV,
+	) =>
+	async (...arguments_: Arguments): Promise<ReturnV> => {
 		await new Promise(resolve => {
 			process.nextTick(resolve);
 		});
 
-		return fn(...args);
+		return function_(...arguments_);
 	};
 
 const GM = Object.defineProperties<GM_type>({} as GM_type, {
