@@ -148,10 +148,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lusc/tsconfig@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@lusc/tsconfig@npm:4.0.0"
-  checksum: 10c0/95ec3b9101fc9a9aa0c8754f8a954b5c1764a4734e4b87203ee70fc9ed23ae73db7fcaad2ec139f8baba23169b632b8751e41b227983cdb7f3e2d7c53eac5071
+"@lusc/tsconfig@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@lusc/tsconfig@npm:4.1.0"
+  checksum: 10c0/c57d07543dfb14bfe9aef3b3f6ecc3b6ff88285d41c8334e74229ac20064d57b95fee0a03cbb9b923d29544fe4c8b5c285149dcacea1bb5e61f79cff9b380ec5
   languageName: node
   linkType: hard
 
@@ -347,12 +347,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.12.7":
-  version: 20.12.7
-  resolution: "@types/node@npm:20.12.7"
+"@types/node@npm:*, @types/node@npm:^20.12.11":
+  version: 20.12.11
+  resolution: "@types/node@npm:20.12.11"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/dce80d63a3b91892b321af823d624995c61e39c6a223cc0ac481a44d337640cc46931d33efb3beeed75f5c85c3bda1d97cef4c5cd4ec333caf5dee59cff6eca0
+  checksum: 10c0/efaa7b08c50ba6e6982ac7d531ba08d5935539ba76e954807df1ff9382a319ead7e003ccaca5ad7cf33ecf53f212507f7c1f2794bd2ff52df6365fef21f6e1fb
   languageName: node
   linkType: hard
 
@@ -883,9 +883,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ava@npm:^6.1.2":
-  version: 6.1.2
-  resolution: "ava@npm:6.1.2"
+"ava@npm:^6.1.3":
+  version: 6.1.3
+  resolution: "ava@npm:6.1.3"
   dependencies:
     "@vercel/nft": "npm:^0.26.2"
     acorn: "npm:^8.11.3"
@@ -934,7 +934,7 @@ __metadata:
       optional: true
   bin:
     ava: entrypoints/cli.mjs
-  checksum: 10c0/f35cb1f9bc716714e7c78a601985745774096e4ecd34f9310b858d5779307afa2245ad24274e2d55dd1022c226f4fbdb41947476300977f0b653be0e627adaa4
+  checksum: 10c0/108b28aceb0dfdb077bcf4c96109d736667999c2ce9f564489c4747482ea0e0c455d4d96fdfaad610b1125b74129b7b1d2ce570ec4903e767f6950d7f722f2cd
   languageName: node
   linkType: hard
 
@@ -3904,24 +3904,24 @@ __metadata:
   resolution: "mock-violentmonkey@workspace:."
   dependencies:
     "@ava/typescript": "npm:^5.0.0"
-    "@lusc/tsconfig": "npm:^4.0.0"
+    "@lusc/tsconfig": "npm:^4.1.0"
     "@types/express": "npm:^4.17.21"
     "@types/follow-redirects": "npm:^1.14.4"
     "@types/jsdom": "npm:^21.1.6"
-    "@types/node": "npm:^20.12.7"
+    "@types/node": "npm:^20.12.11"
     "@types/tampermonkey": "npm:^5.0.2"
-    ava: "npm:^6.1.2"
+    ava: "npm:^6.1.3"
     data-uri-to-buffer: "npm:^6.0.2"
     express: "npm:^4.19.2"
     follow-redirects: "npm:^1.15.6"
     jsdom: "npm:^24.0.0"
     prettier: "npm:^3.2.5"
     rimraf: "npm:^5.0.5"
-    type-fest: "npm:^4.16.0"
+    type-fest: "npm:^4.18.2"
     typescript: "npm:^5.4.5"
     xo: "npm:^0.58.0"
   peerDependencies:
-    ava: ^6.1.2
+    ava: ^6.1.3
   peerDependenciesMeta:
     ava:
       optional: true
@@ -5429,10 +5429,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "type-fest@npm:4.16.0"
-  checksum: 10c0/71c493e13f92e92134189cfd96002f66894c426da327150dbb6437da5a2fe31fa7b3957c945033c231c9bcfc3c4d6fbdefede3467593f9983690849ae75ba243
+"type-fest@npm:^4.18.2":
+  version: 4.18.2
+  resolution: "type-fest@npm:4.18.2"
+  checksum: 10c0/5e669128bf7cbc9f9cea4e4862c974517a1d9f77652589c2ac0908a8be5d852d4e52593ed14f4d8a44a604fb5e8a8ec1b658e461acd8bb7592f5e5265a04cbab
   languageName: node
   linkType: hard
 
