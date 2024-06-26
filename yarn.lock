@@ -148,10 +148,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lusc/tsconfig@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@lusc/tsconfig@npm:4.1.0"
-  checksum: 10c0/c57d07543dfb14bfe9aef3b3f6ecc3b6ff88285d41c8334e74229ac20064d57b95fee0a03cbb9b923d29544fe4c8b5c285149dcacea1bb5e61f79cff9b380ec5
+"@lusc/tsconfig@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@lusc/tsconfig@npm:5.0.0"
+  checksum: 10c0/6f5d372fa21b9dc5e366b48f13e77dc3feb3a0de9aececf955bcd9bcc5f3749a98a42b6701a2bc6935f186f4543181b06d34b9b6188359fa4e45eeaf56cbd7af
   languageName: node
   linkType: hard
 
@@ -3904,7 +3904,7 @@ __metadata:
   resolution: "mock-violentmonkey@workspace:."
   dependencies:
     "@ava/typescript": "npm:^5.0.0"
-    "@lusc/tsconfig": "npm:^4.1.0"
+    "@lusc/tsconfig": "npm:^5.0.0"
     "@types/express": "npm:^4.17.21"
     "@types/follow-redirects": "npm:^1.14.4"
     "@types/jsdom": "npm:^21.1.7"
