@@ -1,8 +1,6 @@
 {
 	"compilerOptions": {
-		"outDir": "dist",
 		"types": ["@types/node", "@types/tampermonkey"]
 	},
-	"extends": "@lusc/tsconfig",
-	"include": ["**/*.ts"]
+	"extends": "@lusc/tsconfig"
 }
