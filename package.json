@@ -26,7 +26,7 @@
 		"prettier": "^3.3.2",
 		"rimraf": "^6.0.0",
 		"typescript": "^5.5.3",
-		"xo": "^0.58.0"
+		"xo": "patch:xo@npm%3A0.59.0#~/.yarn/patches/xo-npm-0.59.0-8b5c3f11db.patch"
 	},
 	"peerDependencies": {
 		"ava": "^6.1.3"

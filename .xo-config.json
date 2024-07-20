@@ -11,7 +11,9 @@
 						"avoidEscape": true
 					}
 				],
-				"@typescript-eslint/naming-convention": "off"
+				"@typescript-eslint/naming-convention": "off",
+				"n/file-extension-in-import": "off",
+				"n/no-unsupported-features/node-builtins": "off"
 			}
 		}
 	],
