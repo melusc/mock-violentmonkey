@@ -338,7 +338,7 @@ class XMLHttpRequest {
 			}
 
 			case 'blob:': {
-				this.#fetchBlob(url);
+				void this.#fetchBlob(url);
 				break;
 			}
 
@@ -471,7 +471,7 @@ class XMLHttpRequest {
 	/**
 	 * @param {URL} url
 	 */
-	readonly #fetchBlob = (url: URL) => {
+	readonly #fetchBlob = async (url: URL) => {
 		const blob = resolveObjectURL(url.href);
 
 		const method = this.#settings?.method ?? 'GET';
@@ -482,10 +482,10 @@ class XMLHttpRequest {
 			this.responseURL = '';
 			this.#handleError();
 		} else if (method === 'GET') {
-			void blob.arrayBuffer().then(ab => {
-				this.#simulateEventsWith(ab, blob.type, url, {
-					extraProgressEvent: false,
-				});
+			const ab = await blob.arrayBuffer();
+
+			this.#simulateEventsWith(ab, blob.type, url, {
+				extraProgressEvent: false,
 			});
 		} else {
 			this.#handleError(url);

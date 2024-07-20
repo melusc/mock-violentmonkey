@@ -265,6 +265,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 ) => {
 	let aborted = false;
 
+	// eslint-disable-next-line promise/prefer-await-to-then
 	void dataToBuffer(details.data).then(({content, contentType}) => {
 		const xhr = new XMLHttpRequest({
 			base: getBaseUrl(),
