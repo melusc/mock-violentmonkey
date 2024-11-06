@@ -21,7 +21,9 @@ test(
 		t.is(typeof window, 'object');
 		t.is(typeof document, 'object');
 		t.is(document, getWindow().document);
-		t.is(typeof document.createElement, 'function');
+		t.notThrows(() => {
+			document.createElement('div');
+		});
 	}),
 );
 

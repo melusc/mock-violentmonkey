@@ -21,7 +21,7 @@ const setValue: SetValue = (key, value) => {
 
 	const stringified = JSON.stringify(value);
 
-	if (stringified === undefined) {
+	if (value === undefined) {
 		storages.get(false)?.delete(key);
 	} else {
 		storages.get(true).set(key, stringified);
@@ -165,7 +165,7 @@ export {
 /**
  * These are for in userscripts
  */
-Object.defineProperties(global, {
+Object.defineProperties(globalThis, {
 	GM_setValue: {
 		value: setValue,
 	},

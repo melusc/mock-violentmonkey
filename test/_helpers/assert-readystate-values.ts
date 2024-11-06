@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import type {Buffer} from 'node:buffer';
 
 import type {ExecutionContext} from 'ava';
@@ -18,7 +17,7 @@ type ExpectedValues = {
  * Use assertEventOrder to make sure that every event goes off.
  */
 export const assertReadyStateValues = (
-	t: ExecutionContext<any>,
+	t: ExecutionContext,
 	xhr: XMLHttpRequest,
 	expectedValues: Partial<Record<1 | 2 | 3 | 4, ExpectedValues>>,
 ) => {
@@ -34,8 +33,7 @@ export const assertReadyStateValues = (
 				status: xhr.status,
 				statusText: xhr.statusText,
 
-				// eslint-disable-next-line unicorn/prefer-spread
-				responseBuffer: xhr.responseBuffer.slice(),
+				responseBuffer: xhr.responseBuffer,
 				responseURL: xhr.responseURL,
 			},
 			// If it is undefined anyway ava will complain

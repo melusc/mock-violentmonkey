@@ -29,7 +29,7 @@ export {
 	type UnregisterMenuCommand,
 };
 
-Object.defineProperties(global, {
+Object.defineProperties(globalThis, {
 	GM_registerMenuCommand: {
 		value: registerMenuCommand,
 	},

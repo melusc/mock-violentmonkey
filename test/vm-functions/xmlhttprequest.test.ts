@@ -37,7 +37,7 @@ test(
 						responseHeaders: '',
 						status: 0,
 						statusText: '',
-					} as any);
+					} as unknown);
 
 					t.is(response.response, '');
 					t.is(response.responseText, '');
@@ -247,7 +247,7 @@ test(
 );
 
 function makeFormDataRegex(...lines: string[]): RegExp {
-	return new RegExp(lines.map(s => `^${s}$`).join('\\r\\n'), 'm');
+	return new RegExp(lines.map(s => `^${s}$`).join(String.raw`\r\n`), 'm');
 }
 
 test(
@@ -273,21 +273,21 @@ test(
 			t.regex(
 				body,
 				makeFormDataRegex(
-					'-+[a-f\\d]+',
+					String.raw`-+[a-f\d]+`,
 					'Content-Disposition: form-data; name="file-txt"; filename="file.txt"',
 					'Content-Type: text/plain',
 					'',
 					'abc, def',
-					'-+[a-f\\d]+',
+					String.raw`-+[a-f\d]+`,
 					'Content-Disposition: form-data; name="file-octet"; filename="file.blob"',
 					'Content-Type: application/octet-stream',
 					'',
 					'ghi',
-					'-+[a-f\\d]+',
+					String.raw`-+[a-f\d]+`,
 					'Content-Disposition: form-data; name="string"',
 					'',
 					'jkl',
-					'-+[a-f\\d]+--',
+					String.raw`-+[a-f\d]+--`,
 				),
 			);
 

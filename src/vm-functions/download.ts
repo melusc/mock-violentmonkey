@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import {Buffer} from 'node:buffer';
 
 import {VMStorage} from '../vm-storage.js';
@@ -35,8 +34,8 @@ type Download = {
 };
 
 const download: Download = (options, name?: string) => {
-	const options_
-		= typeof options === 'string'
+	const options_ =
+		typeof options === 'string'
 			? {
 					url: options,
 					name: name!,
@@ -63,8 +62,8 @@ const download: Download = (options, name?: string) => {
 
 	function overrideError(name: 'error' | 'abort' | 'timeout') {
 		return function (response) {
-			options_[`on${name}`]?.(response);
-			options_.onloadend?.(response);
+			void options_[`on${name}`]?.(response);
+			void options_.onloadend?.(response);
 		} satisfies XHREventHandler;
 	}
 
@@ -77,10 +76,9 @@ const download: Download = (options, name?: string) => {
 			const buffer = Buffer.from(await blob.arrayBuffer());
 			downloads.get(true).set(name_, buffer);
 
-			options_.onload?.(response);
-			options_.onloadend?.(response);
+			void options_.onload?.(response);
+			void options_.onloadend?.(response);
 		},
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		onloadend() {},
 		onerror: overrideError('error'),
 		onabort: overrideError('abort'),
@@ -105,10 +103,8 @@ const getDownload = (name: string) => {
 	return buffer && Buffer.from(buffer);
 };
 
-export {
-download as GM_download, getDownloads, getDownload, type Download,
-};
+export {download as GM_download, getDownloads, getDownload, type Download};
 
-Object.defineProperty(global, 'GM_download', {
+Object.defineProperty(globalThis, 'GM_download', {
 	value: download,
 });

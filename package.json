@@ -17,16 +17,17 @@
 	"description": "Mock violentmonkey's globals for testing userscripts",
 	"devDependencies": {
 		"@ava/typescript": "^5.0.0",
+		"@lusc/eslint-config": "^1.0.1",
 		"@lusc/tsconfig": "^5.1.0",
 		"@types/express": "^5.0.0",
 		"@types/node": "^22.8.5",
 		"@types/tampermonkey": "^5.0.3",
 		"ava": "^6.2.0",
+		"eslint": "^9.14.0",
 		"express": "^4.21.1",
 		"prettier": "^3.3.3",
 		"rimraf": "^6.0.1",
-		"typescript": "^5.6.3",
-		"xo": "^0.59.3"
+		"typescript": "^5.6.3"
 	},
 	"peerDependencies": {
 		"ava": "^6.2.0"
@@ -63,7 +64,7 @@
 	},
 	"scripts": {
 		"build": "rimraf dist && tsc",
-		"fmt": "prettier . -w && xo --fix",
+		"fmt": "prettier -w . && eslint --fix",
 		"test": "yarn build && ava",
 		"prepublish": "yarn build"
 	},

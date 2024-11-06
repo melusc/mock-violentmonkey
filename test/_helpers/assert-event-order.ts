@@ -14,7 +14,7 @@ const events: readonly Events[] = [
 ];
 
 export const assertEventOrder = (
-	t: ExecutionContext<any>,
+	t: ExecutionContext,
 	xhr: XMLHttpRequest,
 	wantedOrder: Array<`${Events}-${number}`>,
 ) => {

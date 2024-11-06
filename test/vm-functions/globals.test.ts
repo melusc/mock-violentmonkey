@@ -128,7 +128,7 @@ test(
 
 		t.throws(() => {
 			// Should do nothing / throw
-			Object.defineProperty(global, 'GM_info', {
+			Object.defineProperty(globalThis, 'GM_info', {
 				value: '',
 			});
 		});

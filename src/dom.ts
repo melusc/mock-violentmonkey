@@ -62,13 +62,13 @@ const builtinGlobals: ReadonlySet<keyof MapKnownKeys<DOMWindow>> = new Set([
 function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
 	if (builtinGlobals.has(key)) {
 		console.warn(
-			'Warning(mock-violentmonkey):'
-				+ ` enableDomGlobal("${key}") is not necessary anymore.`
-				+ ` Please use the built-in version of \`${key}\` instead.`,
+			'Warning(mock-violentmonkey):' +
+				` enableDomGlobal("${key}") is not necessary anymore.` +
+				` Please use the built-in version of \`${key}\` instead.`,
 		);
 	}
 
-	Object.defineProperty(global, key, {
+	Object.defineProperty(globalThis, key, {
 		get: (): any => getWindow()[key],
 	});
 }
@@ -76,6 +76,4 @@ function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
 enableDomGlobal('window');
 enableDomGlobal('document');
 
-export {
-getWindow, getJSDOM, loadURLToDom, loadStringToDom, enableDomGlobal,
-};
+export {getWindow, getJSDOM, loadURLToDom, loadStringToDom, enableDomGlobal};

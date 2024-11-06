@@ -16,6 +16,6 @@ const addStyle: AddStyle = css => {
 
 export {addStyle as GM_addStyle, type AddStyle};
 
-Object.defineProperty(global, 'GM_addStyle', {
+Object.defineProperty(globalThis, 'GM_addStyle', {
 	value: addStyle,
 });

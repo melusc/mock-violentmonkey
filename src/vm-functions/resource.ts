@@ -24,10 +24,9 @@ const setResource = async (name: string, url: string) => {
 	await new Promise<void>((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.addEventListener('load', () => {
-			const contentType
-				= (xhr.getResponseHeader('content-type') as string | undefined)
-				// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-				|| 'text/plain';
+			const contentType =
+				(xhr.getResponseHeader('content-type') as string | undefined) ||
+				'text/plain';
 			const blob = new Blob([xhr.responseBuffer], {type: contentType});
 			const blobURL = URL.createObjectURL(blob);
 
@@ -74,7 +73,7 @@ export {
 	type GetResourceURL,
 };
 
-Object.defineProperties(global, {
+Object.defineProperties(globalThis, {
 	GM_getResourceURL: {
 		value: getResourceURL,
 	},

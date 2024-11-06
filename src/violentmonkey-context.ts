@@ -33,8 +33,8 @@ const getUserscriptId = () => {
  * @param cb The callback with the same parameters like a regular ava callback
  * @returns Returns the callback, mainly useful if the function is async
  */
-const violentMonkeyContext
-	= <Arguments extends any[], ReturnV>(
+const violentMonkeyContext =
+	<Arguments extends any[], ReturnV>(
 		callback: (...arguments_: Arguments) => ReturnV,
 	) =>
 	(...arguments_: Arguments) =>
