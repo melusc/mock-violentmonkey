@@ -65,10 +65,10 @@ test(
 			};
 		};
 
-		let i = 0;
-		createTab(i++);
-		createTab(i++);
-		createTab(i++);
+		let tabIndex = 0;
+		createTab(tabIndex++);
+		createTab(tabIndex++);
+		createTab(tabIndex++);
 
 		const tabs = getTabs();
 		t.is(tabs.length, 3);
@@ -77,8 +77,8 @@ test(
 		t.is(getTabs('https://example.com/0').length, 1);
 		t.is(getTabs(/^https:\/\/example\.com/i).length, 3);
 
-		for (const [i, tab] of tabs.entries()) {
-			t.is(tab.url, `https://example.com/${i}`);
+		for (const [tabIndex, tab] of tabs.entries()) {
+			t.is(tab.url, `https://example.com/${tabIndex}`);
 			t.deepEqual(tab.options, {
 				active: true,
 				container: 0,

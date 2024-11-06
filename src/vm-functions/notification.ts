@@ -14,7 +14,7 @@ const setNotificationCompat = (platform: 'Firefox' | 'Chromium') => {
 
 const shouldBehaveLikeFirefox = () => {
 	const platform = behaveLike.get(true);
-	return platform === undefined || platform === 'Firefox';
+	return platform === 'Firefox';
 };
 
 const enum NotificationStates {
@@ -39,10 +39,12 @@ class NotificationHandler {
 
 		// Don't leak `this`
 		this.onDone = () => {
+			// eslint-disable-next-line unicorn/no-useless-undefined
 			options.ondone?.call(undefined);
 		};
 
 		this.onClick = () => {
+			// eslint-disable-next-line unicorn/no-useless-undefined
 			options.onclick?.call(undefined);
 		};
 
@@ -139,8 +141,8 @@ const notification: Notification = (
 	image?: string,
 	onclick?: () => void,
 ) => {
-	const options: NotificationOptions
-		= typeof text === 'object'
+	const options: NotificationOptions =
+		typeof text === 'object'
 			? text
 			: {
 					text,
@@ -194,8 +196,8 @@ const findNotificationsBySelectors = (
 const findNotifications = (selectors: Partial<Selectors>) => {
 	const getNotifications = () => findNotificationsBySelectors(selectors);
 
-	const curriedNotificationFunctionCaller
-		= (key: 'remove' | 'click' | 'close') => () => {
+	const curriedNotificationFunctionCaller =
+		(key: 'remove' | 'click' | 'close') => () => {
 			for (const notification of getNotifications()) {
 				void notification[key]();
 			}
@@ -220,6 +222,6 @@ export {
 	type Notification,
 };
 
-Object.defineProperty(global, 'GM_notification', {
+Object.defineProperty(globalThis, 'GM_notification', {
 	value: notification,
 });

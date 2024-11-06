@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
 import {Buffer} from 'node:buffer';
 
 import test from 'ava';
@@ -49,7 +48,7 @@ test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
 			url: 'htt://google.com',
 			name: 'name.txt',
 			onload() {
-				reject();
+				reject(new Error('Called onload()'));
 			},
 			onerror() {
 				resolve();
@@ -72,10 +71,10 @@ test(
 				url: '/uuid',
 				name: 'out.txt',
 				onabort() {
-					reject();
+					reject(new Error('Called onabort()'));
 				},
 				onerror() {
-					reject();
+					reject(new Error('Called onerror()'));
 				},
 				onload() {
 					called.add('onload');
@@ -94,7 +93,7 @@ test(
 					called.add('onreadystatechange');
 				},
 				ontimeout() {
-					reject();
+					reject(new Error('Called ontimeout()'));
 				},
 			});
 		});

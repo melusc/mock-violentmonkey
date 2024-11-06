@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/class-literal-property-style */
-
 // Taken from https://github.com/mjwwit/node-XMLHttpRequest (MIT license) and heavily modified by me
 
 /**
@@ -88,8 +85,8 @@ const allowedRequestMethods = new Set<UppercaseMethods>([
  * @return False if not allowed, otherwise true
  */
 const isAllowedHttpHeader = (header: string): boolean =>
-	typeof header === 'string'
-	&& !forbiddenRequestHeaders.has(header.toLowerCase());
+	typeof header === 'string' &&
+	!forbiddenRequestHeaders.has(header.toLowerCase());
 
 /**
  * Check if the specified method is allowed.
@@ -253,9 +250,9 @@ class XMLHttpRequest {
 		const response = this.#response;
 
 		if (
-			typeof header === 'string'
-			&& this.readyState > this.OPENED
-			&& response?.headers[header.toLowerCase()]
+			typeof header === 'string' &&
+			this.readyState > this.OPENED &&
+			response?.headers[header.toLowerCase()]
 		) {
 			return response.headers[header.toLowerCase()];
 		}
@@ -270,9 +267,9 @@ class XMLHttpRequest {
 	 */
 	getAllResponseHeaders = () => {
 		if (
-			this.readyState < this.HEADERS_RECEIVED
-			|| this.#errorFlag
-			|| this.#response?.headers === undefined
+			this.readyState < this.HEADERS_RECEIVED ||
+			this.#errorFlag ||
+			this.#response?.headers === undefined
 		) {
 			return '';
 		}
@@ -364,9 +361,9 @@ class XMLHttpRequest {
 
 		this.#abortedFlag = true;
 		if (
-			(this.readyState === this.OPENED && this.#sendFlag)
-			|| this.readyState === this.HEADERS_RECEIVED
-			|| this.readyState === this.LOADING
+			(this.readyState === this.OPENED && this.#sendFlag) ||
+			this.readyState === this.HEADERS_RECEIVED ||
+			this.readyState === this.LOADING
 		) {
 			this.#sendFlag = false;
 			this.#reset();
@@ -400,9 +397,9 @@ class XMLHttpRequest {
 		const specificListeners = listeners[event];
 
 		if (specificListeners) {
-			for (let i = 0; i < specificListeners.length; ++i) {
-				if (specificListeners[i] === callback) {
-					specificListeners.splice(i--, 1);
+			for (let index = 0; index < specificListeners.length; ++index) {
+				if (specificListeners[index] === callback) {
+					specificListeners.splice(index--, 1);
 				}
 			}
 		}
@@ -415,8 +412,8 @@ class XMLHttpRequest {
 	 */
 	readonly #setState = (state: 0 | 1 | 2 | 3 | 4) => {
 		if (
-			(this.readyState === state && state !== this.LOADING)
-			|| (this.readyState === this.UNSENT && this.#abortedFlag)
+			(this.readyState === state && state !== this.LOADING) ||
+			(this.readyState === this.UNSENT && this.#abortedFlag)
 		) {
 			return;
 		}
@@ -563,9 +560,7 @@ class XMLHttpRequest {
 
 		// Reset error flag
 		this.#errorFlag = false;
-		// Use the proper protocol
-		const doRequest = (ssl ? https : http).request as typeof http.request;
-
+		const httpProvider = ssl ? https : http;
 		// Request is being sent, set send flag
 		this.#sendFlag = true;
 
@@ -625,16 +620,18 @@ class XMLHttpRequest {
 		};
 
 		// Create the request
-		const request = doRequest(
-			url,
-			{
-				method: settings.method,
-				headers,
-			},
-			responseHandler,
-		).on('error', () => {
-			this.#handleError();
-		});
+		const request = httpProvider
+			.request(
+				url,
+				{
+					method: settings.method,
+					headers,
+				},
+				responseHandler,
+			)
+			.on('error', () => {
+				this.#handleError();
+			});
 
 		const start = Date.now();
 

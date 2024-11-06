@@ -18,7 +18,6 @@ type OpenInTab = (
 	url: string,
 	options?: OpenInTabOptions | boolean,
 ) => {
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	onclose?: (() => void) | undefined | null;
 	closed: boolean;
 	close: () => void;
@@ -87,6 +86,6 @@ const getTabs = (url?: string | RegExp): Tab[] => {
 
 export {openInTab as GM_openInTab, getTabs, type OpenInTab};
 
-Object.defineProperty(global, 'GM_openInTab', {
+Object.defineProperty(globalThis, 'GM_openInTab', {
 	value: openInTab,
 });

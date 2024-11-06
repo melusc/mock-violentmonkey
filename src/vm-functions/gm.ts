@@ -36,8 +36,8 @@ type GM_type = Readonly<{
 	info: ScriptInfo;
 }>;
 
-const makeFunctionAsync
-	= <Arguments extends any[], ReturnV>(
+const makeFunctionAsync =
+	<Arguments extends any[], ReturnV>(
 		function_: (...arguments_: Arguments) => ReturnV,
 	) =>
 	async (...arguments_: Arguments): Promise<ReturnV> => {
@@ -86,6 +86,6 @@ const GM = Object.defineProperties<GM_type>({} as GM_type, {
 
 export {GM, type GM_type};
 
-Object.defineProperty(global, 'GM', {
+Object.defineProperty(globalThis, 'GM', {
 	value: GM,
 });

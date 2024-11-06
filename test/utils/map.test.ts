@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
 import test from 'ava';
 
 import {BetterMap, BetterWeakMap} from '../../src/utils/index.js';

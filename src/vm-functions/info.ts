@@ -192,7 +192,7 @@ export {
 	type PartialScriptInfo,
 };
 
-Object.defineProperties(global, {
+Object.defineProperties(globalThis, {
 	GM_info: {
 		get: getInfo,
 	},

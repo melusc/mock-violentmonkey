@@ -15,8 +15,8 @@ test(
 			t.true((methods as readonly string[]).includes(request.method));
 			t.is(request.method, request.params.method);
 
-			const body
-				= request.method === 'HEAD' || request.method === 'OPTIONS'
+			const body =
+				request.method === 'HEAD' || request.method === 'OPTIONS'
 					? ''
 					: 'Hello World';
 

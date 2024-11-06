@@ -24,7 +24,6 @@ class BetterMap<K, V> extends Map<K, V> {
 	};
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 class BetterWeakMap<K extends object, V> extends WeakMap<K, V> {
 	/**
 	 * @param getDefaultValue Return the value associated with the key.

@@ -10,8 +10,8 @@ test('xhr valid base64 datauri', async t => {
 
 	const xhr = new XMLHttpRequest();
 
-	const url
-		= 'data:text/plain;charset=utf8;base64,SGVsbG8gdG8geW91LCBkZWFyIHJlYWRlci4=';
+	const url =
+		'data:text/plain;charset=utf8;base64,SGVsbG8gdG8geW91LCBkZWFyIHJlYWRlci4=';
 
 	assertEventOrder(t, xhr, [
 		'readystatechange-1',

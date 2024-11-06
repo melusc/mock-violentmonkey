@@ -9,10 +9,10 @@ import type {ExecutionContext, Macro} from 'ava';
 import express, {Router, type Express, type Request} from 'express';
 
 export async function requestBodyToBuffer(request: Request) {
-	const chunks: any[] = [];
+	const chunks: Buffer[] = [];
 
 	for await (const chunk of request) {
-		chunks.push(chunk);
+		chunks.push(chunk as Buffer);
 	}
 
 	return Buffer.concat(chunks);
@@ -21,14 +21,13 @@ export async function requestBodyToBuffer(request: Request) {
 type ServerInfo = {
 	baseUrl: string;
 	app: Express;
-	resolve(path: string): string;
+	resolve: (path: string) => string;
 };
 type TestingFunction = (
 	t: ExecutionContext,
 	serverInfo: ServerInfo,
 ) => Promise<void> | void;
 
-// eslint-disable-next-line new-cap
 const usefulRoutes = Router();
 usefulRoutes.get('/base64/:encoded', (request, response) => {
 	const {encoded} = request.params;
@@ -67,7 +66,7 @@ usefulRoutes.get('/delay/:delay', async (request, response) => {
 		response.status(400).send('Not finite number');
 	}
 });
-usefulRoutes.post('/echo', async (request, response) => {
+usefulRoutes.post('/echo', (request, response) => {
 	response.status(200);
 	request.pipe(response);
 });
@@ -76,15 +75,15 @@ const serverFilesDirectory = new URL(
 	'../../../test/_helpers/server-files/',
 	import.meta.url,
 );
-usefulRoutes.get('/html', async (_request, response) => {
+usefulRoutes.get('/html', (_request, response) => {
 	response.sendFile(
 		fileURLToPath(new URL('document.html', serverFilesDirectory)),
 	);
 });
-usefulRoutes.get('/json', async (_request, response) => {
+usefulRoutes.get('/json', (_request, response) => {
 	response.sendFile(fileURLToPath(new URL('data.json', serverFilesDirectory)));
 });
-usefulRoutes.get('/image', async (_request, response) => {
+usefulRoutes.get('/image', (_request, response) => {
 	response.sendFile(fileURLToPath(new URL('image.jpeg', serverFilesDirectory)));
 });
 
@@ -124,9 +123,8 @@ usefulRoutes.get('/drip', async (request, response) => {
 
 	response.status(200);
 	const delay = (duration * 1000) / numberBytes;
-	for (let i = 0; i < numberBytes; ++i) {
-		if (i > 0) {
-			// eslint-disable-next-line no-await-in-loop
+	for (let index = 0; index < numberBytes; ++index) {
+		if (index > 0) {
 			await pSetTimeout(delay);
 		}
 
@@ -135,7 +133,7 @@ usefulRoutes.get('/drip', async (request, response) => {
 
 	response.end();
 });
-usefulRoutes.get('/headers', async (request, response) => {
+usefulRoutes.get('/headers', (request, response) => {
 	response.status(200).send(request.headers);
 });
 
@@ -182,9 +180,9 @@ export const createTestHttpServer: Macro<[TestingFunction]> = {
 };
 
 let registered = false;
-const onShutdownCallbacks = new Set<() => void>();
+const onShutdownCallbacks = new Set<() => void | Promise<void>>();
 
-function registerShutdown(function_: () => void) {
+function registerShutdown(function_: () => void | Promise<void>) {
 	onShutdownCallbacks.add(function_);
 
 	if (registered) {
@@ -196,7 +194,7 @@ function registerShutdown(function_: () => void) {
 		if (!run) {
 			run = true;
 			for (const callback of onShutdownCallbacks) {
-				callback();
+				void callback();
 			}
 		}
 	}

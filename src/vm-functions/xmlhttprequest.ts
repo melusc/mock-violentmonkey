@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import {Buffer} from 'node:buffer';
 import crypto from 'node:crypto';
 
@@ -27,7 +26,7 @@ type XHRResponseObject<TContext = any> = {
 
 type XHREventHandler<TContext = any> = (
 	responseObject: XHRResponseObject<TContext>,
-) => void;
+) => void | Promise<void>;
 
 type XHRDetails<TContext = any> = {
 	/** URL relative to current page is also allowed. */
@@ -97,13 +96,13 @@ const formDataToBuffer = async (
 			// Two CRLF
 			body.push('', value);
 		} else {
-			// eslint-disable-next-line no-await-in-loop
 			await new Promise<void>((resolve, reject) => {
 				const fr = new (getWindow().FileReader)();
 				fr.addEventListener('load', () => {
 					const result = fr.result as string;
 
-					body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
+					// eslint-disable-next-line unicorn/prefer-at
+					body[body.length - 1]! += `; filename=${JSON.stringify(value.name)}`;
 
 					// Two CRLF before result
 					body.push(
@@ -158,8 +157,8 @@ const dataToBuffer = async (
 	}
 
 	if (
-		data instanceof getWindow().FormData
-		|| (typeof FormData !== 'undefined' && data instanceof FormData)
+		data instanceof getWindow().FormData ||
+		(typeof FormData !== 'undefined' && data instanceof FormData)
 	) {
 		return formDataToBuffer(data);
 	}
@@ -189,8 +188,8 @@ const responseToResponseType = (
 			const arrayBuffer = new ArrayBuffer(buffer.byteLength);
 			const view = new Uint8Array(arrayBuffer);
 
-			for (const [i, value] of buffer.entries()) {
-				view[i] = value;
+			for (const [index, value] of buffer.entries()) {
+				view[index] = value;
 			}
 
 			return arrayBuffer;
@@ -294,7 +293,8 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 			xhr.addEventListener(event, () => {
 				const callback = details[`on${event}`];
 				if (typeof callback === 'function') {
-					callback(makeEventResponse(xhr, details));
+					// eslint-disable-next-line promise/no-callback-in-promise
+					void callback(makeEventResponse(xhr, details));
 				}
 			});
 		}
@@ -346,7 +346,7 @@ export {
 	xmlhttpRequest as GM_xmlhttpRequest,
 };
 
-Object.defineProperties(global, {
+Object.defineProperties(globalThis, {
 	GM_xmlhttpRequest: {
 		value: xmlhttpRequest,
 	},
