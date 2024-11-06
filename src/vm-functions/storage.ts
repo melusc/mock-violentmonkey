@@ -18,16 +18,16 @@ type SetValue = (key: string, value: any) => void;
 /** Sets a key / value pair for current context to storage. */
 const setValue: SetValue = (key, value) => {
 	const oldValue = getRawValue(key);
-	
+
+	const stringified = JSON.stringify(value);
+
 	if (value === undefined) {
 		storages.get(false)?.delete(key);
-		dispatchChange(key, oldValue, value);
 	} else {
-		const stringified = JSON.stringify(value);
 		storages.get(true).set(key, stringified);
-		dispatchChange(key, oldValue, stringified);
 	}
 
+	dispatchChange(key, oldValue, stringified);
 };
 
 const getRawValue = (key: string) => storages.get(false)?.get(key);
