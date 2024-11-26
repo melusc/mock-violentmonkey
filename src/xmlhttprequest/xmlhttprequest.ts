@@ -138,7 +138,7 @@ class XMLHttpRequest {
 	readyState: ReadyState = this.UNSENT;
 
 	// Result & response
-	responseBuffer = Buffer.alloc(0);
+	responseBuffer: Buffer = Buffer.alloc(0);
 	responseURL = '';
 	status = 0;
 	statusText = '';
