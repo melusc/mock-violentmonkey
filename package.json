@@ -17,15 +17,15 @@
 	"description": "Mock violentmonkey's globals for testing userscripts",
 	"devDependencies": {
 		"@ava/typescript": "^5.0.0",
-		"@lusc/eslint-config": "^3.2.0",
+		"@lusc/eslint-config": "^3.4.0",
 		"@lusc/tsconfig": "^5.1.0",
 		"@types/express": "^5.0.0",
-		"@types/node": "^22.10.0",
-		"@types/tampermonkey": "^5.0.3",
+		"@types/node": "^22.10.1",
+		"@types/tampermonkey": "^5.0.4",
 		"ava": "^6.2.0",
-		"eslint": "^9.15.0",
+		"eslint": "^9.16.0",
 		"express": "^4.21.1",
-		"prettier": "^3.4.1",
+		"prettier": "^3.4.2",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.7.2"
 	},
@@ -76,7 +76,7 @@
 		"data-uri-to-buffer": "^6.0.2",
 		"follow-redirects": "^1.15.9",
 		"jsdom": "^25.0.1",
-		"type-fest": "^4.28.1"
+		"type-fest": "^4.30.0"
 	},
 	"packageManager": "yarn@4.5.3"
 }
