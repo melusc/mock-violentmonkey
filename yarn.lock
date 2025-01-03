@@ -184,16 +184,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lusc/eslint-config@npm:^3.4.2":
-  version: 3.4.2
-  resolution: "@lusc/eslint-config@npm:3.4.2"
+"@lusc/eslint-config@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@lusc/eslint-config@npm:4.0.0"
   dependencies:
     "@eslint-community/eslint-plugin-eslint-comments": "npm:^4.4.1"
     "@eslint/js": "npm:^9.17.0"
     "@typescript-eslint/parser": "npm:^8.18.1"
     eslint-import-resolver-typescript: "npm:^3.7.0"
-    eslint-plugin-import-x: "npm:^4.6.0"
-    eslint-plugin-n: "npm:^17.15.0"
+    eslint-plugin-import-x: "npm:^4.6.1"
+    eslint-plugin-n: "npm:^17.15.1"
     eslint-plugin-promise: "npm:^7.2.1"
     eslint-plugin-regexp: "npm:^2.7.0"
     eslint-plugin-unicorn: "npm:^56.0.1"
@@ -202,7 +202,7 @@ __metadata:
     typescript-eslint: "npm:^8.18.1"
   peerDependencies:
     eslint: ^9.17.0
-  checksum: 10c0/7364a58555f9c424826aee49be73cb566f51a28fffeb8250e0311471ec83b3912c5232134a0b2a46990b224c27967dc244506e4e51a586e6194c725ffd8a65df
+  checksum: 10c0/6ed6929f84ab6da9a0efc4df4b1de35837fd5c87edac287bc3f739dff0ab2eaf22d5f566d0144303a1aef1ab9dffc5cd0dc2d69886a57f89c1a4f0265b22c3a8
   languageName: node
   linkType: hard
 
@@ -1515,7 +1515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.6.0":
+"eslint-plugin-import-x@npm:^4.6.1":
   version: 4.6.1
   resolution: "eslint-plugin-import-x@npm:4.6.1"
   dependencies:
@@ -1538,9 +1538,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.15.0":
-  version: 17.15.0
-  resolution: "eslint-plugin-n@npm:17.15.0"
+"eslint-plugin-n@npm:^17.15.1":
+  version: 17.15.1
+  resolution: "eslint-plugin-n@npm:17.15.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.1"
     enhanced-resolve: "npm:^5.17.1"
@@ -1552,7 +1552,7 @@ __metadata:
     semver: "npm:^7.6.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10c0/e874e77e9e463978ae556cefe70d7b90e53cc3286b0257ac81b639d5eaeffe8cb609e3bbf246c9f1c61f35589c22a449e3723d948e27d1bab5a0dfee9d8cea04
+  checksum: 10c0/0b52ffed0b80d74977e1157b4c0cc79efcdf81ea35d2997bdbf02f3d41f428f52ccb7fb3a08cf02e6fed8ae1bf4708d69fdf496e75b8b2bd3e671029d89ccc6c
   languageName: node
   linkType: hard
 
@@ -2863,7 +2863,7 @@ __metadata:
   resolution: "mock-violentmonkey@workspace:."
   dependencies:
     "@ava/typescript": "npm:^5.0.0"
-    "@lusc/eslint-config": "npm:^3.4.2"
+    "@lusc/eslint-config": "npm:^4.0.0"
     "@lusc/tsconfig": "npm:^5.1.0"
     "@types/express": "npm:^5.0.0"
     "@types/follow-redirects": "npm:^1.14.4"
