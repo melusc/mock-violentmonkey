@@ -392,12 +392,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^22.10.3":
-  version: 22.10.3
-  resolution: "@types/node@npm:22.10.3"
+"@types/node@npm:*, @types/node@npm:^22.10.5":
+  version: 22.10.5
+  resolution: "@types/node@npm:22.10.5"
   dependencies:
     undici-types: "npm:~6.20.0"
-  checksum: 10c0/0471a73c8672c803b1f2b912c2c466d00a217186933e8ff38ec7779b4a3f88a0eea3b513a59f2abf9de17cc8bbca688a3c6643c6513ac8dd1c3e45d25fab93b1
+  checksum: 10c0/6a0e7d1fe6a86ef6ee19c3c6af4c15542e61aea2f4cee655b6252efb356795f1f228bc8299921e82924e80ff8eca29b74d9dd0dd5cc1a90983f892f740b480df
   languageName: node
   linkType: hard
 
@@ -2868,7 +2868,7 @@ __metadata:
     "@types/express": "npm:^5.0.0"
     "@types/follow-redirects": "npm:^1.14.4"
     "@types/jsdom": "npm:^21.1.7"
-    "@types/node": "npm:^22.10.3"
+    "@types/node": "npm:^22.10.5"
     "@types/tampermonkey": "npm:^5.0.4"
     ava: "npm:^6.2.0"
     data-uri-to-buffer: "npm:^6.0.2"
