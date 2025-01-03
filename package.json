@@ -20,7 +20,7 @@
 		"@lusc/eslint-config": "^3.4.2",
 		"@lusc/tsconfig": "^5.1.0",
 		"@types/express": "^5.0.0",
-		"@types/node": "^22.10.3",
+		"@types/node": "^22.10.5",
 		"@types/tampermonkey": "^5.0.4",
 		"ava": "^6.2.0",
 		"eslint": "^9.17.0",
