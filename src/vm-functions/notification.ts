@@ -169,11 +169,7 @@ const findNotifications = (selectors: Partial<Selectors>) => {
 	};
 };
 
-export {
-	notification as GM_notification,
-	findNotifications,
-	type Notification,
-};
+export {notification as GM_notification, findNotifications, type Notification};
 
 Object.defineProperty(globalThis, 'GM_notification', {
 	value: notification,
