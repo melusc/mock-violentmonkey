@@ -95,7 +95,7 @@ test(
 | [`GM_openInTab` / `GM.openInTab`](https://violentmonkey.github.io/api/gm/#gm_openintab)                | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_registerMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_registermenucommand)             | ✔️      |                                                                                                                                                                                                                    |
 | [`GM_unregisterMenuCommand`](https://violentmonkey.github.io/api/gm/#gm_unregistermenucommand)         | ✔️      |                                                                                                                                                                                                                    |
-| [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      | Because Chromium and Firefox's notifications behave slightly different, mock-violentmonkey's implementation allows you to simulate either with Firefox's behaviour by default. [More info](#setnotificationcompat) |
+| [`GM_notification` / `GM.notification`](https://violentmonkey.github.io/api/gm/#gm_notification)       | ✔️      |  |
 | [`GM_setClipboard` / `GM.setClipboard`](https://violentmonkey.github.io/api/gm/#gm_setclipboard)       | ✔️      | This doesn't actually set the clipboard.                                                                                                                                                                           |
 | [`GM_xmlhttpRequest` / `GM.xmlHttpRequest`](https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest) | ✔️      | Can be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                          |
 | [`GM_download`](https://violentmonkey.github.io/api/gm/#gm_download)                                   | ✔️      | Can be used in combination with [setBaseUrl](#setbaseurl)                                                                                                                                                          |
@@ -211,14 +211,6 @@ type FindNotifications = (selectors: {
   close: () => void; // Close notifications that match the selectors
   count: () => number; // Get count of notifications that match the selectors
 };
-```
-
-### setNotificationCompat
-
-This allows you to have `GM_notification` / `GM.notification` behave like with Firefox / Chromium. See more about the differences [here](https://github.com/melusc/mock-violentmonkey/blob/main/src/vm-functions/notifications-notes.md)
-
-```ts
-type SetNotificationCompat = (platform: 'Firefox' | 'Chromium') => void;
 ```
 
 ### getClipboard
@@ -349,4 +341,4 @@ test('title', violentMonkeyContextMacro(), t => {
 
 ## License
 
-MIT
+MIT (c) Luca Schnellmann, 2025

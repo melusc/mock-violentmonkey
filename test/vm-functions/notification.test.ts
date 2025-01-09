@@ -5,15 +5,12 @@ import test from 'ava';
 import {
 	findNotifications,
 	GM_notification,
-	setNotificationCompat,
 	violentMonkeyContext,
 } from '../../src/index.js';
 
 test(
-	'Clicking a notification (Firefox)',
+	'Clicking a notification',
 	violentMonkeyContext(async t => {
-		setNotificationCompat('Firefox');
-
 		t.timeout(1000);
 
 		const amountCalled = {
@@ -52,53 +49,9 @@ test(
 );
 
 test(
-	'Clicking a notification (Chromium)',
-	violentMonkeyContext(async t => {
-		setNotificationCompat('Chromium');
-
-		t.timeout(1000);
-
-		const amountCalled = {
-			ondone: 0,
-			onclick: 0,
-		};
-
-		const text = 'notification-text';
-
-		const promise = new Promise<void>(resolve => {
-			GM_notification({
-				text,
-				ondone() {
-					++amountCalled.ondone;
-				},
-				onclick() {
-					resolve();
-					++amountCalled.onclick;
-				},
-			});
-		});
-
-		findNotifications({
-			text,
-		}).click();
-
-		await promise;
-
-		t.deepEqual(amountCalled, {
-			ondone: 0,
-			onclick: 1,
-		});
-
-		t.is(findNotifications({}).count(), 0);
-	}),
-);
-
-test(
-	'Closing a notification (Firefox)',
+	'Closing a notification',
 	violentMonkeyContext(async t => {
 		t.timeout(1000);
-
-		setNotificationCompat('Firefox');
 
 		const amountCalled = {
 			ondone: 0,
@@ -132,45 +85,6 @@ test(
 		});
 
 		t.is(findNotifications({}).count(), 0);
-	}),
-);
-
-test(
-	'Closing a notification (Chromium)',
-	violentMonkeyContext(async t => {
-		t.timeout(1000);
-
-		setNotificationCompat('Chromium');
-
-		const amountCalled = {
-			ondone: 0,
-			onclick: 0,
-		};
-
-		const text = 'notification-text';
-
-		GM_notification({
-			text,
-			ondone() {
-				++amountCalled.ondone;
-			},
-			onclick() {
-				++amountCalled.onclick;
-			},
-		});
-
-		findNotifications({
-			text,
-		}).close();
-
-		t.is(findNotifications({}).count(), 0);
-
-		await setTimeout(100);
-
-		t.deepEqual(amountCalled, {
-			ondone: 0,
-			onclick: 0,
-		});
 	}),
 );
 
@@ -184,8 +98,6 @@ test(
 		 Expect (ondone,onclick) to never be called
 		*/
 
-		setNotificationCompat('Firefox');
-
 		t.timeout(3000);
 
 		const text = 'notification-text';
@@ -209,44 +121,6 @@ test(
 			await Promise.race([setTimeout(100, sym), notification.remove()]),
 			sym,
 		);
-	}),
-);
-
-test(
-	'Removing a notification before it has been removed (Chromium)',
-	violentMonkeyContext(async t => {
-		/*
-		 Expect the first call to remove() to resolve
-		 Expect the second call to remove() to never resolve
-
-		 Expect (ondone,onclick) to never be called
-		*/
-
-		setNotificationCompat('Chromium');
-
-		t.timeout(3000);
-
-		const text = 'notification-text';
-
-		const notification = GM_notification({
-			text,
-			ondone() {
-				t.fail();
-			},
-			onclick() {
-				t.fail();
-			},
-		});
-
-		t.is(await notification.remove(), true);
-
-		const sym = Symbol('');
-		t.is(
-			await Promise.race([setTimeout(100, sym), notification.remove()]),
-			sym,
-		);
-
-		t.is(findNotifications({}).count(), 0);
 	}),
 );
 
