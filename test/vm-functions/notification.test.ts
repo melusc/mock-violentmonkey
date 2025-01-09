@@ -89,7 +89,7 @@ test(
 );
 
 test(
-	'Removing a notification before it has been removed (Firefox)',
+	'Removing a notification before it has been removed',
 	violentMonkeyContext(async t => {
 		/*
 		 Expect the first call to remove() to resolve
