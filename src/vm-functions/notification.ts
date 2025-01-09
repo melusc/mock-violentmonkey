@@ -1,22 +1,5 @@
 import {VMStorage} from '../vm-storage.js';
 
-/*
-	Because Firefox and Chromium don't behave the same,
-	I've added the option to simulate either behaviour with Firefox as default
-	I've thought about this and I feel like it should atleast be an option
-	because this way bugs might be caught early due to inconsistent behaviour
-	Otherwise I'd have to pick one behaviour anyway
-*/
-const behaveLike = new VMStorage<'Firefox' | 'Chromium'>(() => 'Firefox');
-const setNotificationCompat = (platform: 'Firefox' | 'Chromium') => {
-	behaveLike.set(platform);
-};
-
-const shouldBehaveLikeFirefox = () => {
-	const platform = behaveLike.get(true);
-	return platform === 'Firefox';
-};
-
 const enum NotificationStates {
 	visible,
 	removed,
@@ -30,7 +13,6 @@ class NotificationHandler {
 	image: string | undefined;
 	private readonly onClick: () => void;
 	private readonly onDone: () => void;
-	private amountRemoveCalled = 0;
 
 	private state: NotificationStates = NotificationStates.visible;
 
@@ -56,17 +38,9 @@ class NotificationHandler {
 			return;
 		}
 
-		/**
-		 * Firefox: Fire `onclick`, fire `ondone`
-		 * Chromium: Fire `onclick`
-		 */
-
 		this.onClick();
 		this.cleanUp();
-
-		if (shouldBehaveLikeFirefox()) {
-			this.onDone();
-		}
+		this.onDone();
 	};
 
 	readonly close = () => {
@@ -74,35 +48,15 @@ class NotificationHandler {
 			return;
 		}
 
-		/**
-		 * Firefox: Fire `ondone`
-		 * Chromium: nothing
-		 */
-
 		this.cleanUp();
-
-		if (shouldBehaveLikeFirefox()) {
-			this.onDone();
-		}
+		this.onDone();
 	};
 
 	readonly remove = async () =>
 		new Promise<true>(resolve => {
-			// No onDone or onClick
-
-			/**
-			 * Firefox: If it is already removed, the promise never resolves, if it is not removed, it resolves
-			 * Chromium: The promise only resolves the first time (removed or not)
-			 */
-			if (shouldBehaveLikeFirefox()) {
-				if (this.state === NotificationStates.visible) {
-					resolve(true);
-				}
-			} else if (this.amountRemoveCalled === 0) {
+			if (this.state === NotificationStates.visible) {
 				resolve(true);
 			}
-
-			++this.amountRemoveCalled;
 
 			this.cleanUp();
 		});
@@ -215,12 +169,7 @@ const findNotifications = (selectors: Partial<Selectors>) => {
 	};
 };
 
-export {
-	notification as GM_notification,
-	findNotifications,
-	setNotificationCompat,
-	type Notification,
-};
+export {notification as GM_notification, findNotifications, type Notification};
 
 Object.defineProperty(globalThis, 'GM_notification', {
 	value: notification,
