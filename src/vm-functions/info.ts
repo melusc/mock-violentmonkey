@@ -142,6 +142,7 @@ const updateInfoScript = (newScript: PartialScriptInfo_Script) => {
 			case 'matches':
 			case 'resources': {
 				// @ts-expect-error It will always have the right type, since key and value are connected
+				// eslint-disable-next-line @typescript-eslint/no-misused-spread
 				script[key].push(...value);
 
 				break;

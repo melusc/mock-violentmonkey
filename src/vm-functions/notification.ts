@@ -21,12 +21,12 @@ class NotificationHandler {
 
 		// Don't leak `this`
 		this.onDone = () => {
-			// eslint-disable-next-line unicorn/no-useless-undefined
+			 
 			options.ondone?.call(undefined);
 		};
 
 		this.onClick = () => {
-			// eslint-disable-next-line unicorn/no-useless-undefined
+			 
 			options.onclick?.call(undefined);
 		};
 
