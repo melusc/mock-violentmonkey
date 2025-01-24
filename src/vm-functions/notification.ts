@@ -21,12 +21,10 @@ class NotificationHandler {
 
 		// Don't leak `this`
 		this.onDone = () => {
-			 
 			options.ondone?.call(undefined);
 		};
 
 		this.onClick = () => {
-			 
 			options.onclick?.call(undefined);
 		};
 
