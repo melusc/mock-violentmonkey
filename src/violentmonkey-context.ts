@@ -1,12 +1,10 @@
 // https://nodejs.org/api/async_context.html
 import {AsyncLocalStorage} from 'node:async_hooks';
 
-import type {EmptyObject} from 'type-fest';
-
 /* Ideally using empty arrays allows for garbage collection
 	in combination with (Better-)WeakMap
  */
-const asyncLocalStorage = new AsyncLocalStorage<EmptyObject>();
+const asyncLocalStorage = new AsyncLocalStorage<symbol>();
 
 /* Abstract away AsyncLocalStorage#getStore to allow for error handling directly */
 
@@ -38,6 +36,10 @@ const violentMonkeyContext =
 		callback: (...arguments_: Arguments) => ReturnV,
 	) =>
 	(...arguments_: Arguments) =>
-		asyncLocalStorage.run({}, callback, ...arguments_);
+		asyncLocalStorage.run(
+			Symbol('mock-violentmonkey/context'),
+			callback,
+			...arguments_,
+		);
 
 export {violentMonkeyContext, getUserscriptId};

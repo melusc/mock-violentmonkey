@@ -24,7 +24,7 @@ class BetterMap<K, V> extends Map<K, V> {
 	};
 }
 
-class BetterWeakMap<K extends object, V> extends WeakMap<K, V> {
+class BetterWeakMap<K extends object | symbol, V> extends WeakMap<K, V> {
 	/**
 	 * @param getDefaultValue Return the value associated with the key.
 	 * If that value does not exist it sets the result of `getDefaultValue()` and returns that.

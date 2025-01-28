@@ -66,3 +66,15 @@ test('BetterWeakMap should return and set the default value', t => {
 
 	t.true(map.has(key));
 });
+
+test('BetterWeakMap should support symbols', t => {
+	const map = new BetterWeakMap<symbol, number>();
+
+	const key = Symbol();
+	const nonKey = Symbol();
+
+	t.false(map.has(key));
+	map.set(key, 1);
+	t.is(map.get(key), 1);
+	t.is(map.get(nonKey), undefined);
+});

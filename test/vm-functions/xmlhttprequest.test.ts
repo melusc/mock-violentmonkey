@@ -1,7 +1,6 @@
 import {Buffer} from 'node:buffer';
 
 import test from 'ava';
-import type {JsonObject} from 'type-fest';
 
 import {setBaseUrl} from '../../src/base-url.js';
 import {
@@ -10,6 +9,7 @@ import {
 	violentMonkeyContext,
 	type Headers,
 } from '../../src/index.js';
+import type {JsonObject} from '../../src/type-helpers.js';
 import {
 	createTestHttpServer,
 	requestBodyToBuffer,

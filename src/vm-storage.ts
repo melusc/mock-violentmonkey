@@ -1,11 +1,9 @@
-import type {EmptyObject} from 'type-fest';
-
 import {BetterWeakMap} from './utils/index.js';
 import {getUserscriptId} from './violentmonkey-context.js';
 
 /** @internal */
 class VMStorage<V> {
-	private readonly storages = new BetterWeakMap<EmptyObject, V>();
+	private readonly storages = new BetterWeakMap<symbol, V>();
 
 	constructor(private readonly getDefaultValue: () => V) {}
 
