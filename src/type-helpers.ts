@@ -16,7 +16,7 @@ type IsPrimitive<T> = T extends number | boolean | string | null | undefined
 	: false;
 
 // No support for tuples
-export type PartialDeep<T extends Record<string, unknown>> = {
+export type PartialDeep<T> = {
 	[Key in keyof T]?: IsPrimitive<T[Key]> extends true
 		? T[Key]
 		: T[Key] extends Array<infer V>
