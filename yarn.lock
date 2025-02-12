@@ -266,10 +266,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lusc/tsconfig@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@lusc/tsconfig@npm:5.1.0"
-  checksum: 10c0/e32e2a8bbe7e8d361fbadb781684cf1e1e041334b0eaf3a18ff9ad181b9b437c4c0babe620b13e3d6f6a0d1032083dd96b0f6f8c802252d813cd64a7689ed466
+"@lusc/tsconfig@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@lusc/tsconfig@npm:6.0.2"
+  checksum: 10c0/931ef747003a2644ced047533bd0f1dce67c60249ae44541b458eac60128f157407836d9bc0166b44396a1f6addf1fdedcfad5b731365999f55b3bf3f49a68f3
   languageName: node
   linkType: hard
 
@@ -2935,7 +2935,7 @@ __metadata:
   dependencies:
     "@ava/typescript": "npm:^5.0.0"
     "@lusc/eslint-config": "npm:^4.1.0"
-    "@lusc/tsconfig": "npm:^5.1.0"
+    "@lusc/tsconfig": "npm:^6.0.2"
     "@types/express": "npm:^5.0.0"
     "@types/follow-redirects": "npm:^1.14.4"
     "@types/jsdom": "npm:^21.1.7"
