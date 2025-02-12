@@ -69,8 +69,8 @@ type NotificationOptions = {
 	text: string;
 	title?: string | undefined;
 	image?: string | undefined;
-	onclick?: () => void;
-	ondone?: () => void;
+	onclick?: (() => void) | undefined;
+	ondone?: (() => void) | undefined;
 };
 
 type Notification = {
