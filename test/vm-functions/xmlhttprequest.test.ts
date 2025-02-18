@@ -247,6 +247,7 @@ test(
 );
 
 function makeFormDataRegex(...lines: string[]): RegExp {
+	// eslint-disable-next-line security/detect-non-literal-regexp
 	return new RegExp(lines.map(s => `^${s}$`).join(String.raw`\r\n`), 'm');
 }
 
