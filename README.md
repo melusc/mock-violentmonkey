@@ -284,16 +284,18 @@ type GetDownloads = () => Record<string, Buffer>;
 test(
   'title',
   violentMonkeyContext(t => {
-    console.log(getDownloads()); // {}
+    // No downloads yet
+    // Returns empty object
+    console.log(getDownloads());
 
     GM_download({
       url: 'https://example.com/',
       name: 'example-com.html',
       onload: () => {
         console.log(getDownloads());
-        /* {
-				"example-com.html": <Buffer 3c 21 ...>
-			} */
+        // {
+        //   "example-com.html": <Buffer 3c 21 ...>
+        // }
       },
     });
   }),
