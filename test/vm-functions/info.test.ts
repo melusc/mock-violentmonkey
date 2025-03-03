@@ -23,17 +23,24 @@ test(
 		t.is(typeof info.platform.browserVersion, 'string');
 		t.is(typeof info.platform.os, 'string');
 
+		t.is(typeof info.script.antifeature, 'undefined');
+		t.is(typeof info.script.author, 'undefined');
 		t.is(typeof info.script.description, 'string');
+		t.deepEqual(info.script.excludeMatches, []);
 		t.deepEqual(info.script.excludes, []);
+		t.deepEqual(info.script.grant, []);
 		t.deepEqual(info.script.includes, []);
 		t.deepEqual(info.script.matches, []);
 		t.is(typeof info.script.name, 'string');
 		t.is(typeof info.script.namespace, 'string');
 		t.deepEqual(info.script.resources, []);
+		t.deepEqual(info.script.require, []);
 		t.is(typeof info.script.runAt, 'string');
 		t.is(typeof info.script.version, 'string');
 
 		t.is(typeof info.injectInto, 'string');
+		t.is(typeof info.isIncognito, 'boolean');
+		t.is(typeof info.userAgent, 'string');
 	}),
 );
 

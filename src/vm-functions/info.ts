@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import process from 'node:process';
 
 import type {PartialDeep} from '../type-helpers.js';
 import {VMStorage} from '../vm-storage.js';
@@ -35,19 +36,49 @@ type ScriptInfo = {
 
 	/** Contains structured fields from the Metadata Block: */
 	script: {
+		antifeature?: string[];
+		author?: string;
+		compatible?: string[];
+		connect?: string[];
 		description: string;
+		downloadURL?: string;
+		excludeMatches: string[];
 		excludes: string[];
+		grant: string[];
+		/** @deprecated */
+		homepage?: string;
+		homepageURL?: string;
+		icon?: string;
 		includes: string[];
 		matches: string[];
 		name: string;
 		namespace: string;
-		resources: Array<{name: string; url: string}>;
-		runAt: string;
+		noframes?: boolean;
+		require: string[];
+		resources: Array<{
+			name: string;
+			url: string;
+		}>;
+		runAt:
+			| ''
+			| 'document-start'
+			| 'document-body'
+			| 'document-end'
+			| 'document-idle';
+		supportURL?: string;
+		unwrap?: boolean;
+		updateURL?: string;
 		version: string;
 	};
 
 	/** The injection mode of current script */
 	injectInto: 'page' | 'content';
+
+	/** True when this is an incognito profile (Chrome) or private mode (Firefox). */
+	isIncognito: boolean;
+
+	/**  */
+	userAgent: string;
 };
 
 const generateInfo = (): ScriptInfo => ({
@@ -55,25 +86,30 @@ const generateInfo = (): ScriptInfo => ({
 	scriptMetaStr: '',
 	scriptWillUpdate: true,
 	scriptHandler: 'Violentmonkey',
-	version: '2.13.0',
+	version: '2.30.0',
 	platform: {
 		arch: 'x86-64',
 		browserName: 'firefox',
-		browserVersion: '93',
+		browserVersion: '135.0',
 		os: 'linux',
 	},
 	script: {
 		description: '',
+		excludeMatches: [],
 		excludes: [],
+		grant: [],
 		includes: [],
 		matches: [],
 		name: '',
 		namespace: '',
 		resources: [],
+		require: [],
 		runAt: 'document-start',
 		version: '1.0',
 	},
 	injectInto: 'page',
+	isIncognito: false,
+	userAgent: `mock-violentmonkey (Node.js ${process.version})`,
 });
 
 const cachedInfos = new VMStorage<ScriptInfo>(generateInfo);
