@@ -28,7 +28,7 @@ const getUserscriptId = () => {
 /**
  * Create a seperate context for seperated storages for each test
  *
- * @param cb The callback with the same parameters like a regular ava callback
+ * @param cb The callback to wrap
  * @returns Returns the callback, mainly useful if the function is async
  */
 const violentMonkeyContext =

@@ -8,7 +8,6 @@ import {
 	getDownload,
 	getDownloads,
 	violentMonkeyContext,
-	violentMonkeyContextMacro,
 } from '../../src/index.js';
 import {createTestHttpServer} from '../_helpers/create-server.js';
 
@@ -42,22 +41,25 @@ test(
 	}),
 );
 
-test('GM_download with invalid url', violentMonkeyContextMacro(), async t => {
-	await new Promise<void>((resolve, reject) => {
-		GM_download({
-			url: 'htt://google.com',
-			name: 'name.txt',
-			onload() {
-				reject(new Error('Called onload()'));
-			},
-			onerror() {
-				resolve();
-			},
+test(
+	'GM_download with invalid url',
+	violentMonkeyContext(async t => {
+		await new Promise<void>((resolve, reject) => {
+			GM_download({
+				url: 'htt://google.com',
+				name: 'name.txt',
+				onload() {
+					reject(new Error('Called onload()'));
+				},
+				onerror() {
+					resolve();
+				},
+			});
 		});
-	});
 
-	t.deepEqual(getDownloads(), {});
-});
+		t.deepEqual(getDownloads(), {});
+	}),
+);
 
 test(
 	'GM_download event handlers',

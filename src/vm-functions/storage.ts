@@ -144,7 +144,7 @@ const dispatchChange = (key: string, oldValue?: string, newValue?: string) => {
 };
 
 /**
- * Use these in ava test files
+ * Use these in test files
  */
 export {
 	setValue as GM_setValue,

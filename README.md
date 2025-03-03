@@ -6,7 +6,6 @@
 
 mock-violentmonkey allows you to mock Violentmonkey's api for testing Violentmonkey userscripts.
 mock-violentmonkey allows you to have seperated contexts for testing different scenarious without them interfering with each other.
-It was written with ava in mind but should work with other test runners.
 
 ## Disclaimer
 
@@ -32,24 +31,6 @@ test(
   'title2',
   violentMonkeyContext(t => {
     // from here
-  }),
-);
-```
-
-### violentMonkeyContextMacro
-
-This is similar to violentMonkeyContext, but this makes use of [ava macros](https://github.com/avajs/ava/blob/v3.0.0/docs/01-writing-tests.md#reusing-test-logic-through-macros) and, as a result, can only be used with ava.
-
-```js
-test('title', violentMonkeyContextMacro(), t => {
-  t.is(GM_getValue('a'), 'b');
-});
-
-// same as
-test(
-  'title',
-  violentMonkeyContext(t => {
-    t.is(GM_getValue('a'), 'b');
   }),
 );
 ```
@@ -300,20 +281,23 @@ type GetDownloads = () => Record<string, Buffer>;
 ```
 
 ```js
-test('title', violentMonkeyContextMacro(), t => {
-  console.log(getDownloads()); // {}
+test(
+  'title',
+  violentMonkeyContext(t => {
+    console.log(getDownloads()); // {}
 
-  GM_download({
-    url: 'https://example.com/',
-    name: 'example-com.html',
-    onload: () => {
-      console.log(getDownloads());
-      /* {
+    GM_download({
+      url: 'https://example.com/',
+      name: 'example-com.html',
+      onload: () => {
+        console.log(getDownloads());
+        /* {
 				"example-com.html": <Buffer 3c 21 ...>
 			} */
-    },
-  });
-});
+      },
+    });
+  }),
+);
 ```
 
 ### getDownload
@@ -325,18 +309,21 @@ type GetDownload = (name: string) => Buffer | undefined;
 ```
 
 ```js
-test('title', violentMonkeyContextMacro(), t => {
-  console.log(getDownload('example-com.html')); // undefined
+test(
+  'title',
+  violentMonkeyContext(t => {
+    console.log(getDownload('example-com.html')); // undefined
 
-  GM_download({
-    url: 'https://example.com/',
-    name: 'example-com.html',
-    onload: () => {
-      console.log(getDownload('example-com.html'));
-      // <Buffer 3c 21 ...>
-    },
-  });
-});
+    GM_download({
+      url: 'https://example.com/',
+      name: 'example-com.html',
+      onload: () => {
+        console.log(getDownload('example-com.html'));
+        // <Buffer 3c 21 ...>
+      },
+    });
+  }),
+);
 ```
 
 ## License
