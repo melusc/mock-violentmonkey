@@ -43,14 +43,15 @@ This allows you to simulate seperate tabs. It is currently only useful for `GM_a
 test(
   'title',
   violentMonkeyContext(t => {
+    // `remote` is `true` if modified in another tab
     GM_addValueChangeListener('key', (key, oldValue, newValue, remote) => {
       console.log(remote);
     });
 
-    GM_setValue('key', 1); // Will log false
+    GM_setValue('key', 1); // remote will be `false`
 
     tabContext(() => {
-      GM_setValue('key', 2); // Will log true
+      GM_setValue('key', 2); // remote will be `true`
     });
   }),
 );
