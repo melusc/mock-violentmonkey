@@ -64,7 +64,7 @@ test(
 
 | Function                                                                                               | Support | Notes                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------- |
-| [`GM_info` / `GM.info`](https://violentmonkey.github.io/api/gm/#gm_info)                               | ✔️      | [Default value](https://github.com/melusc/mock-violentmonkey/blob/main/src/vm-functions/info.ts#L79-L110)             |
+| [`GM_info` / `GM.info`](https://violentmonkey.github.io/api/gm/#gm_info)                               | ✔️      | [Default value](https://github.com/melusc/mock-violentmonkey/blob/main/src/vm-functions/info.ts#L84-L113)             |
 | [`GM_getValue` / `GM.getValue`](https://violentmonkey.github.io/api/gm/#gm_getvalue)                   | ✔️      |                                                                                                                       |
 | [`GM_setValue` / `GM.setValue`](https://violentmonkey.github.io/api/gm/#gm_setvalue)                   | ✔️      |                                                                                                                       |
 | [`GM_deleteValue` / `GM.deleteValue`](https://violentmonkey.github.io/api/gm/#gm_deletevalue)          | ✔️      |                                                                                                                       |
