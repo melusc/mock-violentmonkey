@@ -42,7 +42,6 @@ test(
 	violentMonkeyContext(t => {
 		const original = {...GM_info()};
 
-		// PartielDeep is not assignable to ScriptInfo in .deepEqual below
 		const changedValues: Partial<ScriptInfo> = {
 			version: '1.2.3',
 			scriptHandler: 'Tampermonkey',
@@ -58,7 +57,6 @@ test(
 test(
 	'update_GM_info should handle #script',
 	violentMonkeyContext(t => {
-		// Make sure it doesn't overwrite these values
 		update_GM_info({
 			script: {
 				resources: [
@@ -73,11 +71,16 @@ test(
 			},
 		});
 
-		const original = {...GM_info().script};
-		const resources = original.resources.map(resource => ({...resource}));
-		const excludes = [...original.excludes];
-		const includes = [...original.includes];
-		const matches = [...original.matches];
+		const script1 = GM_info().script;
+		t.deepEqual(script1.excludes, ['excludes1']);
+		t.deepEqual(script1.includes, ['includes1']);
+		t.deepEqual(script1.matches, ['matches1']);
+		t.deepEqual(script1.resources, [
+			{
+				url: 'url1',
+				name: 'name1',
+			},
+		]);
 
 		const changedValues: {
 			script: Pick<
@@ -112,29 +115,14 @@ test(
 
 		update_GM_info(changedValues);
 
-		const current = GM_info().script;
+		const script2 = GM_info().script;
 
-		t.is(current.description, changedValues.script.description);
-		t.is(current.version, changedValues.script.version);
+		t.is(script2.description, changedValues.script.description);
+		t.is(script2.version, changedValues.script.version);
 
-		t.deepEqual(current.excludes, [
-			...excludes,
-			...changedValues.script.excludes,
-		]);
-		t.deepEqual(current.matches, [...matches, ...changedValues.script.matches]);
-		t.deepEqual(current.includes, [
-			...includes,
-			...changedValues.script.includes,
-		]);
-		t.deepEqual(current.resources, [
-			...resources,
-			...changedValues.script.resources,
-		]);
-
-		// It should still have the previous values
-		t.true(current.includes.includes('includes1'));
-		t.true(current.excludes.includes('excludes1'));
-		t.true(current.matches.includes('matches1'));
-		t.truthy(current.resources.find(resource => resource.name === 'name1'));
+		t.deepEqual(script2.excludes, changedValues.script.excludes);
+		t.deepEqual(script2.matches, changedValues.script.matches);
+		t.deepEqual(script2.includes, changedValues.script.includes);
+		t.deepEqual(script2.resources, changedValues.script.resources);
 	}),
 );

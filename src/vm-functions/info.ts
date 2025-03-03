@@ -119,41 +119,7 @@ const getInfo = () => cachedInfos.get(true);
 /* #resources may be undefined
 	But not #url or #name in resources
 */
-type PartialScriptInfo = PartialDeep<ScriptInfo> & {
-	script?: {
-		resources?: ScriptInfo['script']['resources'];
-	};
-};
-
-type NonOptional<T> = T extends undefined ? never : T;
-type PartialScriptInfo_Script = NonOptional<PartialScriptInfo['script']>;
-
-/**
- * Update GM_info#script by passing a DeepPartial of GM_info#script
- */
-const updateInfoScript = (newScript: PartialScriptInfo_Script) => {
-	const {script} = getInfo();
-
-	for (const [key, value] of Object.entries(newScript)) {
-		switch (key) {
-			case 'excludes':
-			case 'includes':
-			case 'matches':
-			case 'resources': {
-				// @ts-expect-error It will always have the right type, since key and value are connected
-				// eslint-disable-next-line @typescript-eslint/no-misused-spread
-				script[key].push(...value);
-
-				break;
-			}
-
-			default: {
-				// @ts-expect-error It will always have the right type, since key and value are connected
-				script[key] = value;
-			}
-		}
-	}
-};
+type PartialScriptInfo = PartialDeep<ScriptInfo>;
 
 /**
  * Update the GM_info object by passing a DeepPartial of GM_info
@@ -163,12 +129,7 @@ const updateInfo = (newInfo: PartialScriptInfo) => {
 
 	for (const [key, value] of Object.entries(newInfo)) {
 		switch (key) {
-			case 'script': {
-				updateInfoScript(value as PartialScriptInfo_Script);
-
-				break;
-			}
-
+			case 'script':
 			case 'platform': {
 				Object.assign(info[key], value);
 

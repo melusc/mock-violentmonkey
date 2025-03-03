@@ -129,7 +129,7 @@ test(
       },
       script: {
         version: '1.5.2', // Version of userscript
-        matches: ['https://github.com/*'], // Merges old array and new array
+        matches: ['https://github.com/*'], // Run on github.com
       },
     });
 
@@ -137,7 +137,7 @@ test(
     GM_info.version = '2.0.0';
     GM_info.platform.arch = 'arm';
     GM_info.script.version = '1.5.2';
-    GM_info.script.matches.push('https://github.com/*');
+    GM_info.script.matches = ['https://github.com/*'];
   }),
 );
 ```
