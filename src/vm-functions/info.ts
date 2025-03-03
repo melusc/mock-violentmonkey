@@ -77,7 +77,8 @@ type ScriptInfo = {
 	/** True when this is an incognito profile (Chrome) or private mode (Firefox). */
 	isIncognito: boolean;
 
-	/**  */
+	/** A safe copy of navigator.userAgent from the content script of the extension,
+	 * so it cannot be overridden by other extensions/userscripts. */
 	userAgent: string;
 };
 
