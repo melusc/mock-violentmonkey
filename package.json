@@ -18,17 +18,17 @@
 	"devDependencies": {
 		"@ava/typescript": "^5.0.0",
 		"@lusc/clean-package": "^2.1.0",
-		"@lusc/eslint-config": "^6.1.0",
+		"@lusc/eslint-config": "^6.2.0",
 		"@lusc/tsconfig": "^6.0.2",
 		"@types/express": "^5.0.0",
-		"@types/node": "^22.10.10",
+		"@types/node": "^22.13.10",
 		"@types/tampermonkey": "^5.0.4",
 		"ava": "^6.2.0",
-		"eslint": "^9.18.0",
+		"eslint": "^9.22.0",
 		"express": "^4.21.2",
-		"prettier": "^3.4.2",
+		"prettier": "^3.5.3",
 		"rimraf": "^6.0.1",
-		"typescript": "^5.7.3"
+		"typescript": "^5.8.2"
 	},
 	"engines": {
 		"node": "^18.20.5 || ^20.18.1 || ^22.13.0 || ^23.6.0"
@@ -69,5 +69,5 @@
 		"follow-redirects": "^1.15.9",
 		"jsdom": "^26.0.0"
 	},
-	"packageManager": "yarn@4.6.0"
+	"packageManager": "yarn@4.7.0"
 }
