@@ -53,6 +53,8 @@ type MapKnownKeys<T> = {
 const builtinGlobals: ReadonlySet<keyof MapKnownKeys<DOMWindow>> = new Set([
 	'URL',
 	'Blob',
+	'File',
+	'FormData',
 ]);
 
 /**
@@ -69,7 +71,9 @@ function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
 	}
 
 	Object.defineProperty(globalThis, key, {
-		get: (): any => getWindow()[key],
+		get(): unknown {
+			return getWindow()[key];
+		},
 	});
 }
 
