@@ -95,10 +95,10 @@ const formDataToBuffer = async (
 			// Two CRLF
 			body.push('', value);
 		} else {
-			// eslint-disable-next-line no-await-in-loop
 			const stringified = await value.text();
 
-			body[body.length - 1] += `; filename=${JSON.stringify(value.name)}`;
+			// eslint-disable-next-line unicorn/prefer-at
+			body[body.length - 1]! += `; filename=${JSON.stringify(value.name)}`;
 
 			// Two CRLF before result
 			body.push(
