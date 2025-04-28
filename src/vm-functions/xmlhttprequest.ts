@@ -4,7 +4,6 @@ import crypto from 'node:crypto';
 import {JSDOM} from 'jsdom';
 
 import {getBaseUrl} from '../base-url.js';
-import {getWindow} from '../dom.js';
 import type {JsonValue} from '../type-helpers.js';
 import {
 	XMLHttpRequest,
