@@ -19,7 +19,7 @@
 		"@ava/typescript": "^5.0.0",
 		"@lusc/clean-package": "^2.1.1",
 		"@lusc/eslint-config": "^7.2.0",
-		"@lusc/tsconfig": "^6.0.2",
+		"@lusc/tsconfig": "^7.0.0",
 		"@types/express": "^5.0.1",
 		"@types/node": "^22.15.3",
 		"@types/tampermonkey": "^5.0.4",
