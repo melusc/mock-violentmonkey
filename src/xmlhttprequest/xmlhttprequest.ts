@@ -138,7 +138,7 @@ class XMLHttpRequest {
 	readyState: ReadyState = this.UNSENT;
 
 	// Result & response
-	responseBuffer: Buffer = Buffer.alloc(0);
+	responseBuffer: Buffer<ArrayBuffer> = Buffer.alloc(0);
 	responseURL = '';
 	status = 0;
 	statusText = '';
@@ -232,7 +232,7 @@ class XMLHttpRequest {
 
 		this.#settings = {
 			method,
-			url: String(url),
+			url,
 			user: user ?? undefined,
 			password: password ?? undefined,
 		};
