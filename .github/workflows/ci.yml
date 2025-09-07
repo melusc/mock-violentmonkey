@@ -31,15 +31,15 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Check code style
         run: |
-          yarn run fmt
+          pnpm fmt
           git --no-pager diff --exit-code
 
       - name: CI tests
-        run: yarn run test
+        run: pnpm test
 
       - name: Type checking
-        run: yarn build
+        run: pnpm build
