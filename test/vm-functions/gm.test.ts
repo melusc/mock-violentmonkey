@@ -70,7 +70,7 @@ test(
 
 		const awaitedKeys = await keys;
 
-		t.deepEqual(awaitedKeys.sort(), ['key1', 'key2'].sort());
+		t.deepEqual(awaitedKeys.toSorted(), ['key1', 'key2'].toSorted());
 	}),
 );
 

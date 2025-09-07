@@ -77,7 +77,7 @@ test(
 		GM_setValue('b', 2);
 		GM_setValue('d', 4);
 
-		t.deepEqual(GM_listValues().sort(), ['a', 'b', 'd'].sort());
+		t.deepEqual(GM_listValues().toSorted(), ['a', 'b', 'd'].toSorted());
 	}),
 );
 

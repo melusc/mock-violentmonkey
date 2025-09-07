@@ -101,14 +101,14 @@ test(
 		});
 
 		t.deepEqual(
-			[...called].sort(),
+			[...called].toSorted(),
 			[
 				'onload',
 				'onloadend',
 				'onloadstart',
 				'onprogress',
 				'onreadystatechange',
-			].sort(),
+			].toSorted(),
 		);
 	}),
 );
