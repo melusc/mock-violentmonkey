@@ -21,10 +21,10 @@
 		"@lusc/eslint-config": "^8.0.1",
 		"@lusc/tsconfig": "^7.1.0",
 		"@types/express": "^5.0.3",
-		"@types/node": "^22.18.8",
+		"@types/node": "^22.18.10",
 		"@types/tampermonkey": "^5.0.4",
 		"ava": "^6.4.1",
-		"eslint": "^9.36.0",
+		"eslint": "^9.37.0",
 		"express": "^5.1.0",
 		"prettier": "^3.6.2",
 		"rimraf": "^6.0.1",
@@ -69,5 +69,5 @@
 		"follow-redirects": "^1.15.11",
 		"jsdom": "^27.0.0"
 	},
-	"packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
+	"packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd"
 }
