@@ -93,7 +93,7 @@ test(
 		t.true(document.body.innerHTML.includes('Example Domain'));
 		t.true(document.head.innerHTML.includes('Example Domain'));
 		t.is(document.title, 'Example Domain');
-		t.is(document.querySelectorAll('*').length, 13);
+		t.is(document.querySelectorAll('*').length, 11);
 	}),
 );
 
