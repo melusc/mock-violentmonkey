@@ -17,7 +17,7 @@
 	"description": "Mock violentmonkey's globals for testing userscripts",
 	"devDependencies": {
 		"@ava/typescript": "^6.0.0",
-		"@lusc/clean-package": "^2.2.0",
+		"@lusc/clean-package": "^3.0.0",
 		"@lusc/eslint-config": "^8.0.1",
 		"@lusc/tsconfig": "^7.1.0",
 		"@types/express": "^5.0.3",
