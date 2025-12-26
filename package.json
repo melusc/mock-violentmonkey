@@ -18,16 +18,16 @@
 	"devDependencies": {
 		"@ava/typescript": "^6.0.0",
 		"@lusc/clean-package": "^3.0.0",
-		"@lusc/eslint-config": "^8.2.0",
+		"@lusc/eslint-config": "^8.3.0",
 		"@lusc/tsconfig": "^7.2.0",
-		"@types/express": "^5.0.5",
-		"@types/node": "^24.10.0",
+		"@types/express": "^5.0.6",
+		"@types/node": "^24.10.4",
 		"@types/tampermonkey": "^5.0.5",
 		"ava": "^6.4.1",
-		"eslint": "^9.39.1",
-		"express": "^5.1.0",
-		"prettier": "^3.6.2",
-		"rimraf": "^6.1.0",
+		"eslint": "^9.39.2",
+		"express": "^5.2.1",
+		"prettier": "^3.7.4",
+		"rimraf": "^6.1.2",
 		"typescript": "^5.9.3"
 	},
 	"engines": {
@@ -67,7 +67,7 @@
 		"@types/jsdom": "^27.0.0",
 		"data-uri-to-buffer": "^6.0.2",
 		"follow-redirects": "^1.15.11",
-		"jsdom": "^27.1.0"
+		"jsdom": "^27.4.0"
 	},
-	"packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
+	"packageManager": "pnpm@10.26.2+sha512.0e308ff2005fc7410366f154f625f6631ab2b16b1d2e70238444dd6ae9d630a8482d92a451144debc492416896ed16f7b114a86ec68b8404b2443869e68ffda6"
 }
