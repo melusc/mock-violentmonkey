@@ -37,7 +37,7 @@ export function compareEventsOneOf(
 
 		// eslint-disable-next-line unicorn/no-for-loop
 		for (let index = 0; index < actual.length; ++index) {
-			if (actual[index] != expected[index]) {
+			if (actual[index] !== expected[index]) {
 				continue;
 			}
 
