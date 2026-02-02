@@ -18,15 +18,15 @@
 	"devDependencies": {
 		"@ava/typescript": "^6.0.0",
 		"@lusc/clean-package": "^3.0.0",
-		"@lusc/eslint-config": "^8.3.0",
+		"@lusc/eslint-config": "^8.6.0",
 		"@lusc/tsconfig": "^7.2.0",
 		"@types/express": "^5.0.6",
-		"@types/node": "^24.10.4",
+		"@types/node": "^24.10.9",
 		"@types/tampermonkey": "^5.0.5",
 		"ava": "^6.4.1",
 		"eslint": "^9.39.2",
 		"express": "^5.2.1",
-		"prettier": "^3.7.4",
+		"prettier": "^3.8.1",
 		"rimraf": "^6.1.2",
 		"typescript": "^5.9.3"
 	},
@@ -69,5 +69,5 @@
 		"follow-redirects": "^1.15.11",
 		"jsdom": "^28.0.0"
 	},
-	"packageManager": "pnpm@10.26.2+sha512.0e308ff2005fc7410366f154f625f6631ab2b16b1d2e70238444dd6ae9d630a8482d92a451144debc492416896ed16f7b114a86ec68b8404b2443869e68ffda6"
+	"packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
 }
