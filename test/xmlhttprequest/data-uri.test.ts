@@ -3,27 +3,17 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {assertEventOrder, assertReadyStateValues} from '../_helpers/index.js';
+import {assertReadyStateValues, recordEventOrder} from '../_helpers/index.js';
 
 test('xhr valid base64 datauri', async t => {
-	t.plan(13);
+	t.plan(5);
 
 	const xhr = new XMLHttpRequest();
 
 	const url =
 		'data:text/plain;charset=utf8;base64,SGVsbG8gdG8geW91LCBkZWFyIHJlYWRlci4=';
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-2',
-		'readystatechange-3',
-		'progress-3',
-		'progress-3',
-		'readystatechange-4',
-		'load-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	assertReadyStateValues(t, xhr, {
 		1: {
@@ -66,7 +56,21 @@ test('xhr valid base64 datauri', async t => {
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
+		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-2',
+				'readystatechange-3',
+				'progress-3',
+				'progress-3',
+				'readystatechange-4',
+				'load-4',
+				'loadend-4',
+			]);
+
+			resolve();
+		});
 
 		xhr.open('get', url);
 		xhr.send();
@@ -189,19 +193,13 @@ test('datauri with misspelled protocol', t => {
 });
 
 test('xhr invalid datauri', async t => {
-	t.plan(8);
+	t.plan(4);
 
 	const xhr = new XMLHttpRequest();
 
 	const url = 'data:';
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-4',
-		'error-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	assertReadyStateValues(t, xhr, {
 		1: {
@@ -221,7 +219,17 @@ test('xhr invalid datauri', async t => {
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
+		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-4',
+				'error-4',
+				'loadend-4',
+			]);
+
+			resolve();
+		});
 
 		t.notThrows(() => {
 			xhr.open('get', url);

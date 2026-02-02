@@ -3,10 +3,10 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {assertEventOrder, createTestHttpServer} from '../_helpers/index.js';
+import {createTestHttpServer, recordEventOrder} from '../_helpers/index.js';
 
 test('Aborting after send', createTestHttpServer, async (t, {app, baseUrl}) => {
-	t.plan(7);
+	t.plan(2);
 	const xhr = new XMLHttpRequest();
 
 	app.get('/', (request, response) => {
@@ -24,14 +24,7 @@ test('Aborting after send', createTestHttpServer, async (t, {app, baseUrl}) => {
 		}, 1000);
 	});
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-2',
-		'readystatechange-4',
-		'abort-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	xhr.addEventListener('readystatechange', () => {
 		if (xhr.readyState === xhr.HEADERS_RECEIVED) {
@@ -45,6 +38,15 @@ test('Aborting after send', createTestHttpServer, async (t, {app, baseUrl}) => {
 
 	await new Promise<void>(resolve => {
 		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-2',
+				'readystatechange-4',
+				'abort-4',
+				'loadend-4',
+			]);
+
 			resolve();
 		});
 

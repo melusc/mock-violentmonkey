@@ -1,13 +1,13 @@
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {assertEventOrder, createTestHttpServer} from '../_helpers/index.js';
+import {createTestHttpServer, recordEventOrder} from '../_helpers/index.js';
 
 test(
 	'timeout after 1s with initial body',
 	createTestHttpServer,
 	async (t, {app, baseUrl}) => {
-		t.plan(10);
+		t.plan(3);
 
 		app.get('/', (_request, response) => {
 			response.writeHead(200, {
@@ -23,16 +23,8 @@ test(
 		});
 
 		const xhr = new XMLHttpRequest();
-		assertEventOrder(t, xhr, [
-			'readystatechange-1',
-			'loadstart-1',
-			'readystatechange-2',
-			'readystatechange-3',
-			'progress-3',
-			'readystatechange-4',
-			'timeout-4',
-			'loadend-4',
-		]);
+
+		const readEvents = recordEventOrder(xhr);
 		xhr.timeout = 1000;
 
 		xhr.addEventListener('timeout', () => {
@@ -50,7 +42,20 @@ test(
 		});
 
 		await new Promise<void>(resolve => {
-			xhr.addEventListener('loadend', resolve);
+			xhr.addEventListener('loadend', () => {
+				t.deepEqual(readEvents(), [
+					'readystatechange-1',
+					'loadstart-1',
+					'readystatechange-2',
+					'readystatechange-3',
+					'progress-3',
+					'readystatechange-4',
+					'timeout-4',
+					'loadend-4',
+				]);
+
+				resolve();
+			});
 
 			xhr.open('get', baseUrl);
 			xhr.send();
@@ -62,7 +67,7 @@ test(
 	'timeout after 1s without initial body',
 	createTestHttpServer,
 	async (t, {app, baseUrl}) => {
-		t.plan(7);
+		t.plan(3);
 
 		app.get('/', (_request, response) => {
 			response.writeHead(200, {
@@ -77,13 +82,8 @@ test(
 		});
 
 		const xhr = new XMLHttpRequest();
-		assertEventOrder(t, xhr, [
-			'readystatechange-1',
-			'loadstart-1',
-			'readystatechange-4',
-			'timeout-4',
-			'loadend-4',
-		]);
+
+		const readEvents = recordEventOrder(xhr);
 		xhr.timeout = 1000;
 
 		xhr.addEventListener('timeout', () => {
@@ -93,7 +93,16 @@ test(
 		});
 
 		await new Promise<void>(resolve => {
-			xhr.addEventListener('loadend', resolve);
+			xhr.addEventListener('loadend', () => {
+				t.deepEqual(readEvents(), [
+					'readystatechange-1',
+					'loadstart-1',
+					'readystatechange-4',
+					'timeout-4',
+					'loadend-4',
+				]);
+				resolve();
+			});
 
 			xhr.open('get', baseUrl);
 			xhr.send();

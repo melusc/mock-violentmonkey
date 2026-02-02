@@ -3,26 +3,17 @@ import {Buffer} from 'node:buffer';
 import test from 'ava';
 
 import {XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
-import {assertEventOrder, assertReadyStateValues} from '../_helpers/index.js';
+import {recordEventOrder, assertReadyStateValues} from '../_helpers/index.js';
 
 test('valid object url', async t => {
-	t.plan(12);
+	t.plan(5);
 
 	const blob = new Blob(['abc'], {type: 'text/plain'});
 	const url = URL.createObjectURL(blob);
 
 	const xhr = new XMLHttpRequest();
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-2',
-		'readystatechange-3',
-		'progress-3',
-		'readystatechange-4',
-		'load-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	assertReadyStateValues(t, xhr, {
 		1: {
@@ -56,7 +47,20 @@ test('valid object url', async t => {
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
+		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-2',
+				'readystatechange-3',
+				'progress-3',
+				'readystatechange-4',
+				'load-4',
+				'loadend-4',
+			]);
+
+			resolve();
+		});
 
 		xhr.open('get', url);
 		xhr.send();
@@ -64,17 +68,11 @@ test('valid object url', async t => {
 });
 
 test('invalid object url', async t => {
-	t.plan(7);
+	t.plan(3);
 
 	const xhr = new XMLHttpRequest();
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-4',
-		'error-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	assertReadyStateValues(t, xhr, {
 		1: {
@@ -94,7 +92,17 @@ test('invalid object url', async t => {
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
+		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-4',
+				'error-4',
+				'loadend-4',
+			]);
+
+			resolve();
+		});
 
 		xhr.open('get', 'blob:nodedata:definitely-not-a-uuid');
 		xhr.send();
@@ -102,20 +110,14 @@ test('invalid object url', async t => {
 });
 
 test('valid object url, but method not GET', async t => {
-	t.plan(7);
+	t.plan(3);
 
 	const blob = new Blob(['abc'], {type: 'text/plain'});
 	const url = URL.createObjectURL(blob);
 
 	const xhr = new XMLHttpRequest();
 
-	assertEventOrder(t, xhr, [
-		'readystatechange-1',
-		'loadstart-1',
-		'readystatechange-4',
-		'error-4',
-		'loadend-4',
-	]);
+	const readEvents = recordEventOrder(xhr);
 
 	assertReadyStateValues(t, xhr, {
 		1: {
@@ -135,7 +137,17 @@ test('valid object url, but method not GET', async t => {
 	});
 
 	await new Promise<void>(resolve => {
-		xhr.addEventListener('loadend', resolve);
+		xhr.addEventListener('loadend', () => {
+			t.deepEqual(readEvents(), [
+				'readystatechange-1',
+				'loadstart-1',
+				'readystatechange-4',
+				'error-4',
+				'loadend-4',
+			]);
+
+			resolve();
+		});
 
 		xhr.open('post', url);
 		xhr.send();

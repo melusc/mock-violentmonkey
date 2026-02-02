@@ -1,5 +1,3 @@
-import type {ExecutionContext} from 'ava';
-
 import type {Events, XMLHttpRequest} from '../../src/xmlhttprequest/index.js';
 
 const events: readonly Events[] = [
@@ -13,17 +11,39 @@ const events: readonly Events[] = [
 	'timeout',
 ];
 
-export const assertEventOrder = (
-	t: ExecutionContext,
-	xhr: XMLHttpRequest,
-	wantedOrder: Array<`${Events}-${number}`>,
-) => {
-	wantedOrder = [...wantedOrder];
+export function recordEventOrder(xhr: XMLHttpRequest): () => string[] {
+	const result: string[] = [];
 
 	for (const event of events) {
 		xhr.addEventListener(event, () => {
 			// Let ava, not typescript complain about undefined
-			t.is(`${event}-${xhr.readyState}`, wantedOrder.shift()!);
+			result.push(`${event}-${xhr.readyState}`);
 		});
 	}
-};
+
+	return () => {
+		return result;
+	};
+}
+
+export function compareEventsOneOf(
+	actual: string[],
+	expectedOneOf: string[][],
+) {
+	for (const expected of expectedOneOf) {
+		if (expected.length !== actual.length) {
+			continue;
+		}
+
+		// eslint-disable-next-line unicorn/no-for-loop
+		for (let index = 0; index < actual.length; ++index) {
+			if (actual[index] != expected[index]) {
+				continue;
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
