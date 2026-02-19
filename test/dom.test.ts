@@ -87,13 +87,13 @@ test(
 test(
 	'loadURLToDom',
 	violentMonkeyContext(async t => {
-		await loadURLToDom('https://example.org');
+		await loadURLToDom('https://news.ycombinator.com/');
 		const {document} = getWindow();
 
-		t.true(document.body.innerHTML.includes('Example Domain'));
-		t.true(document.head.innerHTML.includes('Example Domain'));
-		t.is(document.title, 'Example Domain');
-		t.is(document.querySelectorAll('*').length, 11);
+		t.true(document.body.innerHTML.includes('Apply to YC'));
+		t.true(document.head.innerHTML.includes('Hacker News'));
+		t.is(document.title, 'Hacker News');
+		t.true(document.querySelectorAll('*').length > 20);
 	}),
 );
 

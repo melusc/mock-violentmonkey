@@ -41,15 +41,15 @@ for (const statusCode of [301, 302, 303, 307, 308]) {
 			t.plan(3);
 
 			app.get('/redirect', (_request, response) => {
-				response.redirect(statusCode, 'https://example.com/');
+				response.redirect(statusCode, 'https://lusc.ch/');
 			});
 
 			const xhr = new XMLHttpRequest();
 
 			xhr.addEventListener('load', () => {
 				t.is(xhr.getRequestHeader('Location'), '');
-				t.regex(xhr.responseBuffer.toString(), /Example Domain/);
-				t.is(xhr.responseURL, 'https://example.com/');
+				t.regex(xhr.responseBuffer.toString(), /lusc\.ch/i);
+				t.is(xhr.responseURL, 'https://lusc.ch/');
 			});
 
 			await new Promise<void>(resolve => {

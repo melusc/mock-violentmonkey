@@ -41,8 +41,8 @@ test(
 		t.plan(5);
 
 		const filename = 'test.txt';
-		const exampleOrgRegex = /<div>\s*<h1>example domain<\/h1>/i;
-		await setResource(filename, 'https://example.org/');
+		const exampleOrgRegex = /<title>hacker\s+news<\/title>/i;
+		await setResource(filename, 'https://news.ycombinator.com/');
 
 		const text = GM_getResourceText(filename);
 		const url = GM_getResourceURL(filename);

@@ -10,7 +10,7 @@ test('Should work just as well with external servers', async t => {
 
 	await new Promise<void>(resolve => {
 		xhr.addEventListener('loadend', () => {
-			t.regex(xhr.responseBuffer.toString(), /<title>Example Domain<\/title>/);
+			t.regex(xhr.responseBuffer.toString(), /hacker\s+news/i);
 
 			t.assert(
 				compareEventsOneOf(readEvents(), [
@@ -36,13 +36,27 @@ test('Should work just as well with external servers', async t => {
 						'load-4',
 						'loadend-4',
 					],
+					[
+						'readystatechange-1',
+						'loadstart-1',
+						'readystatechange-2',
+						'readystatechange-3',
+						'progress-3',
+						'readystatechange-3',
+						'progress-3',
+						'readystatechange-3',
+						'progress-3',
+						'readystatechange-4',
+						'load-4',
+						'loadend-4',
+					],
 				]),
 			);
 
 			resolve();
 		});
 
-		xhr.open('GET', 'https://example.com/');
+		xhr.open('GET', 'https://news.ycombinator.com/');
 		xhr.send();
 	});
 });
