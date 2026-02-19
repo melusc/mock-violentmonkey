@@ -68,7 +68,7 @@ test(
 		let tabIndex = 0;
 		createTab(tabIndex++);
 		createTab(tabIndex++);
-		createTab(tabIndex++);
+		createTab(tabIndex);
 
 		const tabs = getTabs();
 		t.is(tabs.length, 3);
