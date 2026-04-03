@@ -48,7 +48,7 @@ const makeFunctionAsync =
 		return function_(...arguments_);
 	};
 
-const GM = Object.defineProperties<GM_type>({} as GM_type, {
+const GM = Object.defineProperties({} as GM_type, {
 	setValue: {
 		value: makeFunctionAsync(GM_setValue),
 	},
