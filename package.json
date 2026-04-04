@@ -65,7 +65,7 @@
 	"dependencies": {
 		"@types/follow-redirects": "^1.14.4",
 		"@types/jsdom": "^28.0.1",
-		"data-uri-to-buffer": "^7.0.0",
+		"data-uri-to-buffer": "^8.0.0",
 		"follow-redirects": "^1.15.11",
 		"jsdom": "^29.0.1"
 	},
