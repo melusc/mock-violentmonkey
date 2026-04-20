@@ -25,8 +25,8 @@ importers:
         version: 29.0.1
     devDependencies:
       '@ava/typescript':
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^7.0.0
+        version: 7.0.0
       '@lusc/clean-package':
         specifier: ^3.0.0
         version: 3.0.0
@@ -47,7 +47,7 @@ importers:
         version: 5.0.5
       ava:
         specifier: ^7.0.0
-        version: 7.0.0(@ava/typescript@6.0.0)
+        version: 7.0.0(@ava/typescript@7.0.0)
       eslint:
         specifier: ^10.1.0
         version: 10.1.0
@@ -77,9 +77,9 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@ava/typescript@6.0.0':
-    resolution: {integrity: sha512-+8oDYc4J5cCaWZh1VUbyc+cegGplJO9FqHpqR4LVAVx8fRLVRaYlC4yyA6cqHJ1vWP23Ff/ECS5U68Zz6OLZlg==}
-    engines: {node: ^20.8 || ^22 || >=24}
+  '@ava/typescript@7.0.0':
+    resolution: {integrity: sha512-0ktzq4/9ya2QoAuVWzl3McpLV9W//Tj+oMonQ4ucgm5l6tQ46aaju/rJL9kzeY5MkG6wzXvFt/MmaLqf9uNC9w==}
+    engines: {node: ^22.20 || ^24.12 || >=25}
 
   '@babel/helper-validator-identifier@7.28.5':
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
@@ -929,8 +929,8 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  execa@9.6.0:
-    resolution: {integrity: sha512-jpWzZ1ZhwUmeWRhS7Qv3mhpOhLfwI+uAX4e5fOcXqwMR7EcJ0pj2kV1CVzHVMX/LphnKWD3LObjZCoJ71lKpHw==}
+  execa@9.6.1:
+    resolution: {integrity: sha512-9Be3ZoN4LmYR90tUoVu2te2BsbzHfhJyfEiAVfz7N5/zv+jduIfLrV2xdQXOHbaD6KgpGdO9PRPM1Y4Q9QkPkA==}
     engines: {node: ^18.19.0 || >=20.5.0}
 
   express@5.2.1:
@@ -1861,10 +1861,10 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@ava/typescript@6.0.0':
+  '@ava/typescript@7.0.0':
     dependencies:
       escape-string-regexp: 5.0.0
-      execa: 9.6.0
+      execa: 9.6.1
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
@@ -2323,7 +2323,7 @@ snapshots:
 
   async-sema@3.1.1: {}
 
-  ava@7.0.0(@ava/typescript@6.0.0):
+  ava@7.0.0(@ava/typescript@7.0.0):
     dependencies:
       '@vercel/nft': 1.3.2
       acorn: 8.16.0
@@ -2365,7 +2365,7 @@ snapshots:
       write-file-atomic: 7.0.1
       yargs: 18.0.0
     optionalDependencies:
-      '@ava/typescript': 6.0.0
+      '@ava/typescript': 7.0.0
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -2757,7 +2757,7 @@ snapshots:
 
   etag@1.8.1: {}
 
-  execa@9.6.0:
+  execa@9.6.1:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       cross-spawn: 7.0.6
