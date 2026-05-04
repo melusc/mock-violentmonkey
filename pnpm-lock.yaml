@@ -21,7 +21,7 @@ importers:
         specifier: ^1.16.0
         version: 1.16.0
       jsdom:
-        specifier: ^29.1.0
+        specifier: ^29.1.1
         version: 29.1.1
     devDependencies:
       '@ava/typescript':
@@ -49,7 +49,7 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(@ava/typescript@7.0.0)
       eslint:
-        specifier: ^10.2.1
+        specifier: ^10.3.0
         version: 10.3.0
       express:
         specifier: ^5.2.1
