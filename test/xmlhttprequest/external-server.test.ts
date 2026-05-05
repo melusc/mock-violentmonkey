@@ -13,44 +13,21 @@ test('Should work just as well with external servers', async t => {
 			t.regex(xhr.responseBuffer.toString(), /hacker\s+news/i);
 
 			t.assert(
-				compareEventsOneOf(readEvents(), [
-					[
+				compareEventsOneOf(
+					readEvents(),
+					Array.from({length: 10}, (_v, l) => [
 						'readystatechange-1',
 						'loadstart-1',
 						'readystatechange-2',
-						'readystatechange-3',
-						'progress-3',
+						...Array.from({length: l + 1}, () => [
+							'readystatechange-3',
+							'progress-3',
+						]).flat(),
 						'readystatechange-4',
 						'load-4',
 						'loadend-4',
-					],
-					[
-						'readystatechange-1',
-						'loadstart-1',
-						'readystatechange-2',
-						'readystatechange-3',
-						'progress-3',
-						'readystatechange-3',
-						'progress-3',
-						'readystatechange-4',
-						'load-4',
-						'loadend-4',
-					],
-					[
-						'readystatechange-1',
-						'loadstart-1',
-						'readystatechange-2',
-						'readystatechange-3',
-						'progress-3',
-						'readystatechange-3',
-						'progress-3',
-						'readystatechange-3',
-						'progress-3',
-						'readystatechange-4',
-						'load-4',
-						'loadend-4',
-					],
-				]),
+					]),
+				),
 			);
 
 			resolve();
