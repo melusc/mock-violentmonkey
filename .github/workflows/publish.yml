@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: 24.15.0
+          node-version: 26.0.0
+      - run: npm i -g corepack@latest npm@latest
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm clean-package -- devDependencies packageManager scripts ava
-      - run: npm install -g npm@latest
       - run: npm publish
