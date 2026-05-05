@@ -15,6 +15,7 @@ jobs:
           - 22
           - 24
           - 25
+          - 26
     name: Node ${{ matrix.node-version }}
     steps:
       - name: Checkout
