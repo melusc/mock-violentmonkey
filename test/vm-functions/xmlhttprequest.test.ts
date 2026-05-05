@@ -8,7 +8,6 @@ import {
 	violentMonkeyContext,
 	type Headers,
 } from '../../src/index.js';
-import type {JsonObject} from '../../src/type-helpers.js';
 import {
 	createTestHttpServer,
 	requestBodyToBuffer,
@@ -353,7 +352,7 @@ test(
 				responseType: 'json',
 				headers,
 				onload({response}) {
-					t.like(response as JsonObject, headers);
+					t.like(response, headers);
 				},
 				onloadend: resolve,
 			});
