@@ -27,6 +27,8 @@ jobs:
           check-latest: true
           node-version: ${{ matrix.node-version }}
 
+      - run: npm install -g corepack
+
       - name: Enable corepack
         run: corepack enable
 
