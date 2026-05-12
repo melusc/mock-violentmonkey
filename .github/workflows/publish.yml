@@ -19,5 +19,7 @@ jobs:
       - run: corepack enable
       - run: pnpm ci
       - run: pnpm build
+      - name: Ensure clean working tree
+        run: git --no-pager diff --exit-code
       - run: pnpm clean-package -- devDependencies packageManager scripts ava
-      - run: pnpm publish --provenance
+      - run: pnpm publish --provenance --no-git-checks
