@@ -22,4 +22,4 @@ jobs:
       - name: Ensure clean working tree
         run: git --no-pager diff --exit-code
       - run: pnpm clean-package -- devDependencies packageManager scripts ava
-      - run: pnpm stage publish
+      - run: pnpm stage publish --no-git-checks
