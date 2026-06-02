@@ -61,7 +61,7 @@
 		"prepublish": "pnpm build"
 	},
 	"type": "module",
-	"version": "8.2.0",
+	"version": "8.2.1",
 	"dependencies": {
 		"@types/follow-redirects": "^1.14.4",
 		"@types/jsdom": "^28.0.3",
