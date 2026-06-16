@@ -100,12 +100,12 @@ test(
 test(
 	'Simple dom operations',
 	violentMonkeyContext(t => {
-		setBaseUrl('http://domain.localhost:4321');
+		setBaseUrl('https://domain.localhost:4321');
 
 		const {document, DocumentType, location} = getWindow();
 
-		t.is(document.URL, 'http://domain.localhost:4321/');
-		t.is(location.href, 'http://domain.localhost:4321/');
+		t.is(document.URL, 'https://domain.localhost:4321/');
+		t.is(location.href, 'https://domain.localhost:4321/');
 
 		document.body.append(document.createElement('a'));
 
