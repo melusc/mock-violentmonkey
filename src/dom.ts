@@ -16,10 +16,11 @@ const getJSDOM = () => storedJSDOMs.get(true);
 const getWindow = () => getJSDOM().window;
 
 /**
- * Load the page at the given url to the dom
+ * Load the page at the given URL to the DOM
  */
 const loadURLToDom = async (url: string) => {
 	// Convert to a URL instance to throw early on obviously invalid urls
+	// eslint-disable-next-line unicorn/no-unreadable-new-expression
 	url = new URL(url).href;
 
 	const xhr = new XMLHttpRequest({
@@ -33,7 +34,7 @@ const loadURLToDom = async (url: string) => {
 		});
 		xhr.addEventListener('error', reject);
 
-		xhr.open('get', new URL(url).href);
+		xhr.open('get', url);
 		xhr.send();
 	});
 };
@@ -58,7 +59,7 @@ const builtinGlobals: ReadonlySet<keyof MapKnownKeys<DOMWindow>> = new Set([
 ]);
 
 /**
- * Enable a global dom value.
+ * Enable a global DOM value.
  * This allows you to enable only what you need.
  */
 function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
@@ -71,9 +72,7 @@ function enableDomGlobal(key: keyof MapKnownKeys<DOMWindow>) {
 	}
 
 	Object.defineProperty(globalThis, key, {
-		get(): unknown {
-			return getWindow()[key];
-		},
+		get: (): unknown => getWindow()[key],
 	});
 }
 

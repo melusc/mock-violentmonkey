@@ -61,6 +61,8 @@ test(
 	}),
 );
 
+const collator = new Intl.Collator();
+
 test(
 	'GM_download event handlers',
 	createTestHttpServer,
@@ -101,14 +103,14 @@ test(
 		});
 
 		t.deepEqual(
-			[...called].toSorted(),
+			[...called].toSorted(collator.compare),
 			[
 				'onload',
 				'onloadend',
 				'onloadstart',
 				'onprogress',
 				'onreadystatechange',
-			].toSorted(),
+			].toSorted(collator.compare),
 		);
 	}),
 );

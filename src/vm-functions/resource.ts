@@ -18,7 +18,8 @@ const setResource = async (name: string, url: string) => {
 		throw new Error(`Expected an absolute http url, got ${url} instead`);
 	}
 
-	// Throw early if it's an obviously invalid url
+	// Throw early if it's an obviously invalid URL
+	// eslint-disable-next-line unicorn/no-unreadable-new-expression
 	url = new URL(url).href;
 
 	await new Promise<void>((resolve, reject) => {

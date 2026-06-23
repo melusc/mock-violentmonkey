@@ -170,6 +170,7 @@ const updateInfo = (newInfo: PartialScriptInfo) => {
 			case 'platform': {
 				Object.assign(info[key], value);
 
+				// eslint-disable-next-line unicorn/no-break-in-nested-loop
 				break;
 			}
 

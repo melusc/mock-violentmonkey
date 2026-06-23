@@ -16,7 +16,7 @@ export function recordEventOrder(xhr: XMLHttpRequest): () => string[] {
 
 	for (const event of events) {
 		xhr.addEventListener(event, () => {
-			// Let ava, not typescript complain about undefined
+			// Let ava, not TypeScript complain about undefined
 			result.push(`${event}-${xhr.readyState}`);
 		});
 	}
@@ -40,6 +40,7 @@ export function compareEventsOneOf(
 		for (let index = 0; index < actual.length; ++index) {
 			if (actual[index] !== expected[index]) {
 				allEqual = false;
+				// eslint-disable-next-line unicorn/no-break-in-nested-loop
 				break;
 			}
 		}

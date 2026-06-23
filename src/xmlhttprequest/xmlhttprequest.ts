@@ -101,6 +101,8 @@ type XHRResponse = Pick<Response, 'headers'> & {
 	destroy: () => void;
 };
 
+/* eslint-disable unicorn/consistent-class-member-order */
+
 /**
  * `XMLHttpRequest` constructor.
  *
@@ -146,13 +148,13 @@ class XMLHttpRequest {
 
 	// Request settings
 	#settings:
+		| undefined
 		| {
 				method: UppercaseMethods;
 				url: string;
 				user: string | undefined;
 				password: string | undefined;
-		  }
-		| undefined;
+		  };
 
 	readonly #options: Options;
 
@@ -247,14 +249,13 @@ class XMLHttpRequest {
 	 * @return string Text of the header or null if it doesn't exist.
 	 */
 	getResponseHeader = (header: string) => {
-		const response = this.#response;
+		if (typeof header !== 'string') return null;
 
-		if (
-			typeof header === 'string' &&
-			this.readyState > this.OPENED &&
-			response?.headers[header.toLowerCase()]
-		) {
-			return response.headers[header.toLowerCase()];
+		const response = this.#response;
+		const value = response?.headers[header.toLowerCase()];
+
+		if (this.readyState > this.OPENED && value) {
+			return value;
 		}
 
 		return null;
@@ -505,7 +506,7 @@ class XMLHttpRequest {
 
 		response.headers = {
 			'content-type': type,
-			'content-length': `${buffer.length}`,
+			'content-length': buffer.length.toString(),
 		};
 		this.status = 200;
 		this.statusText = http.STATUS_CODES[200]!;
@@ -535,7 +536,10 @@ class XMLHttpRequest {
 
 		// Set the Host header or the server may reject the request
 		headers['host'] = host;
-		if (ssl ? port !== 443 : port !== 80) {
+
+		const is443 = port === 443;
+		const is80 = port === 80;
+		if (ssl ? !is443 : !is80) {
 			headers['host'] += `:${url.port}`;
 		}
 
@@ -653,7 +657,7 @@ class XMLHttpRequest {
 
 	/**
 	 * Called when an error is encountered to deal with it.
-	 * @param {URL} url If the url is still accessible even on error
+	 * @param {URL} url If the URL is still accessible even on error
 	 */
 	readonly #handleError = (url?: URL) => {
 		if (this.#timeoutFlag) {
@@ -706,5 +710,7 @@ class XMLHttpRequest {
 		}
 	};
 }
+
+/* eslint-enable unicorn/consistent-class-member-order */
 
 export {XMLHttpRequest};

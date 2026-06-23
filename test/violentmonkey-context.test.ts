@@ -25,6 +25,7 @@ test(
 		t.is(getUserscriptId(), id);
 
 		// In callback
+		// eslint-disable-next-line unicorn/prefer-await
 		await Promise.resolve().then(() => {
 			t.is(getUserscriptId(), id);
 		});
@@ -45,7 +46,8 @@ test(
 		});
 
 		// Different AsyncLocalStorage
-		new AsyncLocalStorage().run(Number.NaN, () => {
+		const asyncLocalStorage = new AsyncLocalStorage();
+		asyncLocalStorage.run(NaN, () => {
 			t.is(getUserscriptId(), id);
 		});
 	}),

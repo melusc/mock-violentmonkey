@@ -191,9 +191,11 @@ const responseToResponseType = (
 		}
 
 		case 'document': {
-			return new JSDOM(buffer.toString(), {
+			const dom = new JSDOM(buffer.toString(), {
 				url: xhr.responseURL,
-			}).window.document;
+			});
+
+			return dom.window.document;
 		}
 
 		default: {
@@ -245,7 +247,7 @@ const xmlhttpRequest: XmlHttpRequest = <TContext>(
 ) => {
 	let aborted = false;
 
-	// eslint-disable-next-line promise/prefer-await-to-then
+	// eslint-disable-next-line promise/prefer-await-to-then, unicorn/prefer-await
 	void dataToBuffer(details.data).then(({content, contentType}) => {
 		const xhr = new XMLHttpRequest({
 			base: getBaseUrl(),

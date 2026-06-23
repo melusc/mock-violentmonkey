@@ -9,7 +9,7 @@ test('TRACK should throw', t => {
 
 	t.throws(
 		() => {
-			// @ts-expect-error  Typescript knows it's invalid but we're testing if the code knows as well
+			// @ts-expect-error  TypeScript knows it's invalid but we're testing if the code knows as well
 			xhr.open('TRACK', 'http://localhost:8000');
 		},
 		{
