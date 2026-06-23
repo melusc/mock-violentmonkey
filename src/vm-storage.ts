@@ -7,19 +7,19 @@ class VMStorage<V> {
 
 	constructor(private readonly getDefaultValue: () => V) {}
 
-	get: {
-		(setDefault: true): V;
-		(setDefault: false): V | undefined;
-	} = setDefault =>
-		this.storages.get(
+	get(setDefault: true): V;
+	get(setDefault: false): V | undefined;
+	get(setDefault: boolean) {
+		return this.storages.get(
 			getUserscriptId(),
 			(setDefault ? this.getDefaultValue : undefined)!,
 		);
+	}
 
-	set = (value: V) => {
+	set(value: V) {
 		this.storages.set(getUserscriptId(), value);
 		return this;
-	};
+	}
 }
 
 export {VMStorage};

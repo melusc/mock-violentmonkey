@@ -68,6 +68,8 @@ test(
 	}),
 );
 
+const collator = new Intl.Collator();
+
 test(
 	'GM_listValues should list all keys',
 	violentMonkeyContext(t => {
@@ -77,7 +79,10 @@ test(
 		GM_setValue('b', 2);
 		GM_setValue('d', 4);
 
-		t.deepEqual(GM_listValues().toSorted(), ['a', 'b', 'd'].toSorted());
+		t.deepEqual(
+			GM_listValues().toSorted(collator.compare),
+			['a', 'b', 'd'].toSorted(collator.compare),
+		);
 	}),
 );
 

@@ -59,6 +59,8 @@ test(
 	}),
 );
 
+const collator = new Intl.Collator();
+
 test(
 	'GM.listValues should work asynchronously',
 	violentMonkeyContext(async t => {
@@ -70,7 +72,10 @@ test(
 
 		const awaitedKeys = await keys;
 
-		t.deepEqual(awaitedKeys.toSorted(), ['key1', 'key2'].toSorted());
+		t.deepEqual(
+			awaitedKeys.toSorted(collator.compare),
+			['key1', 'key2'].toSorted(collator.compare),
+		);
 	}),
 );
 

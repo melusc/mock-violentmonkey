@@ -41,7 +41,7 @@ usefulRoutes.get('/uuid', (_request, response) => {
 	response.status(200).send(uuid);
 });
 usefulRoutes.get('/status/:status', (request, response) => {
-	const status = Number.parseInt(request.params.status, 10);
+	const status = Math.trunc(Number(request.params.status));
 	if (Number.isFinite(status)) {
 		response.status(status).send(String(status));
 	} else {
@@ -50,7 +50,7 @@ usefulRoutes.get('/status/:status', (request, response) => {
 });
 usefulRoutes.get('/delay/:delay', async (request, response) => {
 	const start = Date.now();
-	const delay = Number.parseInt(request.params.delay, 10);
+	const delay = Math.trunc(Number(request.params.delay));
 	if (Number.isFinite(delay)) {
 		if (delay > 10 || delay < 0) {
 			response.status(400).send('Must satisfy 0 <= delay <= 10');
@@ -98,8 +98,8 @@ function getInteger(
 	}
 
 	if (typeof value === 'string') {
-		const parsed = Number.parseInt(value, 10);
-		if (Number.isInteger(parsed)) {
+		const parsed = Math.trunc(Number(value));
+		if (Number.isSafeInteger(parsed)) {
 			return parsed;
 		}
 	}
@@ -165,8 +165,9 @@ export const createTestHttpServer: Macro<[TestingFunction]> = {
 					await run(t, {
 						baseUrl: baseUrl.href,
 						app,
-						resolve(path: string) {
-							return new URL(path, baseUrl).href;
+						resolve: (path: string) => {
+							const url = new URL(path, baseUrl);
+							return url.href;
 						},
 					});
 				} finally {
@@ -191,11 +192,13 @@ function registerShutdown(function_: () => void | Promise<void>) {
 
 	let run = false;
 	function wrapper() {
-		if (!run) {
-			run = true;
-			for (const callback of onShutdownCallbacks) {
-				void callback();
-			}
+		if (run) {
+			return;
+		}
+
+		run = true;
+		for (const callback of onShutdownCallbacks) {
+			void callback();
 		}
 	}
 

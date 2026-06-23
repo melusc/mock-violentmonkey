@@ -8,13 +8,14 @@ const enum NotificationStates {
 const notifications = new VMStorage<Set<NotificationHandler>>(() => new Set());
 
 class NotificationHandler {
-	text: string;
-	title: string | undefined;
-	image: string | undefined;
 	private readonly onClick: () => void;
 	private readonly onDone: () => void;
 
 	private state: NotificationStates = NotificationStates.visible;
+
+	text: string;
+	title: string | undefined;
+	image: string | undefined;
 
 	constructor(options: NotificationOptions) {
 		({text: this.text, title: this.title, image: this.image} = options);
@@ -31,38 +32,39 @@ class NotificationHandler {
 		notifications.get(true).add(this);
 	}
 
-	readonly click = () => {
+	#cleanUp() {
+		notifications.get(false)?.delete(this);
+		this.state = NotificationStates.removed;
+	}
+
+	click() {
 		if (this.state !== NotificationStates.visible) {
 			return;
 		}
 
 		this.onClick();
-		this.cleanUp();
+		this.#cleanUp();
 		this.onDone();
-	};
+	}
 
-	readonly close = () => {
+	close() {
 		if (this.state !== NotificationStates.visible) {
 			return;
 		}
 
-		this.cleanUp();
+		this.#cleanUp();
 		this.onDone();
-	};
+	}
 
-	readonly remove = async () =>
-		new Promise<true>(resolve => {
+	async remove() {
+		return new Promise<true>(resolve => {
 			if (this.state === NotificationStates.visible) {
 				resolve(true);
 			}
 
-			this.cleanUp();
+			this.#cleanUp();
 		});
-
-	private readonly cleanUp = () => {
-		notifications.get(false)?.delete(this);
-		this.state = NotificationStates.removed;
-	};
+	}
 }
 
 type NotificationOptions = {
@@ -110,7 +112,7 @@ const notification: Notification = (
 	const notificationHandler = new NotificationHandler(options);
 
 	return {
-		remove: notificationHandler.remove,
+		remove: () => notificationHandler.remove(),
 	};
 };
 

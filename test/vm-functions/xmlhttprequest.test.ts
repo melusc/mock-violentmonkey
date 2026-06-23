@@ -159,7 +159,7 @@ test(
 					t.truthy(dom);
 					t.truthy(dom.body);
 
-					t.is(dom.querySelectorAll('body > *').length, 2);
+					t.is(dom.querySelectorAll(':scope body > *').length, 2);
 				},
 				responseType: 'document',
 				onloadend: resolve,

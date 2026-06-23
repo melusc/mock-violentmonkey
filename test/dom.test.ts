@@ -76,7 +76,7 @@ test(
 		);
 		t.is(document.querySelectorAll('*').length, 6);
 
-		// Clear dom
+		// Clear DOM
 		loadStringToDom('');
 
 		// <html>, <body>, <head>
