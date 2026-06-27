@@ -20,7 +20,6 @@ const getWindow = () => getJSDOM().window;
  */
 const loadURLToDom = async (url: string) => {
 	// Convert to a URL instance to throw early on obviously invalid urls
-	// eslint-disable-next-line unicorn/no-unreadable-new-expression
 	url = new URL(url).href;
 
 	const xhr = new XMLHttpRequest({

@@ -38,11 +38,14 @@ export function compareEventsOneOf(
 		let allEqual = true;
 		// eslint-disable-next-line unicorn/no-for-loop
 		for (let index = 0; index < actual.length; ++index) {
-			if (actual[index] !== expected[index]) {
-				allEqual = false;
+			if (actual[index] === expected[index]) {
 				// eslint-disable-next-line unicorn/no-break-in-nested-loop
-				break;
+				continue;
 			}
+
+			allEqual = false;
+			// eslint-disable-next-line unicorn/no-break-in-nested-loop
+			break;
 		}
 
 		if (allEqual) {

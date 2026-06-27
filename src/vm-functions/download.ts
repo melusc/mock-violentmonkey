@@ -90,6 +90,7 @@ const getDownloads = (): Record<string, Buffer> => {
 	const downloadsMap = downloads.get(false);
 
 	const result: Record<string, Buffer> = {};
+	// eslint-disable-next-line unicorn/no-unreadable-for-of-expression
 	for (const [name, buffer] of downloadsMap ?? []) {
 		result[name] = Buffer.from(buffer);
 	}
