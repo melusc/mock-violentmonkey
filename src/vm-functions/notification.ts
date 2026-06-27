@@ -18,7 +18,9 @@ class NotificationHandler {
 	image: string | undefined;
 
 	constructor(options: NotificationOptions) {
-		({text: this.text, title: this.title, image: this.image} = options);
+		this.text = options.text;
+		this.title = options.title;
+		this.image = options.image;
 
 		// Don't leak `this`
 		this.onDone = () => {

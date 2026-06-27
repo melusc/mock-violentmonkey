@@ -547,8 +547,8 @@ class XMLHttpRequest {
 		if (settings.user) {
 			settings.password ??= '';
 
-			const authBuf = Buffer.from(`${settings.user}:${settings.password}`);
-			headers['authorization'] = `Basic ${authBuf.toString('base64')}`;
+			const authBuffer = Buffer.from(`${settings.user}:${settings.password}`);
+			headers['authorization'] = `Basic ${authBuffer.toString('base64')}`;
 		}
 
 		// Set content length header
@@ -584,8 +584,8 @@ class XMLHttpRequest {
 			this.status = response.statusCode!;
 
 			const bufferItems: Buffer[] = [];
-			const appendBuffer = (buf: Buffer) => {
-				bufferItems.push(buf);
+			const appendBuffer = (buffer: Buffer) => {
+				bufferItems.push(buffer);
 				this.responseBuffer = Buffer.concat(bufferItems);
 			};
 

@@ -19,7 +19,6 @@ const setResource = async (name: string, url: string) => {
 	}
 
 	// Throw early if it's an obviously invalid URL
-	// eslint-disable-next-line unicorn/no-unreadable-new-expression
 	url = new URL(url).href;
 
 	await new Promise<void>((resolve, reject) => {
@@ -39,11 +38,13 @@ const setResource = async (name: string, url: string) => {
 			const {resources} = GM_info().script;
 
 			for (const resource of resources) {
-				if (resource.name === name) {
-					resource.url = url;
-					resolve();
-					return;
+				if (resource.name !== name) {
+					continue;
 				}
+
+				resource.url = url;
+				resolve();
+				return;
 			}
 
 			resources.push({
